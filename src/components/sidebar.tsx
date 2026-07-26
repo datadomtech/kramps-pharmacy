@@ -36,7 +36,7 @@ type SidebarRouteProps = {
 const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => (
 	<Link
 		to={to}
-		className="group mt-0.5 flex w-14 shrink-0 flex-col items-center justify-items-center gap-0.5 rounded-lg px-1 py-1 text-white/60 transition-colors hover:text-white lg:w-auto lg:shrink lg:flex-row lg:justify-items-start lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
+		className="group mt-0.5 flex w-full flex-row shrink-0 items-center justify-start gap-0.5 rounded-lg p-2 text-white/80 transition-colors hover:text-white lg:w-auto lg:shrink lg:flex-row lg:justify-items-start lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
 		activeOptions={{
 			exact: true,
 		}}
@@ -46,10 +46,10 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => 
 				"transition-colors text-white bg-emerald-600/90 lg:hover:bg-emerald-500/20 lg:hover:text-emerald-700 lg:bg-emerald-500/20 lg:text-emerald-700 hover:bg-emerald-600/90 hover:text-emerald-700",
 		}}
 	>
-		<span className="flex size-5 shrink-0 items-center justify-center lg:size-6 lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
-			<Icon className="size-3.5 fill-transparent stroke-brand stroke-2" />
+		<span className="flex size-5 shrink-0 items-center lg:justify-center lg:size-6 lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
+			<Icon className="size-5 lg:size-3.5 fill-transparent stroke-brand stroke-2" />
 		</span>
-		<span className="w-full truncate text-center text-btn font-btn capitalize lg:w-auto lg:text-left">{name}</span>
+		<span className="w-full truncate text-btn font-btn capitalize lg:w-auto text-left">{name}</span>
 	</Link>
 );
 
