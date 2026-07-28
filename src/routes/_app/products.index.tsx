@@ -37,7 +37,7 @@ function RouteComponent() {
 					description="No products found. Add a product to get started"
 					title="No Products"
 					linkText="Add new product"
-					to="/products"
+					to="/products/new"
 				/>
 			) : (
 				<div className="flex flex-col gap-y-6">
