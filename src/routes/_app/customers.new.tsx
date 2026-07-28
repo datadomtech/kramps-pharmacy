@@ -6,11 +6,11 @@ import { RadioGroup } from "@cloudflare/kumo/primitives/radio-group";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation } from "convex/react";
-import { FunctionArgs } from "convex/server";
+import type { FunctionArgs } from "convex/server";
 import { InfoCircleIcon } from "~/components/icons";
 import { Input, Label } from "~/components/input";
 import { api } from "~convex/_generated/api";
-import { Doc } from "~convex/_generated/dataModel";
+import type { Doc } from "~convex/_generated/dataModel";
 
 export const Route = createFileRoute("/_app/customers/new")({
 	component: RouteComponent,
@@ -31,7 +31,7 @@ function RouteComponent() {
 	);
 }
 
-export type CustomerTypeMap = Record<CustomerType, string>;
+// export type CustomerTypeMap = Record<CustomerType, string>;
 
 type CustomerType = FunctionArgs<typeof api.customers.addCustomer>["type"];
 
@@ -63,7 +63,7 @@ const AddCustomerForm = () => {
 		defaultValues: addCustomerDefaultValues,
 		onSubmit: async ({ value }) => {
 			await addCustomer({ ...value });
-			toasts.add({ title: "Customer added succesfully" });
+			toasts.add({ title: "Customer added successfully" });
 			form.reset();
 		},
 	});
@@ -73,7 +73,7 @@ const AddCustomerForm = () => {
 			onSubmit={(event) => {
 				event.preventDefault();
 				event.stopPropagation();
-				form.handleSubmit();
+				void form.handleSubmit();
 			}}
 			className="grid grid-cols-1 gap-x-4 gap-y-6 border-t border-gray-200/70 p-5 sm:grid-cols-2"
 		>

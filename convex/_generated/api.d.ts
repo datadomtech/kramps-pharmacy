@@ -12,6 +12,7 @@ import type * as auth from "../auth.js";
 import type * as customers from "../customers.js";
 import type * as dosageForms from "../dosageForms.js";
 import type * as http from "../http.js";
+import type * as products from "../products.js";
 import type * as staff from "../staff.js";
 
 import type {
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   customers: typeof customers;
   dosageForms: typeof dosageForms;
   http: typeof http;
+  products: typeof products;
   staff: typeof staff;
 }>;
 

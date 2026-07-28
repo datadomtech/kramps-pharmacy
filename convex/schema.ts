@@ -2,6 +2,7 @@ import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { customersTable } from "./schema.customers";
+import { productsTable } from "./schema.products";
 
 // The schema is entirely optional.
 // You can delete this file (schema.ts) and the
@@ -21,4 +22,5 @@ export default defineSchema({
 	}).index("by_soft_delete", ["deletedAt"]),
 
 	customers: customersTable,
+	products: productsTable,
 });

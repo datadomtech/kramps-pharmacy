@@ -1,7 +1,10 @@
-import { Link, LinkOptions } from "@tanstack/react-router";
-import { ColumnDef, createColumnHelper, tableFeatures, useTable } from "@tanstack/react-table";
+import type { LinkOptions } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { createColumnHelper, tableFeatures, useTable } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Image } from "@unpic/react";
-import { FunctionReturnType } from "convex/server";
+import type { FunctionReturnType } from "convex/server";
+// oxlint-disable-next-line typescript/consistent-type-imports
 import { api } from "~convex/_generated/api";
 import { DateTooltip } from "./tooltip";
 import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
@@ -74,7 +77,7 @@ const customerColumns = [
 	}),
 ];
 
-export const CustomersTable = ({ customers }: { customers: Customer[] }) => {
+export const CustomersTable = ({ customers }: { customers: Array<Customer> }) => {
 	const table = useTable({
 		key: "active-customers-table",
 		features: customersTableFeatures,

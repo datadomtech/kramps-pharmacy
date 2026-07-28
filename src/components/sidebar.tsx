@@ -18,7 +18,8 @@ import {
 	UserXIcon,
 	XIcon,
 } from "~/components/icons";
-import { Link, Outlet, type LinkProps } from "@tanstack/react-router";
+import { Link, Outlet } from "@tanstack/react-router";
+import type { LinkProps } from "@tanstack/react-router";
 import type { FC, SVGProps } from "react";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 import { Dialog } from "@cloudflare/kumo/primitives/dialog";
@@ -36,7 +37,7 @@ type SidebarRouteProps = {
 const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => (
 	<Link
 		to={to}
-		className="group mt-0.5 flex w-full flex-row shrink-0 items-center justify-start gap-0.5 rounded-lg p-2 text-white/80 transition-colors hover:text-white lg:w-auto lg:shrink lg:flex-row lg:justify-items-start lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
+		className="group mt-0.5 flex w-full shrink-0 flex-row items-center justify-start gap-0.5 rounded-lg p-2 text-white/80 transition-colors hover:text-white lg:w-auto lg:shrink lg:flex-row lg:justify-items-start lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
 		activeOptions={{
 			exact: true,
 		}}
@@ -46,10 +47,10 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => 
 				"transition-colors text-white bg-emerald-600/90 lg:hover:bg-emerald-500/20 lg:hover:text-emerald-700 lg:bg-emerald-500/20 lg:text-emerald-700 hover:bg-emerald-600/90 hover:text-emerald-700",
 		}}
 	>
-		<span className="flex size-5 shrink-0 items-center lg:justify-center lg:size-6 lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
-			<Icon className="size-5 lg:size-3.5 fill-transparent stroke-brand stroke-2" />
+		<span className="flex size-5 shrink-0 items-center lg:size-6 lg:justify-center lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
+			<Icon className="size-5 fill-transparent stroke-brand stroke-2 lg:size-3.5" />
 		</span>
-		<span className="w-full truncate text-btn font-btn capitalize lg:w-auto text-left">{name}</span>
+		<span className="w-full truncate text-left text-btn font-btn capitalize lg:w-auto">{name}</span>
 	</Link>
 );
 
@@ -70,7 +71,9 @@ const customerRoutes: Array<SidebarRouteProps> = [
 const inventoryRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Inventory", icon: DatabaseIcon, href: "/inventory" },
 	{ id: 2, name: "Expiry Tracker", icon: TimerIcon, href: "/" },
-	{ id: 3, name: "Purchase Orders", icon: InboxInIcon, href: "/" },
+	{ id: 3, name: "Products", icon: InboxInIcon, href: "/products" }, // TODO: Come back again to this is purchase
+	// order is
+	// really important or needed in this section
 	{ id: 4, name: "Suppliers", icon: BuildingIcon, href: "/" },
 	{ id: 5, name: "Reports", icon: ChartIcon, href: "/" },
 ];
@@ -98,7 +101,7 @@ export const Sidebar = () => (
 					</div>
 				</KSidebar.Group>
 
-				<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none lg:shadow-none hover:text-white! focus:text-white">
+				<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none">
 					<CartIcon className="size-4.5 fill-brand/10 stroke-logo" />
 					Point of Sale
 				</Button>
@@ -140,7 +143,7 @@ export const Separator = () => (
 
 export const MobileSidebar = () => (
 	<Sheet handle={mobileSidebarHandle} defaultOpen={false}>
-		<SheetContent className="h-full w-full border-brand! bg-logo lg:hidden block" side="left">
+		<SheetContent className="block h-full w-full border-brand! bg-logo lg:hidden" side="left">
 			<SheetHeader className="flex h-10 items-center justify-between">
 				<Logo className="h-9 text-white" aria-label="Logo" />
 

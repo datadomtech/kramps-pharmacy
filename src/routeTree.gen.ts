@@ -16,7 +16,9 @@ import { Route as AuthSignInRouteImport } from './routes/_auth.sign-in'
 import { Route as AppStaffRouteImport } from './routes/_app/staff'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppProductsIndexRouteImport } from './routes/_app/products.index'
 import { Route as AppCustomersIndexRouteImport } from './routes/_app/customers.index'
+import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
 import { Route as AppCustomersNewRouteImport } from './routes/_app/customers.new'
 import { Route as AppCustomersBlacklistRouteImport } from './routes/_app/customers.blacklist'
 
@@ -53,9 +55,19 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppCustomersIndexRoute = AppCustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppProductsNewRoute = AppProductsNewRouteImport.update({
+  id: '/products/new',
+  path: '/products/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppCustomersNewRoute = AppCustomersNewRouteImport.update({
@@ -77,7 +89,9 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
+  '/products/new': typeof AppProductsNewRoute
   '/customers/': typeof AppCustomersIndexRoute
+  '/products/': typeof AppProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -87,7 +101,9 @@ export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
+  '/products/new': typeof AppProductsNewRoute
   '/customers': typeof AppCustomersIndexRoute
+  '/products': typeof AppProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -100,7 +116,9 @@ export interface FileRoutesById {
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
+  '/_app/products/new': typeof AppProductsNewRoute
   '/_app/customers/': typeof AppCustomersIndexRoute
+  '/_app/products/': typeof AppProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -112,7 +130,9 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
+    | '/products/new'
     | '/customers/'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,7 +142,9 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
+    | '/products/new'
     | '/customers'
+    | '/products'
   id:
     | '__root__'
     | '/'
@@ -134,7 +156,9 @@ export interface FileRouteTypes {
     | '/_auth/sign-in'
     | '/_app/customers/blacklist'
     | '/_app/customers/new'
+    | '/_app/products/new'
     | '/_app/customers/'
+    | '/_app/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,11 +218,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/products/': {
+      id: '/_app/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof AppProductsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/customers/': {
       id: '/_app/customers/'
       path: '/customers'
       fullPath: '/customers/'
       preLoaderRoute: typeof AppCustomersIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/products/new': {
+      id: '/_app/products/new'
+      path: '/products/new'
+      fullPath: '/products/new'
+      preLoaderRoute: typeof AppProductsNewRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/customers/new': {
@@ -224,7 +262,9 @@ interface AppRouteRouteChildren {
   AppStaffRoute: typeof AppStaffRoute
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
+  AppProductsNewRoute: typeof AppProductsNewRoute
   AppCustomersIndexRoute: typeof AppCustomersIndexRoute
+  AppProductsIndexRoute: typeof AppProductsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -233,7 +273,9 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppStaffRoute: AppStaffRoute,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
+  AppProductsNewRoute: AppProductsNewRoute,
   AppCustomersIndexRoute: AppCustomersIndexRoute,
+  AppProductsIndexRoute: AppProductsIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

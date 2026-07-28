@@ -4,7 +4,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistanceToNow } from "date-fns";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/tooltip";
 import { TableCell, TableRow, Table, TableBody, TableHead, TableHeader } from "~/components/table";
-import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
 
 export type User = {
 	id: Id<"users">;
@@ -66,7 +65,7 @@ export type StaffTableProps = {
 };
 
 export const StaffTable = ({ data }: StaffTableProps) => {
-	const table = useTable({
+	const staffTable = useTable({
 		key: "staff-table",
 		features: staffTableFeatures,
 		data,
@@ -74,26 +73,24 @@ export const StaffTable = ({ data }: StaffTableProps) => {
 		getRowId: (row) => row.id,
 	});
 
-	useTanStackTableDevtools(table);
-
 	return (
 		<Table>
 			<TableHeader>
-				{table.getHeaderGroups().map((hg) => (
+				{staffTable.getHeaderGroups().map((hg) => (
 					<TableRow key={hg.id}>
 						{hg.headers.map((header) => (
-							<TableHead key={header.id}>{header.isPlaceholder ? null : <table.FlexRender header={header} />}</TableHead>
+							<TableHead key={header.id}>{header.isPlaceholder ? null : <staffTable.FlexRender header={header} />}</TableHead>
 						))}
 					</TableRow>
 				))}
 			</TableHeader>
 
 			<TableBody>
-				{table.getRowModel().rows.map((row) => (
+				{staffTable.getRowModel().rows.map((row) => (
 					<TableRow key={row.id}>
 						{row.getAllCells().map((cell) => (
 							<TableCell key={cell.id}>
-								<table.FlexRender cell={cell} />
+								<staffTable.FlexRender cell={cell} />
 							</TableCell>
 						))}
 					</TableRow>

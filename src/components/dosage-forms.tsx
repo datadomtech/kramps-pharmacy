@@ -2,12 +2,12 @@ import { Button } from "@cloudflare/kumo/primitives/button";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "~convex/_generated/api";
 import { useState } from "react";
-import { Id } from "~convex/_generated/dataModel";
+import type { Id } from "~convex/_generated/dataModel";
 import { cn, useKumoToastManager } from "@cloudflare/kumo";
 import { useForm } from "@tanstack/react-form";
-import { Input, Label, TextArea } from "./input";
+import { Input, Label, TextArea } from "~input";
 import { format, formatDistanceToNow } from "date-fns";
-import { FunctionArgs, FunctionReturnType } from "convex/server";
+import type { FunctionArgs, FunctionReturnType } from "convex/server";
 import { EditIcon, PlusSquareIcon, TrashIcon } from "./icons";
 import { Image } from "@unpic/react";
 
@@ -31,7 +31,7 @@ export const DosageForms = () => {
 					{dosageForms === undefined ? (
 						<div>Loading...</div>
 					) : dosageForms.length === 0 ? (
-						<EmtpyDosages />
+						<EmptyDosages />
 					) : (
 						<ul className="space-y-2.5">
 							{dosageForms.map((df) => (
@@ -72,10 +72,10 @@ const DosageFormItem = ({ dosageForm: df }: { dosageForm: FunctionReturnType<typ
 	}
 
 	return (
-		<li className="group flex flex-col overflow-hidden">
+		<li id={encodeURIComponent(df._id)} className="group flex flex-col overflow-hidden">
 			<div className="flex items-center justify-between">
 				<h5 className="cursor-default text-btn font-[325] text-gray-900 capitalize">
-					{df.name}&nbsp;{" "}
+					{df.name}&nbsp;
 					<span title={audit} className="text-xs font-light text-gray-500 lowercase">
 						{formatDistanceToNow(new Date(df._creationTime), {
 							addSuffix: true,
@@ -92,7 +92,7 @@ const DosageFormItem = ({ dosageForm: df }: { dosageForm: FunctionReturnType<typ
 					</Button>
 				</div>
 			</div>
-			<p className="max-w-70 truncate text-sm font-light text-gray-500" title={df.description ?? undefined}>
+			<p className="max-w-none truncate text-sm font-light text-gray-500 lg:max-w-70" title={df.description ?? undefined}>
 				{df.description ?? null}
 			</p>
 		</li>
@@ -143,7 +143,7 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 			onSubmit={(event) => {
 				event.preventDefault();
 				event.stopPropagation();
-				form.handleSubmit();
+				void form.handleSubmit();
 			}}
 		>
 			<form.Field name="name">
@@ -194,7 +194,7 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 	);
 };
 
-const EmtpyDosages = () => (
+const EmptyDosages = () => (
 	<div className="flex flex-col items-center justify-center gap-4 pb-6">
 		<div className="w-full min-w-0">
 			<Image src="/no-dosage-forms.png" alt="Illustration for the empty state" layout="fullWidth" />
