@@ -15,7 +15,7 @@ export const addProduct = mutation({
 
 		const userId = await getUserId(ctx);
 
-		const product = await ctx.db.insert("products", {
+		return await ctx.db.insert("products", {
 			name,
 			description,
 			addedBy: userId as Id<"users">,
@@ -33,8 +33,6 @@ export const addProduct = mutation({
 			manufacturer,
 			imageUrl,
 		});
-
-		return product;
 	},
 });
 
@@ -65,10 +63,10 @@ export const updateProduct = mutation({
 export const deleteProduct = mutation({
 	args: { id: v.id("products") },
 	handler: async (ctx, args) => {
-		const deletedBy = await getUserId(ctx);
+		const productDeletedBy = await getUserId(ctx);
 		await ctx.db.patch("products", args.id, {
 			deletedAt: new Date().toISOString(),
-			deletedBy,
+			deletedBy: productDeletedBy,
 		});
 
 		return args.id;
@@ -85,16 +83,17 @@ export const listProducts = query({
 			// .filter((doc) => doc.neq(doc.field("deletedAt"), null))
 			.collect();
 
-		const productsWithUsers = await Promise.all(
+		return await Promise.all(
 			products.map(async (pd) => {
+				const df = pd.dosageFormId ? await ctx.db.get("dosage_forms", pd.dosageFormId) : null;
+
 				return {
 					...pd,
+					dosageForm: df ? { _id: df._id, name: df.name, description: df.description } : null,
 					addedBy: await getUserInfo(ctx, pd.addedBy),
 					updatedBy: await getUserInfo(ctx, pd.updatedBy),
 				};
 			}),
 		);
-
-		return productsWithUsers;
 	},
 });

@@ -1,5 +1,5 @@
 import { SearchIcon } from "./icons";
-import { Input } from "./input";
+import { Input } from "~input";
 
 export const Inventory = () => (
 	<main className="card min-w-0 p-0 lg:flex-1">
@@ -83,7 +83,7 @@ export const Inventory = () => (
 												<path
 													fillRule="evenodd"
 													d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												></path>
 											</svg>
 										</div>
@@ -111,9 +111,9 @@ export const Inventory = () => (
 
 											<svg className="h-3.5 w-3.5 text-yellow-700" viewBox="0 0 20 20" fill="currentColor">
 												<path
-													fill-rule="evenodd"
+													fillRule="evenodd"
 													d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												></path>
 											</svg>
 										</div>
@@ -144,9 +144,9 @@ export const Inventory = () => (
 
 											<svg className="h-3.5 w-3.5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
 												<path
-													fill-rule="evenodd"
+													fillRule="evenodd"
 													d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												></path>
 											</svg>
 										</div>
@@ -177,9 +177,9 @@ export const Inventory = () => (
 
 										<svg className="h-3.5 w-3.5 text-green-700" viewBox="0 0 20 20" fill="currentColor">
 											<path
-												fill-rule="evenodd"
+												fillRule="evenodd"
 												d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-												clip-rule="evenodd"
+												clipRule="evenodd"
 											></path>
 										</svg>
 									</div>
@@ -207,9 +207,9 @@ export const Inventory = () => (
 
 										<svg className="h-3.5 w-3.5 text-yellow-700" viewBox="0 0 20 20" fill="currentColor">
 											<path
-												fill-rule="evenodd"
+												fillRule="evenodd"
 												d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-												clip-rule="evenodd"
+												clipRule="evenodd"
 											></path>
 										</svg>
 									</div>
@@ -237,9 +237,9 @@ export const Inventory = () => (
 
 										<svg className="h-3.5 w-3.5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
 											<path
-												fill-rule="evenodd"
+												fillRule="evenodd"
 												d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-												clip-rule="evenodd"
+												clipRule="evenodd"
 											></path>
 										</svg>
 									</div>
@@ -278,7 +278,7 @@ export const Inventory = () => (
 											className="flex items-center gap-2"
 										>
 											<span className="absolute inset-0" aria-hidden="true"></span>
-											<span>dotrace</span>
+											<span>Ibuprofen</span>
 										</a>
 									</h2>
 									<div data-phx-id="m79-phx-GL4tQPiMwwLzbRdh" className="flex items-center gap-2.5 text-xs text-gray-500">
@@ -303,9 +303,9 @@ export const Inventory = () => (
 								aria-hidden="true"
 							>
 								<path
-									fill-rule="evenodd"
+									fillRule="evenodd"
 									d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-									clip-rule="evenodd"
+									clipRule="evenodd"
 								></path>
 							</svg>
 						</div>
