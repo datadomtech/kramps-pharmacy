@@ -65,7 +65,7 @@ const customerColumns = [
 	cth.accessor((row) => row.phone, {
 		header: "Contact Person",
 		cell: (info) => (
-			<div className="justifystart inline-flex items-center">
+			<div className="inline-flex items-center justify-start">
 				<span className="text-sm text-btn font-btn">{info.row.original.contactName?.toLocaleLowerCase("en-GB")}</span>
 			</div>
 		),
