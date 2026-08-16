@@ -1,17 +1,17 @@
-import type { LabelProps as KLabelProps } from "@cloudflare/kumo";
-import { cn, Label as KLabel, Textarea as KTextarea } from "@cloudflare/kumo";
+import { Textarea as KTextarea } from "~selia/textarea";
 import type { ComponentProps } from "react";
-import { Input as KInput } from "@cloudflare/kumo/primitives/input";
-import type { InputProps } from "@cloudflare/kumo/primitives/input";
-import { Radio as BaseRadio } from "@cloudflare/kumo/primitives/radio";
-import { RadioGroup as BaseRadioGroup } from "@cloudflare/kumo/primitives/radio-group";
-import { Field as BaseField } from "@cloudflare/kumo/primitives/field";
-import { Fieldset as BaseFieldset } from "@cloudflare/kumo/primitives/fieldset";
+import { Input as KInput } from "~primitives/input";
+import type { InputProps } from "~primitives/input";
+import { Radio as BaseRadio } from "~primitives/radio";
+import { RadioGroup as BaseRadioGroup } from "~primitives/radio-group";
+import { Field as BaseField } from "~primitives/field";
+import { Fieldset as BaseFieldset } from "~primitives/fieldset";
+import { cn } from "~utils";
 
 export const Input = ({ className, ...props }: InputProps) => <KInput className={cn("input-text mt-1! w-full" + " p-2.5!", className)} {...props} />;
 
-export const Label = ({ className, ...props }: KLabelProps) => (
-	<KLabel className={cn("mb-1 block font-btn text-emerald-950/50", className)} {...props} />
+export const Label = ({ className, ...props }: BaseField.Label.Props) => (
+	<BaseField.Label className={cn("mb-1 block font-btn text-emerald-950/50", className)} {...props} />
 );
 
 export const TextArea = ({ className, ...props }: ComponentProps<"textarea">) => (

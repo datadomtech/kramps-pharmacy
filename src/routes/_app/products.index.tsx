@@ -31,7 +31,7 @@ function RouteComponent() {
 		return <div>Loading...</div>;
 	}
 	return (
-		<div className="overflow-x-scroll p-0!">
+		<div className="p-0!">
 			{products.length === 0 ? (
 				<EmptyCustomers
 					description="No products found. Add a product to get started"
@@ -41,7 +41,7 @@ function RouteComponent() {
 				/>
 			) : (
 				<div className="flex flex-col gap-y-6">
-					<div className="card p-0!">
+					<div className="card overflow-x-auto p-0!">
 						<ProductsPageHeader />
 						<ActiveProductsTable activeProducts={products.filter((pd) => pd.isActive)} />
 					</div>
@@ -68,11 +68,11 @@ const InactiveProductsCard = ({ inActiveProducts }: { inActiveProducts: Array<Pr
 
 const ProductsPageHeader = ({ showLinks = true }: { showLinks?: boolean }) => (
 	<div className="flex flex-row items-center justify-between px-5 py-4">
-		<h2 className="text-base font-medium text-emerald-900">Products</h2>
+		<h2 className="text-dialog-header font-medium text-emerald-900">Products</h2>
 		{showLinks && (
 			<div className="flex flex-row items-center gap-x-2 text-sm font-normal text-gray-500">
 				{routeLinks.map(({ id, name, link }) => (
-					<Link key={id} {...link} className="hover:text-emerald-600">
+					<Link key={id} {...link} className="text-btn hover:text-emerald-600">
 						{name}
 					</Link>
 				))}

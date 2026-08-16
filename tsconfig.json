@@ -25,9 +25,14 @@
 		"paths": {
 			"~/*": ["./src/*"],
 			"~convex/*": ["./convex/*"],
+			"~icons/*": ["./src/components/icons/*"],
+			"icons": ["./src/components/icons/index.ts"],
+			"~components/*": ["./src/components/*"],
 			"~dialog": ["./src/components/dialog"],
 			"~input": ["./src/components/input"],
-			"~primitives/*": ["./node_modules/@cloudflare/kumo/primitives/*"]
+			"~utils": ["./src/utils.ts"],
+			"~selia/*": ["./src/components/selia/*"],
+			"~primitives/*": ["./node_modules/@base-ui/react/*"]
 		},
 
 		"esModuleInterop": true,

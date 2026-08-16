@@ -8,7 +8,6 @@ import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { Link } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
-import transparentLogo from "../../public/logo.png";
 
 const productsTableFeatures = tableFeatures({
 	// coreRowModel: coreRowModelsFeature,
@@ -25,7 +24,7 @@ const productsTableColumns = [
 			<div className="flex items-center gap-2">
 				<span className="size-10 overflow-hidden rounded-xl bg-emerald-200 ring-1 ring-green-300 ring-inset">
 					<Image
-						src={row.original.imageUrl ? row.original.imageUrl : transparentLogo}
+						src={row.original.imageUrl ? row.original.imageUrl : "/logo.png"}
 						alt={row.original.imageUrl}
 						layout="fixed"
 						height={40}
@@ -33,8 +32,8 @@ const productsTableColumns = [
 						className="size-10 rounded-xl border border-solid border-emerald-200 object-contain text-emerald-700"
 					/>
 				</span>
-				<div className="max-w-40">
-					<strong title={getValue()} className="truncate text-base font-medium text-emerald-700 capitalize">
+				<div className="max-w-40 text-btn">
+					<strong title={getValue()} className="block truncate font-medium whitespace-nowrap text-emerald-700 capitalize">
 						{getValue()}
 					</strong>
 					<p title={row.original.description ?? undefined} className="truncate">
@@ -59,6 +58,7 @@ const productsTableColumns = [
 			<Link
 				to="/inventory"
 				hash={encodeURIComponent(info.row.original.dosageFormId.toString())}
+				viewTransition={true}
 				className="inline-flex items-center justify-start"
 			>
 				<span className="text-sm text-btn font-btn">{info.row.original.dosageForm?.name?.toLocaleLowerCase("en-GB")}</span>
@@ -89,7 +89,9 @@ export const ActiveProductsTable = ({ activeProducts }: { activeProducts: Array<
 				{activeProductsTable.getHeaderGroups().map((hg) => (
 					<TableRow key={hg.id}>
 						{hg.headers.map((header) => (
-							<TableHead key={header.id}>{header.isPlaceholder ? null : <activeProductsTable.FlexRender header={header} />}</TableHead>
+							<TableHead key={header.id} className="text-btn">
+								{header.isPlaceholder ? null : <activeProductsTable.FlexRender header={header} />}
+							</TableHead>
 						))}
 					</TableRow>
 				))}

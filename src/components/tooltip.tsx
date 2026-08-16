@@ -1,6 +1,6 @@
-import { Tooltip as KTooltip } from "@cloudflare/kumo/primitives/tooltip";
+import { Tooltip as KTooltip } from "~primitives/tooltip";
 
-import { cn } from "@cloudflare/kumo/utils";
+import { cn } from "~utils";
 import { format, formatDistanceToNow } from "date-fns";
 
 export function TooltipProvider({ delay = 0, ...props }: KTooltip.Provider.Props) {

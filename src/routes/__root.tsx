@@ -1,4 +1,6 @@
-import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
+// noinspection HtmlRequiredTitleElement
+
+import { HeadContent, Scripts, createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
@@ -6,7 +8,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { FormDevtoolsPanel } from "@tanstack/react-form-devtools";
 import { tableDevtoolsPlugin } from "@tanstack/react-table-devtools";
 import appCss from "~/styles/app.css?url";
-import { Toasty } from "@cloudflare/kumo";
+import { Toast } from "~selia/toast";
 import { TooltipProvider } from "~/components/tooltip";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
@@ -34,18 +36,24 @@ export const Route = createRootRouteWithContext<{
 		],
 	}),
 	notFoundComponent: () => <div>Route not found</div>,
-	component: RootComponent,
+	component: RootRoute,
 });
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
-function RootComponent() {
+function RootRoute() {
 	return (
-		<RootDocument>
-			<Toasty>
+		<html lang="en" suppressHydrationWarning={true}>
+			<head>
+				<HeadContent />
+			</head>
+			<body className="selection:bg-emerald-600 selection:text-white">
 				<ConvexAuthProvider client={convex}>
 					<TooltipProvider delay={0}>
-						<Outlet />
+						<div className="isolate">
+							<Outlet />
+						</div>
+						<Toast />
 					</TooltipProvider>
 					<TanStackDevtools
 						plugins={[
@@ -65,19 +73,6 @@ function RootComponent() {
 						]}
 					/>
 				</ConvexAuthProvider>
-			</Toasty>
-		</RootDocument>
-	);
-}
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-	return (
-		<html>
-			<head>
-				<HeadContent />
-			</head>
-			<body className="selection:bg-emerald-600 selection:text-white">
-				<Toasty>{children}</Toasty>
 				<Scripts />
 			</body>
 		</html>

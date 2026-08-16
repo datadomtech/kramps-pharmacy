@@ -14,7 +14,7 @@
 	},
 	"dependencies": {
 		"@auth/core": "0.41.1",
-		"@cloudflare/kumo": "^2.6.0",
+		"@base-ui/react": "^1.0.0",
 		"@convex-dev/auth": "^0.0.94",
 		"@convex-dev/react-query": "^0.1.0",
 		"@solar-icons/react": "^1.1.1",
@@ -26,13 +26,16 @@
 		"@tanstack/react-store": "^0.11.0",
 		"@tanstack/react-table": "9.0.0-beta.21",
 		"@unpic/react": "^1.0.2",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
 		"convex": "^1.36.1",
 		"date-fns": "^4.4.0",
 		"jose": "^6.2.3",
 		"nitro": "3.0.260610-beta",
 		"react": "^19.2.5",
 		"react-dom": "^19.2.5",
-		"svrx": "^0.0.10"
+		"svrx": "^0.0.10",
+		"tailwind-merge": "^3.3.1"
 	},
 	"devDependencies": {
 		"@convex-dev/eslint-plugin": "^2.0.0",

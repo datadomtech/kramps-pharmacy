@@ -1,20 +1,24 @@
-import { Button } from "@cloudflare/kumo/primitives/button";
+import { Button } from "~primitives/button";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "~convex/_generated/api";
 import { useState } from "react";
 import type { Id } from "~convex/_generated/dataModel";
-import { cn, useKumoToastManager } from "@cloudflare/kumo";
+import { cn } from "~utils";
+import { toastManager as toast } from "~selia/toast.tsx";
 import { useForm } from "@tanstack/react-form";
-import { Input, Label, TextArea } from "~input";
+import { Field, Input, Label, TextArea } from "~input";
 import { format, formatDistanceToNow } from "date-fns";
 import type { FunctionArgs, FunctionReturnType } from "convex/server";
-import { EditIcon, PlusSquareIcon, TrashIcon } from "./icons";
+import { EditIcon, PlusSquareIcon, TrashIcon } from "icons";
 import { Image } from "@unpic/react";
+import { useLocation } from "@tanstack/react-router";
 
 export const DosageForms = () => {
 	const dosageForms = useQuery(api.dosageForms.listDosageForms);
 
 	const [showForm, setShowForm] = useState(false);
+
+	const { hash } = useLocation();
 
 	return (
 		<div>
@@ -27,15 +31,15 @@ export const DosageForms = () => {
 					</Button>
 				</div>
 				{showForm && <DosageForm defaultValues={addDosageDefaultValues} dosageFormId={null} onCloseDosageForm={() => setShowForm(false)} />}
-				<div className="p-5">
+				<div className="">
 					{dosageForms === undefined ? (
 						<div>Loading...</div>
 					) : dosageForms.length === 0 ? (
 						<EmptyDosages />
 					) : (
-						<ul className="space-y-2.5">
+						<ul className="space-y-2.5 py-5">
 							{dosageForms.map((df) => (
-								<DosageFormItem key={df._id} dosageForm={df} />
+								<DosageFormItem key={df._id} isHighlighted={hash ? hash === decodeURIComponent(df._id) : null} dosageForm={df} />
 							))}
 						</ul>
 					)}
@@ -45,7 +49,13 @@ export const DosageForms = () => {
 	);
 };
 
-const DosageFormItem = ({ dosageForm: df }: { dosageForm: FunctionReturnType<typeof api.dosageForms.listDosageForms>[0] }) => {
+const DosageFormItem = ({
+	dosageForm: df,
+	isHighlighted,
+}: {
+	isHighlighted: boolean | null;
+	dosageForm: FunctionReturnType<typeof api.dosageForms.listDosageForms>[0];
+}) => {
 	const [editing, setEditing] = useState(false);
 
 	const deleteDosage = useMutation(api.dosageForms.deleteDosageForm);
@@ -72,7 +82,10 @@ const DosageFormItem = ({ dosageForm: df }: { dosageForm: FunctionReturnType<typ
 	}
 
 	return (
-		<li id={encodeURIComponent(df._id)} className="group flex flex-col overflow-hidden">
+		<li
+			id={encodeURIComponent(df._id)}
+			className={cn("group flex flex-col overflow-hidden px-5", isHighlighted && "border-y-2 border-solid" + " border-emerald-400")}
+		>
 			<div className="flex items-center justify-between">
 				<h5 className="cursor-default text-btn font-[325] text-gray-900 capitalize">
 					{df.name}&nbsp;
@@ -117,29 +130,35 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 	const addDosage = useMutation(api.dosageForms.addDosageForm);
 	const updateDosage = useMutation(api.dosageForms.updateDosageForm);
 
-	const toast = useKumoToastManager();
-
 	const form = useForm({
 		defaultValues: props.defaultValues,
 		onSubmit: async ({ value }) => {
 			if (props.dosageFormId !== null) {
-				await updateDosage({
-					...(value as UpdateDosageFormValues),
-					dosageFormId: props.dosageFormId,
-				});
-				props.onCloseDosageForm();
-				toast.add({ title: "Dosage form updated successfully" });
+				try {
+					await updateDosage({
+						...(value as UpdateDosageFormValues),
+						dosageFormId: props.dosageFormId,
+					});
+					props.onCloseDosageForm();
+					toast.add({ title: "Dosage form updated successfully", type: "success" });
+				} catch (err) {
+					toast.add({ title: err instanceof Error ? err.name : `Failed to update ${value.name}`, type: "error" });
+				}
 			} else {
-				await addDosage({ ...(value as AddDosageFormValues) });
-				props.onCloseDosageForm();
-				toast.add({ title: "Dosage form added successfully" });
+				try {
+					await addDosage({ ...(value as AddDosageFormValues) });
+					props.onCloseDosageForm();
+					toast.add({ title: "Dosage form added successfully", type: "success" });
+				} catch (err) {
+					toast.add({ title: "Failed to add dosage form", type: "error" });
+				}
 			}
 		},
 	});
 
 	return (
 		<form
-			className={cn("space-y-4 border-y border-solid border-gray-200 py-4", !props.dosageFormId && "px-2 lg:px-4")}
+			className={cn("space-y-4 border-y border-solid border-gray-200 px-5 py-4", !props.dosageFormId && "px-2" + " lg:px-4")}
 			onSubmit={(event) => {
 				event.preventDefault();
 				event.stopPropagation();
@@ -148,7 +167,7 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 		>
 			<form.Field name="name">
 				{(field) => (
-					<div className="mb-4">
+					<Field className="mb-4">
 						<Label htmlFor={field.name}>Name</Label>
 						<Input
 							id={field.name}
@@ -159,13 +178,13 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 							aria-label="Name"
 							placeholder="Eg: injection, syrup, pill"
 						/>
-					</div>
+					</Field>
 				)}
 			</form.Field>
 
 			<form.Field name="description">
 				{(field) => (
-					<div className="mb-4">
+					<Field className="mb-4">
 						<Label htmlFor={field.name}>Description</Label>
 						<TextArea
 							id={field.name}
@@ -177,7 +196,7 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 							className={cn("w-full!", !props.dosageFormId ? "field-sizing-fixed" : "field-sizing-content")}
 							aria-label="Description"
 						/>
-					</div>
+					</Field>
 				)}
 			</form.Field>
 

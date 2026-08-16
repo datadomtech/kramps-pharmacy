@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-import { cn } from "@cloudflare/kumo/utils";
+import { cn } from "~utils";
 
 export function Table({ className, ...props }: ComponentProps<"table">) {
 	return (

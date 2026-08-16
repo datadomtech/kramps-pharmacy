@@ -1,0 +1,124 @@
+{
+	"products": [
+		{
+			"name": "Amoxicillin 500mg",
+			"brandName": "Amoxil",
+			"description": "Broad-spectrum antibiotic used to treat bacterial infections including pneumonia, bronchitis, and infections of the ear, nose, throat, skin, and urinary tract.",
+			"genericName": "Amoxicillin",
+			"dosageForm": "Capsule",
+			"manufacturer": "GlaxoSmithKline"
+		},
+		{
+			"name": "Paracetamol 500mg",
+			"brandName": "Panadol",
+			"description": "Analgesic and antipyretic used for relief of mild to moderate pain and fever reduction.",
+			"genericName": "Acetaminophen",
+			"dosageForm": "Tablet",
+			"manufacturer": "Haleon"
+		},
+		{
+			"name": "Ibuprofen 400mg",
+			"brandName": "Advil",
+			"description": "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and treat pain or inflammation.",
+			"genericName": "Ibuprofen",
+			"dosageForm": "Tablet",
+			"manufacturer": "Pfizer"
+		},
+		{
+			"name": "Cetirizine 10mg",
+			"brandName": "Zyrtec",
+			"description": "Second-generation antihistamine used to treat hay fever, allergy symptoms, and urticaria.",
+			"genericName": "Cetirizine Hydrochloride",
+			"dosageForm": "Tablet",
+			"manufacturer": "Johnson & Johnson"
+		},
+		{
+			"name": "Loratadine 5mg/5ml",
+			"brandName": "Claritin",
+			"description": "Antihistamine syrup for children used to relieve symptoms of seasonal allergies.",
+			"genericName": "Loratadine",
+			"dosageForm": "Syrup",
+			"manufacturer": "Bayer"
+		},
+		{
+			"name": "Omeprazole 20mg",
+			"brandName": "Prilosec",
+			"description": "Proton pump inhibitor used to treat gastroesophageal reflux disease (GERD) and peptic ulcers.",
+			"genericName": "Omeprazole",
+			"dosageForm": "Capsule",
+			"manufacturer": "AstraZeneca"
+		},
+		{
+			"name": "Metformin 500mg",
+			"brandName": "Glucophage",
+			"description": "Oral antidiabetic medication used to improve blood sugar control in type 2 diabetes.",
+			"genericName": "Metformin Hydrochloride",
+			"dosageForm": "Tablet",
+			"manufacturer": "Merck"
+		},
+		{
+			"name": "Salbutamol 100mcg",
+			"brandName": "Ventolin",
+			"description": "Short-acting beta-2 agonist used for quick relief of bronchospasm in asthma and COPD.",
+			"genericName": "Albuterol",
+			"dosageForm": "Inhaler",
+			"manufacturer": "GSK"
+		},
+		{
+			"name": "Amoxicillin 125mg/5ml",
+			"brandName": "Amoxil Pediatric Drops",
+			"description": "Pediatric antibiotic suspension for treating ear infections, pneumonia, and other bacterial infections in children.",
+			"genericName": "Amoxicillin",
+			"dosageForm": "Suspension",
+			"manufacturer": "GlaxoSmithKline"
+		},
+		{
+			"name": "Hydrocortisone 1%",
+			"brandName": "Cortizone-10",
+			"description": "Topical corticosteroid used to relieve itching and inflammation from skin conditions like eczema and dermatitis.",
+			"genericName": "Hydrocortisone",
+			"dosageForm": "Cream",
+			"manufacturer": "Chattem"
+		},
+		{
+			"name": "Chloramphenicol 0.5%",
+			"brandName": "Chloromycetin",
+			"description": "Antibiotic eye drops used to treat bacterial eye infections including conjunctivitis.",
+			"genericName": "Chloramphenicol",
+			"dosageForm": "Eye Drops",
+			"manufacturer": "Pfizer"
+		},
+		{
+			"name": "Vitamin D3 1000 IU",
+			"brandName": "Caltrate",
+			"description": "Dietary supplement for maintaining healthy bones and teeth by supporting calcium absorption.",
+			"genericName": "Cholecalciferol",
+			"dosageForm": "Softgel Capsule",
+			"manufacturer": "Pfizer Consumer Healthcare"
+		},
+		{
+			"name": "Insulin Glargine 100 units/ml",
+			"brandName": "Lantus",
+			"description": "Long-acting basal insulin analog for managing blood glucose in type 1 and type 2 diabetes.",
+			"genericName": "Insulin Glargine",
+			"dosageForm": "Injection",
+			"manufacturer": "Sanofi"
+		},
+		{
+			"name": "Azithromycin 250mg",
+			"brandName": "Zithromax",
+			"description": "Macrolide antibiotic used to treat a wide variety of bacterial infections including respiratory and skin infections.",
+			"genericName": "Azithromycin",
+			"dosageForm": "Tablet",
+			"manufacturer": "Pfizer"
+		},
+		{
+			"name": "Cough Expectorant 100ml",
+			"brandName": "Benylin",
+			"description": "Expectorant syrup used to relieve chest congestion and loosen mucus associated with the common cold.",
+			"genericName": "Guaifenesin",
+			"dosageForm": "Syrup",
+			"manufacturer": "Johnson & Johnson"
+		}
+	]
+}

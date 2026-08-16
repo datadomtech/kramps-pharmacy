@@ -1,0 +1,13 @@
+{
+	"framework": "tanstack-start",
+	"paths": {
+		"workdir": "./src/",
+		"components": "./src/components/selia",
+		"css": "./src/styles/app.css",
+		"utils": "./src/utils.ts"
+	},
+	"imports": {
+		"utils": "~utils",
+		"components": "~selia"
+	}
+}

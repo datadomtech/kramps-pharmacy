@@ -1,7 +1,7 @@
-import { Toast } from "@cloudflare/kumo";
-import { Button } from "@cloudflare/kumo/primitives/button";
-import { Radio } from "@cloudflare/kumo/primitives/radio";
-import { RadioGroup } from "@cloudflare/kumo/primitives/radio-group";
+import { toastManager as toast } from "~selia/toast";
+import { Button } from "~primitives/button";
+import { Radio } from "~primitives/radio";
+import { RadioGroup } from "~primitives/radio-group";
 
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -11,6 +11,7 @@ import { InfoCircleIcon } from "~/components/icons";
 import { Input, Label } from "~/components/input";
 import { api } from "~convex/_generated/api";
 import type { Doc } from "~convex/_generated/dataModel";
+import { Field } from "~primitives/field";
 
 export const Route = createFileRoute("/_app/customers/new")({
 	component: RouteComponent,
@@ -57,14 +58,17 @@ const addCustomerDefaultValues: Pick<
 
 const AddCustomerForm = () => {
 	const addCustomer = useMutation(api.customers.addCustomer);
-	const toasts = Toast.useToastManager();
 
 	const form = useForm({
 		defaultValues: addCustomerDefaultValues,
 		onSubmit: async ({ value }) => {
-			await addCustomer({ ...value });
-			toasts.add({ title: "Customer added successfully" });
-			form.reset();
+			try {
+				await addCustomer({ ...value });
+				form.reset();
+				toast.add({ title: "Customer added successfully", type: "success" });
+			} catch (err) {
+				toast.add({ title: err instanceof Error ? err.name : "Something went wrong", type: "error" });
+			}
 		},
 	});
 
@@ -79,7 +83,7 @@ const AddCustomerForm = () => {
 		>
 			<form.Field name="name">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Name
 						</Label>
@@ -92,13 +96,13 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
 			<form.Field name="address">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Address
 						</Label>
@@ -112,13 +116,13 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
 			<form.Field name="phone">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Phone Number
 						</Label>
@@ -132,13 +136,13 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
 			<form.Field name="email">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Email Address
 						</Label>
@@ -152,7 +156,7 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
@@ -170,7 +174,7 @@ const AddCustomerForm = () => {
 
 			<form.Field name="contactName">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Contact Person&apos;s Name
 						</Label>
@@ -185,13 +189,13 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
 			<form.Field name="contactPhone">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Contact Phone
 						</Label>
@@ -205,13 +209,13 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
 			<form.Field name="contactEmail">
 				{(field) => (
-					<div className="space-y-1 sm:col-span-1">
+					<Field.Root className="space-y-1 sm:col-span-1">
 						<Label htmlFor={field.name} className="text-navy-900 text-sm font-btn">
 							Contact Email
 						</Label>
@@ -225,7 +229,7 @@ const AddCustomerForm = () => {
 							onValueChange={field.handleChange}
 							onBlur={field.handleBlur}
 						/>
-					</div>
+					</Field.Root>
 				)}
 			</form.Field>
 
@@ -234,7 +238,7 @@ const AddCustomerForm = () => {
 
 				<form.Field name="type">
 					{(field) => (
-						<div className="card mt-1">
+						<Field.Root className="card mt-1">
 							<RadioGroup aria-labelledby={field.name} onValueChange={field.handleChange} value={field.state.value}>
 								<div id={field.name} className="sr-only">
 									Types of customers
@@ -252,7 +256,7 @@ const AddCustomerForm = () => {
 									</Label>
 								))}
 							</RadioGroup>
-						</div>
+						</Field.Root>
 					)}
 				</form.Field>
 			</div>

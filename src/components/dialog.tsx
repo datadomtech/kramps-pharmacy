@@ -1,5 +1,5 @@
-import { cn } from "@cloudflare/kumo";
-import { Dialog as KDialog } from "@cloudflare/kumo/primitives/dialog";
+import { cn } from "~utils";
+import { Dialog as KDialog } from "~primitives/dialog";
 import { XIcon } from "./icons/x";
 
 export const Dialog = KDialog.Root;

@@ -1,5 +1,5 @@
-import { Sidebar as KSidebar } from "@cloudflare/kumo/components/sidebar";
-import { Button } from "@cloudflare/kumo/primitives/button";
+import { SidebarGroup, SidebarContent } from "~selia/sidebar";
+import { Button } from "~primitives/button";
 import {
 	BuildingIcon,
 	ClipboardCheckIcon,
@@ -17,12 +17,12 @@ import {
 	UserSquareIcon,
 	UserXIcon,
 	XIcon,
-} from "~/components/icons";
-import { Link, Outlet } from "@tanstack/react-router";
+} from "icons";
+import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
 import type { FC, SVGProps } from "react";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
-import { Dialog } from "@cloudflare/kumo/primitives/dialog";
+import { Dialog } from "~primitives/dialog";
 import { Logo } from "./logo";
 
 type IconType = FC<SVGProps<SVGSVGElement>>;
@@ -32,12 +32,14 @@ type SidebarRouteProps = {
 	name: string;
 	icon: IconType;
 	href: LinkProps["to"];
+	onClick?: () => void;
 };
 
-const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => (
+const SidebarRouteItem = ({ href: to, icon: Icon, name, onClick }: SidebarRouteProps) => (
 	<Link
 		to={to}
-		className="group mt-0.5 flex w-full shrink-0 flex-row items-center justify-start gap-0.5 rounded-lg p-2 text-white/80 transition-colors hover:text-white lg:w-auto lg:shrink lg:flex-row lg:justify-items-start lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
+		onClick={onClick}
+		className="group mt-0.5 flex w-full shrink-0 flex-row items-center justify-start gap-2 rounded-lg p-2 text-emerald-900/80 transition-colors hover:text-white lg:w-full lg:shrink-0 lg:flex-row lg:justify-items-start lg:gap-0.5 lg:gap-2.5 lg:px-2.5 lg:py-2 lg:text-emerald-900 lg:hover:bg-transparent lg:hover:text-emerald-600"
 		activeOptions={{
 			exact: true,
 		}}
@@ -47,8 +49,8 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name }: SidebarRouteProps) => 
 				"transition-colors text-white bg-emerald-600/90 lg:hover:bg-emerald-500/20 lg:hover:text-emerald-700 lg:bg-emerald-500/20 lg:text-emerald-700 hover:bg-emerald-600/90 hover:text-emerald-700",
 		}}
 	>
-		<span className="flex size-5 shrink-0 items-center lg:size-6 lg:justify-center lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
-			<Icon className="size-5 fill-transparent stroke-brand stroke-2 lg:size-3.5" />
+		<span className="flex size-5 shrink-0 items-center justify-center lg:size-6 lg:justify-center lg:rounded-md lg:bg-linear-to-b lg:from-white/75 lg:to-emerald-100/75 lg:shadow-sm lg:ring-1 lg:shadow-emerald-800/10 lg:ring-emerald-800/10">
+			<Icon className="size-5 fill-transparent stroke-emerald-500 stroke-2 lg:size-3.5" />
 		</span>
 		<span className="w-full truncate text-left text-btn font-btn capitalize lg:w-auto">{name}</span>
 	</Link>
@@ -85,56 +87,51 @@ const adminRoutes: Array<SidebarRouteProps> = [
 ];
 
 export const Sidebar = () => (
-	<>
-		<div className="hidden! lg:block! lg:w-72! lg:max-w-72!">
-			<KSidebar.Content className="py-0!">
-				<KSidebar.Group className="px-0 py-0!">
-					<label className="m-0! mb-1! border-none text-btn font-btn text-gray-700 [&_div]:pl-0!">Branch</label>
-					<div className="inline-flex w-full cursor-pointer items-center justify-between rounded-btn border border-solid border-btn-border bg-white bg-clip-padding px-3 py-2 font-btn whitespace-nowrap inset-shadow-btn-border transition-all duration-200 hover:border-btn-active hover:bg-emerald-50 hover:text-btn-text hover:inset-shadow-btn-active">
-						<div className="inline-flex flex-1 items-center justify-normal gap-2 font-medium">
-							<StoreIcon className="size-4.5 fill-logo stroke-brand stroke-[1.5]" />
-							<span>Head Office</span>
-						</div>
-						<kbd className="inline-flex w-fit items-center rounded-sm bg-emerald-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-emerald-400">
-							⌘K
-						</kbd>
+	<div className="hidden! lg:block! lg:w-72! lg:max-w-72!">
+		<SidebarContent className="py-0!">
+			<SidebarGroup className="px-0 py-0!">
+				<label className="m-0! mb-1! border-none text-btn font-btn text-gray-700 [&_div]:pl-0!">Branch</label>
+				<div className="inline-flex w-full cursor-pointer items-center justify-between rounded-btn border border-solid border-btn-border bg-white bg-clip-padding px-3 py-2 font-btn whitespace-nowrap inset-shadow-btn-border transition-all duration-200 hover:border-btn-active hover:bg-emerald-50 hover:text-btn-text hover:inset-shadow-btn-active">
+					<div className="inline-flex flex-1 items-center justify-normal gap-2 font-medium">
+						<StoreIcon className="size-4.5 fill-logo stroke-brand stroke-[1.5]" />
+						<span>Head Office</span>
 					</div>
-				</KSidebar.Group>
+					<kbd className="inline-flex w-fit items-center rounded-sm bg-emerald-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-emerald-400">
+						⌘K
+					</kbd>
+				</div>
+			</SidebarGroup>
 
-				<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none">
-					<CartIcon className="size-4.5 fill-brand/10 stroke-logo" />
-					Point of Sale
-				</Button>
+			<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none">
+				<CartIcon className="size-4.5 fill-brand/10 stroke-logo" />
+				Point of Sale
+			</Button>
 
-				<KSidebar.Group className="mt-4 font-medium backdrop-blur-md lg:bg-transparent lg:px-0 lg:text-emerald-900">
-					{dailyOperationsRoutes.map((route) => (
-						<SidebarRouteItem key={route.id} {...route} />
-					))}
+			<SidebarGroup className="mt-4 font-medium backdrop-blur-md lg:bg-transparent lg:px-0 lg:text-emerald-900">
+				{dailyOperationsRoutes.map((route) => (
+					<SidebarRouteItem key={route.id} {...route} />
+				))}
 
-					<Separator />
+				<Separator />
 
-					{customerRoutes.map((route) => (
-						<SidebarRouteItem key={route.id} {...route} />
-					))}
+				{customerRoutes.map((route) => (
+					<SidebarRouteItem key={route.id} {...route} />
+				))}
 
-					<Separator />
+				<Separator />
 
-					{inventoryRoutes.map((route) => (
-						<SidebarRouteItem key={route.id} {...route} />
-					))}
+				{inventoryRoutes.map((route) => (
+					<SidebarRouteItem key={route.id} {...route} />
+				))}
 
-					<Separator />
+				<Separator />
 
-					{adminRoutes.map((route) => (
-						<SidebarRouteItem key={route.id} {...route} />
-					))}
-				</KSidebar.Group>
-			</KSidebar.Content>
-		</div>
-		<main className="w-full min-w-0 flex-1 grow p-0">
-			<Outlet />
-		</main>
-	</>
+				{adminRoutes.map((route) => (
+					<SidebarRouteItem key={route.id} {...route} />
+				))}
+			</SidebarGroup>
+		</SidebarContent>
+	</div>
 );
 
 export const Separator = () => (
@@ -171,25 +168,25 @@ export const MobileSidebar = () => (
 
 			<div className="mt-4 space-y-4 px-4 font-medium backdrop-blur-md lg:bg-transparent lg:px-0 lg:text-emerald-900">
 				{dailyOperationsRoutes.map((route) => (
-					<SidebarRouteItem key={route.id} {...route} />
+					<SidebarRouteItem key={route.id} {...route} onClick={() => mobileSidebarHandle.close()} />
 				))}
 
 				<Separator />
 
 				{customerRoutes.map((route) => (
-					<SidebarRouteItem key={route.id} {...route} />
+					<SidebarRouteItem key={route.id} {...route} onClick={() => mobileSidebarHandle.close()} />
 				))}
 
 				<Separator />
 
 				{inventoryRoutes.map((route) => (
-					<SidebarRouteItem key={route.id} {...route} />
+					<SidebarRouteItem key={route.id} {...route} onClick={() => mobileSidebarHandle.close()} />
 				))}
 
 				<Separator />
 
 				{adminRoutes.map((route) => (
-					<SidebarRouteItem key={route.id} {...route} />
+					<SidebarRouteItem key={route.id} {...route} onClick={() => mobileSidebarHandle.close()} />
 				))}
 			</div>
 		</SheetContent>

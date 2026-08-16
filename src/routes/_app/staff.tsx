@@ -1,4 +1,4 @@
-import { useKumoToastManager } from "@cloudflare/kumo";
+import { toastManager as toast } from "~selia/toast";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAction, useQuery } from "convex/react";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import type { User } from "~/components/staff-table";
 import { api } from "~convex/_generated/api";
 import { Input, Label } from "~input";
 import { useForm } from "@tanstack/react-form";
-import { Button } from "@cloudflare/kumo/primitives/button";
+import { Button } from "~primitives/button";
 
 export const Route = createFileRoute("/_app/staff")({
 	component: RouteComponent,
@@ -52,15 +52,18 @@ const addStaffDefaultValues: typeof api.staff.addStaff._args = {
 
 const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => {
 	const addStaff = useAction(api.staff.addStaff);
-	const toast = useKumoToastManager();
 
 	const form = useForm({
 		defaultValues: addStaffDefaultValues,
 		onSubmit: async ({ value }) => {
-			console.log("adding staff member...", "value: ", value);
-			const staff = await addStaff({ ...value });
-			onOpenDialog(false);
-			toast.add({ title: staff.user.name, variant: "success" });
+			try {
+				console.log("adding staff member...", "value: ", value);
+				const staff = await addStaff({ ...value });
+				onOpenDialog(false);
+				toast.add({ title: staff.user.name, type: "success" });
+			} catch (error) {
+				toast.add({ title: error instanceof Error ? error.name : "Failed to add staff", description: String(error), type: "error" });
+			}
 		},
 	});
 
