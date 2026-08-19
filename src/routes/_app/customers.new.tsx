@@ -244,7 +244,7 @@ const AddCustomerForm = () => {
 									Types of customers
 								</div>
 								{customerTypes.map((ct) => (
-									<Label className="mt-1.5 flex items-center gap-2 text-sm text-btn font-btn text-emerald-900">
+									<Label key={ct.id} className="mt-1.5 flex items-center gap-2 text-sm text-btn font-btn text-emerald-900">
 										<Radio.Root
 											key={ct.id}
 											value={ct.value}

@@ -5,9 +5,7 @@ import { ConvexQueryClient } from "@convex-dev/react-query";
 import { routeTree } from "./routeTree.gen";
 
 export function getRouter() {
-	// if (typeof document !== "undefined") {
-	// 	notifyManager.setScheduler(window.requestAnimationFrame);
-	// }
+
 
 	const CONVEX_URL = (import.meta as any).env.VITE_CONVEX_URL!;
 	if (!CONVEX_URL) {
