@@ -1,14 +1,13 @@
 import { createRouter } from "@tanstack/react-router";
-import { notifyManager, QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 import { ConvexQueryClient } from "@convex-dev/react-query";
 import { routeTree } from "./routeTree.gen";
-import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 
 export function getRouter() {
-	if (typeof document !== "undefined") {
-		notifyManager.setScheduler(window.requestAnimationFrame);
-	}
+	// if (typeof document !== "undefined") {
+	// 	notifyManager.setScheduler(window.requestAnimationFrame);
+	// }
 
 	const CONVEX_URL = (import.meta as any).env.VITE_CONVEX_URL!;
 	if (!CONVEX_URL) {
@@ -42,10 +41,10 @@ export function getRouter() {
 		queryClient,
 	);
 
-	setupRouterSsrQueryIntegration({
-		router,
-		queryClient,
-	});
+	// setupRouterSsrQueryIntegration({
+	// 	router,
+	// 	queryClient,
+	// });
 
 	return router;
 }

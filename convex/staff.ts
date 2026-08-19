@@ -11,9 +11,27 @@ export const addStaff = action({
 		isActive: v.boolean(),
 	},
 	handler: async (ctx, args) => {
+
 		const { auth } = await authComponent.getAuth(createAuth, ctx);
 
-		return await auth.api.createUser({
+		const users = await auth.api.listUsers({ query: { limit: 'all' } })
+
+		if (users.total === 0) {
+			const result = await auth.api.signUpEmail({
+				body: {
+					email: args.email,
+					password: args.password,
+					name: args.fullName
+				}
+			})
+
+			return {
+				id: result.user.userId,
+				name: result.user.name
+			}
+		}
+
+		const user = await auth.api.createUser({
 			body: {
 				email: args.email,
 				name: args.fullName,
@@ -24,6 +42,11 @@ export const addStaff = action({
 				},
 			},
 		});
+
+		return {
+			id: user.user.name,
+			name: user.user.id
+		}
 	},
 });
 

@@ -8,6 +8,20 @@ import { api } from "~convex/_generated/api";
 import { Field, Input, Label } from "~input";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "~primitives/button";
+import { z } from "zod";
+
+export const addStaffSchema = z.object({
+	fullName: z.string().trim().min(2, "Full name is required"),
+	email: z.email("Enter a valid email address").trim(),
+	phoneNumber: z
+		.string()
+		.trim()
+		.regex(/^\+[1-9]\d{7,14}$/, "Use international format, e.g. +233241234567"),
+	password: z.string().min(8, "Password must be at least 8 characters"),
+	isActive: z.boolean(),
+});
+
+export type AddStaffValues = z.infer<typeof addStaffSchema>;
 
 export const Route = createFileRoute("/_app/staff")({
 	component: RouteComponent,
@@ -54,13 +68,21 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 
 	const form = useForm({
 		defaultValues: addStaffDefaultValues,
+
+		validators: {
+			onSubmit: addStaffSchema
+		},
 		onSubmit: async ({ value }) => {
 			try {
-				console.log("adding staff member...", "value: ", value);
+				console.log("adding staff member from client", "value: ", value);
+				console.log("before use action")
 				const staff = await addStaff({ ...value });
+
+				console.log("after use action")
 				onOpenDialog(false);
-				toast.success(staff.user.name);
+				toast.success(`${staff.name} added successfully`);
 			} catch (error) {
+				console.error("add staff use action failed: ", error)
 				toast.error(error instanceof Error ? error.name : "Failed to add staff", { description: String(error) });
 			}
 		},

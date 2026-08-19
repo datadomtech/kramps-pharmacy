@@ -56,7 +56,11 @@ export const Route = createRootRouteWithContext<{
 });
 
 const getAuth = createServerFn({ method: "GET" }).handler(async () => {
-	return await getToken();
+	const token = await getToken();
+
+	console.log("AUTH TOKEN:", token ? "present" : "missing");
+
+	return token;
 });
 
 function RootRoute() {
