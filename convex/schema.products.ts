@@ -12,11 +12,11 @@ export const productFields = {
 	manufacturer: v.nullable(v.string()),
 	isActive: v.boolean(),
 	addedAt: v.string(),
-	addedBy: v.id("users"),
-	deactivatedBy: v.nullable(v.id("users")),
-	updatedBy: v.nullable(v.id("users")),
+	addedBy: v.string(),
+	deactivatedBy: v.nullable(v.string()),
+	updatedBy: v.nullable(v.string()),
 	updatedAt: v.nullable(v.string()),
-	deletedBy: v.nullable(v.id("users")),
+	deletedBy: v.nullable(v.string()),
 	deletedAt: v.nullable(v.string()),
 };
 

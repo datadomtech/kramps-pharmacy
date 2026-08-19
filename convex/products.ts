@@ -1,6 +1,5 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import type { Id } from "./_generated/dataModel";
 import { getUserId, getUserInfo } from "./dosageForms";
 import { productFields } from "./schema.products";
 
@@ -18,7 +17,7 @@ export const addProduct = mutation({
 		return await ctx.db.insert("products", {
 			name,
 			description,
-			addedBy: userId as Id<"users">,
+			addedBy: userId,
 			addedAt: new Date().toISOString(),
 			barCodeNumber,
 			brandName,

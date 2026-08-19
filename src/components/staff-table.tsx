@@ -1,4 +1,3 @@
-import type { Id } from "~convex/_generated/dataModel";
 import { createColumnHelper, useTable, tableFeatures } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistanceToNow } from "date-fns";
@@ -6,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/tooltip";
 import { TableCell, TableRow, Table, TableBody, TableHead, TableHeader } from "~/components/table";
 
 export type User = {
-	id: Id<"users">;
+	id: string;
 	createdAt: number;
 	fullName: string | undefined;
 	email: string | undefined;

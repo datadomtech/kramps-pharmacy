@@ -5,17 +5,12 @@ import { cn } from "~utils";
 import type { ReactNode } from "react";
 
 export const toastManager = BaseToast.createToastManager();
-export const anchoredToastManager = BaseToast.createToastManager();
 
-export const Toast = () => (
-	<>
-		<BaseToast.Provider toastManager={toastManager}>
-			<StackedToasts />
-		</BaseToast.Provider>
-		<BaseToast.Provider toastManager={anchoredToastManager}>
-			<AnchoredToasts />
-		</BaseToast.Provider>
-	</>
+export const Toast = ({ children }: { children: ReactNode }) => (
+	<BaseToast.Provider toastManager={toastManager}>
+		{children}
+		<StackedToasts />
+	</BaseToast.Provider>
 );
 
 function StackedToasts() {
@@ -55,34 +50,6 @@ function StackedToasts() {
 					>
 						<ToastContent toast={toast} />
 					</BaseToast.Root>
-				))}
-			</BaseToast.Viewport>
-		</BaseToast.Portal>
-	);
-}
-
-function AnchoredToasts() {
-	const { toasts } = BaseToast.useToastManager();
-
-	return (
-		<BaseToast.Portal>
-			<BaseToast.Viewport className="outline-0">
-				{toasts.map((toast) => (
-					<BaseToast.Positioner key={toast.id} toast={toast} className="z-[calc(1000-var(--toast-index))]">
-						<BaseToast.Root
-							toast={toast}
-							className={cn(
-								"group flex w-max origin-(--transform-origin) flex-col outline-none",
-								"rounded border border-toast-border bg-toast shadow",
-								"transition-[transform,scale,opacity]",
-								"data-ending-style:scale-90 data-ending-style:opacity-0",
-								"data-starting-style:scale-90 data-starting-style:opacity-0",
-								toast.data?.size === "sm" ? "p-2" : "p-4",
-							)}
-						>
-							<ToastContent toast={toast} />
-						</BaseToast.Root>
-					</BaseToast.Positioner>
 				))}
 			</BaseToast.Viewport>
 		</BaseToast.Portal>

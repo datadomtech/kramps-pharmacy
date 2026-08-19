@@ -1,6 +1,5 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { Id } from "./_generated/dataModel";
 import { getUserId, getUserInfo } from "./dosageForms";
 
 const customerType = v.union(v.literal("individual"), v.literal("hospital"), v.literal("pharmacy"));
@@ -34,7 +33,7 @@ export const addCustomer = mutation({
 			blacklistedAt: null,
 			blacklistedBy: null,
 			blacklistedReason: null,
-			addedBy: userId as Id<"users">,
+			addedBy: userId,
 			updatedAt: null,
 			updatedBy: null,
 			deletedAt: null,
@@ -84,7 +83,7 @@ export const listActiveCustomers = query({
 	handler: async (ctx) => {
 		const customers = await ctx.db.query("customers").order("desc").collect();
 
-		const customersWithUsers = await Promise.all(
+		return await Promise.all(
 			customers.map(async (cu) => {
 				return {
 					...cu,
@@ -93,8 +92,6 @@ export const listActiveCustomers = query({
 				};
 			}),
 		);
-
-		return customersWithUsers;
 	},
 });
 
@@ -108,7 +105,7 @@ export const listBlacklistedCustomers = query({
 			.filter((q) => q.neq(q.field("blacklistedAt"), null))
 			.collect();
 
-		const customers = await Promise.all(
+		return await Promise.all(
 			customerForms.map(async (df) => {
 				return {
 					...df,
@@ -117,7 +114,5 @@ export const listBlacklistedCustomers = query({
 				};
 			}),
 		);
-
-		return customers;
 	},
 });

@@ -1,8 +1,7 @@
 import { v } from "convex/values";
 import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { mutation, query } from "./_generated/server";
-import type { Id } from "./_generated/dataModel";
-import { getAuthUserId } from "@convex-dev/auth/server";
+import { authComponent } from "./auth";
 
 const mutateDosageArgs = {
 	name: v.string(),
@@ -16,17 +15,15 @@ export const addDosageForm = mutation({
 
 		const userId = await getUserId(ctx);
 
-		const dosageForm = await ctx.db.insert("dosage_forms", {
+		return await ctx.db.insert("dosage_forms", {
 			name,
 			description,
-			addedBy: userId as Id<"users">,
+			addedBy: userId,
 			deletedBy: null,
 			updatedBy: null,
 			deletedAt: null,
 			updatedAt: null,
 		});
-
-		return dosageForm;
 	},
 });
 
@@ -67,10 +64,9 @@ export const listDosageForms = query({
 			.query("dosage_forms")
 			.withIndex("by_soft_delete", (q) => q.eq("deletedAt", null))
 			.order("desc")
-			// .filter((doc) => doc.neq(doc.field("deletedAt"), null))
 			.collect();
 
-		const dosageFormsWithUsers = await Promise.all(
+		return await Promise.all(
 			dosageForms.map(async (df) => {
 				return {
 					...df,
@@ -79,36 +75,34 @@ export const listDosageForms = query({
 				};
 			}),
 		);
-
-		return dosageFormsWithUsers;
 	},
 });
 
-export async function getUserInfo(ctx: QueryCtx, userId: Id<"users"> | null) {
+export async function getUserId(ctx: MutationCtx) {
+	const user = await authComponent.getAuthUser(ctx);
+
+	if (!user) {
+		throw new Error("Unauthorized");
+	}
+
+	return user._id;
+}
+
+export async function getUserInfo(ctx: QueryCtx, userId: string | null) {
 	if (userId === null) {
 		return null;
 	}
 
-	const user = await ctx.db.get("users", userId);
+	const user = await authComponent.getAnyUserById(ctx, userId);
 
 	if (!user) {
 		return null;
 	}
 
 	return {
+		id: user._id,
 		name: user.name,
 		email: user.email,
-		phone: user.phone,
-		_id: user._id,
+		phone: user.phoneNumber ?? null,
 	};
-}
-
-export async function getUserId(ctx: MutationCtx) {
-	const userId = await getAuthUserId(ctx);
-
-	if (userId === null) {
-		throw new Error("Unauthorized");
-	}
-
-	return userId;
 }

@@ -1,12 +1,11 @@
-import { toastManager as toast } from "~selia/toast";
+import { toast } from "sonner";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAction, useQuery } from "convex/react";
 import { useState } from "react";
 import { Dialog, DialogClose, DialogDescription, DialogPopup, DialogTitle, DialogTrigger, DialogX } from "~dialog";
 import { StaffTable } from "~/components/staff-table";
-import type { User } from "~/components/staff-table";
 import { api } from "~convex/_generated/api";
-import { Input, Label } from "~input";
+import { Field, Input, Label } from "~input";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "~primitives/button";
 
@@ -17,7 +16,7 @@ export const Route = createFileRoute("/_app/staff")({
 function RouteComponent() {
 	const [open, setOpen] = useState(false);
 
-	const staffMembers: Array<User> | undefined = useQuery(api.staff.listStaff);
+	const staffMembers = useQuery(api.staff.listStaff);
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -31,7 +30,7 @@ function RouteComponent() {
 						<AddStaffDialog isDialogOpen={open} onOpenDialog={setOpen} />
 					</div>
 				</div>
-				<StaffTable data={staffMembers ?? []} />
+				<StaffTable data={(staffMembers as any) ?? []} />
 			</div>
 		</div>
 	);
@@ -60,9 +59,9 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 				console.log("adding staff member...", "value: ", value);
 				const staff = await addStaff({ ...value });
 				onOpenDialog(false);
-				toast.add({ title: staff.user.name, type: "success" });
+				toast.success(staff.user.name);
 			} catch (error) {
-				toast.add({ title: error instanceof Error ? error.name : "Failed to add staff", description: String(error), type: "error" });
+				toast.error(error instanceof Error ? error.name : "Failed to add staff", { description: String(error) });
 			}
 		},
 	});
@@ -88,12 +87,12 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 						onSubmit={(event) => {
 							event.preventDefault();
 							event.stopPropagation();
-							form.handleSubmit();
+							void form.handleSubmit();
 						}}
 					>
 						<form.Field name="fullName">
 							{(field) => (
-								<div className="mb-4">
+								<Field className="mb-4">
 									<Label htmlFor={field.name}>Full Name</Label>
 									<Input
 										id={field.name}
@@ -103,13 +102,13 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 										onBlur={field.handleBlur}
 										aria-label="Full Name"
 									/>
-								</div>
+								</Field>
 							)}
 						</form.Field>
 
 						<form.Field name="email">
 							{(field) => (
-								<div className="mb-4">
+								<Field className="mb-4">
 									<Label htmlFor={field.name}>Email Address</Label>
 									<Input
 										id={field.name}
@@ -121,13 +120,13 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 										placeholder="pharmacist@krampsmail.com"
 										aria-label="Email Address"
 									/>
-								</div>
+								</Field>
 							)}
 						</form.Field>
 
 						<form.Field name="phoneNumber">
 							{(field) => (
-								<div className="mb-4">
+								<Field className="mb-4">
 									<Label htmlFor={field.name}>Phone Number</Label>
 									<Input
 										id={field.name}
@@ -140,13 +139,13 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 									<p className="mt-1 text-xs text-emerald-500/80">
 										Phone number should use the international format and have no spaces.
 									</p>
-								</div>
+								</Field>
 							)}
 						</form.Field>
 
 						<form.Field name="password">
 							{(field) => (
-								<div className="mb-4">
+								<Field className="mb-4">
 									<Label htmlFor={field.name}>Password</Label>
 									<Input
 										id={field.name}
@@ -156,7 +155,7 @@ const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => 
 										onBlur={field.handleBlur}
 										aria-label="Password"
 									/>
-								</div>
+								</Field>
 							)}
 						</form.Field>
 

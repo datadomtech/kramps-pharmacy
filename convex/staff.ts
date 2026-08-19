@@ -1,6 +1,6 @@
-import { createAccount } from "@convex-dev/auth/server";
 import { action, query } from "./_generated/server";
 import { v } from "convex/values";
+import { authComponent, createAuth } from "./auth";
 
 export const addStaff = action({
 	args: {
@@ -11,31 +11,29 @@ export const addStaff = action({
 		isActive: v.boolean(),
 	},
 	handler: async (ctx, args) => {
-		const account = await createAccount(ctx, {
-			provider: "password",
-			account: { id: args.email, secret: args.password },
-			profile: {
+		const { auth } = await authComponent.getAuth(createAuth, ctx);
+
+		return await auth.api.createUser({
+			body: {
 				email: args.email,
 				name: args.fullName,
-				phone: args.phoneNumber,
+				password: args.password,
+				role: "admin",
+				data: {
+					phoneNumber: args.phoneNumber,
+				},
 			},
 		});
-
-		return account;
 	},
 });
 
 export const listStaff = query({
 	args: {},
 	handler: async (ctx) => {
-		const users = (await ctx.db.query("users").order("desc").collect()).map((user) => ({
-			id: user._id,
-			createdAt: user._creationTime,
-			fullName: user.name,
-			email: user.email,
-			phone: user.phone,
-		}));
-
-		return users;
+		const { auth, headers } = await authComponent.getAuth(createAuth, ctx);
+		return await auth.api.listUsers({
+			query: { limit: 200, offset: 0 },
+			headers,
+		});
 	},
 });

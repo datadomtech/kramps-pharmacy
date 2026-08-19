@@ -10,6 +10,7 @@ node_modules
 .nitro
 .tanstack
 .idea
+.convex
 
 /build/
 /api/

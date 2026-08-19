@@ -6,20 +6,23 @@ import { Button } from "~primitives/button";
 
 import { Popover } from "~primitives/popover";
 import { UserIcon, SettingsIcon, SignOutIcon } from "icons";
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentUser } from "~/hooks/use-current-user";
 import { MobileSidebarTrigger } from "./sidebar";
+import { authClient } from "~/auth-client.ts";
 
 export const Navbar = () => {
-	const { signOut } = useAuthActions();
 	const navigate = useNavigate();
 
 	const { user } = useCurrentUser();
 
-	const handleSignOut = () => {
-		void signOut();
-
-		void navigate({ to: "/sign-in" });
+	const handleSignOut = async () => {
+		await authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					void navigate({ to: "/sign-in" });
+				},
+			},
+		});
 	};
 
 	return (
@@ -34,9 +37,9 @@ export const Navbar = () => {
 			<div className="flex items-center font-sans text-base font-medium">
 				<Link
 					to="/dashboard"
-					className="group mx-1 inline-flex items-center gap-x-2.5 rounded-xl bg-transparent px-3 py-2 transition-colors hover:bg-kumo-brand/20"
+					className="group hover:bg-kumo-brand/20 mx-1 inline-flex items-center gap-x-2.5 rounded-xl bg-transparent px-3 py-2 transition-colors"
 				>
-					<DashboardIcon className="size-4 text-brand group-hover:text-kumo-brand-hover" />
+					<DashboardIcon className="group-hover:text-kumo-brand-hover size-4 text-brand" />
 					<span className="hidden lg:inline">Dashboard</span>
 				</Link>
 
@@ -45,10 +48,10 @@ export const Navbar = () => {
 						openOnHover={true}
 						delay={0}
 						className={cn(
-							"group mx-1 inline-flex cursor-pointer items-center gap-x-2.5 rounded-xl bg-transparent px-3 py-2 transition-colors hover:bg-kumo-brand/20",
+							"group hover:bg-kumo-brand/20 mx-1 inline-flex cursor-pointer items-center gap-x-2.5 rounded-xl bg-transparent px-3 py-2 transition-colors",
 						)}
 					>
-						<UserIcon className="size-4 text-brand transition-colors group-focus-within:text-kumo-brand-hover group-hover:text-kumo-brand-hover" />
+						<UserIcon className="group-focus-within:text-kumo-brand-hover group-hover:text-kumo-brand-hover size-4 text-brand transition-colors" />
 						<span className="hidden lg:inline">Account</span>
 					</Popover.Trigger>
 					<Popover.Portal>
@@ -66,7 +69,7 @@ export const Navbar = () => {
 
 									<Link
 										to=".."
-										className="flex min-w-44 items-center gap-x-2.5 rounded-md px-3 py-2 whitespace-nowrap transition-colors hover:bg-kumo-brand-hover/30"
+										className="hover:bg-kumo-brand-hover/30 flex min-w-44 items-center gap-x-2.5 rounded-md px-3 py-2 whitespace-nowrap transition-colors"
 									>
 										<SettingsIcon className="size-4 fill-brand stroke-logo" />
 										Settings
@@ -75,7 +78,7 @@ export const Navbar = () => {
 									<Button
 										type="button"
 										onClick={handleSignOut}
-										className="flex min-w-44 cursor-pointer items-center gap-x-2.5 rounded-md px-3 py-2 whitespace-nowrap transition-colors hover:bg-kumo-brand-hover/30"
+										className="hover:bg-kumo-brand-hover/30 flex min-w-44 cursor-pointer items-center gap-x-2.5 rounded-md px-3 py-2 whitespace-nowrap transition-colors"
 									>
 										<SignOutIcon className="size-4 text-brand" />
 										Sign out

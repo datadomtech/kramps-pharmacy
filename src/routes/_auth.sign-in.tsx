@@ -1,15 +1,15 @@
-import { Button } from "~selia/button";
-import { Input } from "~selia/input";
-import { Label } from "~components/input";
-import { toastManager as toast } from "~selia/toast";
-import { useAuthActions } from "@convex-dev/auth/react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Button } from "~primitives/button";
+import { Input, Field, Label } from "~components/input";
+import { toast } from "sonner";
+import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router";
+import type { LinkOptions } from "@tanstack/react-router";
 import { ConvexError } from "convex/values";
 import { useState } from "react";
-import type { ReactNode, SubmitEvent } from "react";
+import type { SubmitEvent } from "react";
 
 import { Logo } from "~/components/logo";
 import { Image } from "@unpic/react";
+import { authClient } from "~/auth-client.ts";
 
 export const Route = createFileRoute("/_auth/sign-in")({
 	component: RouteComponent,
@@ -17,16 +17,12 @@ export const Route = createFileRoute("/_auth/sign-in")({
 
 const INVALID_PASSWORD = "INVALID_PASSWORD";
 
-type SignInPageProps = {
-	provider?: string;
-	handleSent?: (email: string) => void;
-	handlePasswordReset?: () => void;
-	customSignUp?: ReactNode;
-	passwordRequirements?: string;
-};
+function RouteComponent() {
 
-function RouteComponent({ provider, handleSent }: SignInPageProps) {
-	const { signIn } = useAuthActions();
+
+	const location = useLocation();
+
+	const callbackUrl = location.search as Record<"redirect", LinkOptions["to"]>;
 
 	const navigate = useNavigate();
 	const [submitting, setSubmitting] = useState(false);
@@ -38,13 +34,15 @@ function RouteComponent({ provider, handleSent }: SignInPageProps) {
 
 			const formData = new FormData(event.currentTarget);
 
-			await signIn(provider ?? "password", formData);
+			await authClient.signIn.email({ email: formData.get("email") as string, password: formData.get("password") as string });
 
-			handleSent?.(formData.get("email") as string);
 
-			await navigate({ to: "/staff" });
+			if (callbackUrl.redirect) {
+				await navigate({ to: callbackUrl.redirect });
+			}
+
+			await navigate({ to: "/products" });
 		} catch (err) {
-			console.error(err);
 			let toastTitle;
 
 			if (err instanceof ConvexError && err.data === INVALID_PASSWORD) {
@@ -52,7 +50,7 @@ function RouteComponent({ provider, handleSent }: SignInPageProps) {
 			} else {
 				toastTitle = "Could not sign in";
 			}
-			toast.add({ title: toastTitle, type: "error" });
+			toast.error(toastTitle);
 			setSubmitting(false);
 		}
 	};
@@ -70,7 +68,7 @@ function RouteComponent({ provider, handleSent }: SignInPageProps) {
 
 						<form className="mt-8 flex flex-col gap-6" onSubmit={(event) => handleSubmit(event)}>
 							<input name="flow" value="signIn" type="hidden" />
-							<div>
+							<Field>
 								<Label htmlFor="email" className="block">
 									Email
 								</Label>
@@ -82,8 +80,8 @@ function RouteComponent({ provider, handleSent }: SignInPageProps) {
 									className="input-text mt-1! w-full p-2.5!"
 									autoComplete="email"
 								/>
-							</div>
-							<div>
+							</Field>
+							<Field>
 								<div className="flex items-center justify-between">
 									<Label htmlFor="password">Password</Label>
 								</div>
@@ -95,7 +93,7 @@ function RouteComponent({ provider, handleSent }: SignInPageProps) {
 									autoComplete="current-password"
 									className="input-text mt-1! w-full! p-2.5!"
 								/>
-							</div>
+							</Field>
 
 							<Button type="submit" disabled={submitting} className="btn-xl btn-primary mt-4 w-full bg-brand! text-white!">
 								{submitting ? "Signing in" : "Sign in"}

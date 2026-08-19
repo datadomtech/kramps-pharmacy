@@ -12,5 +12,8 @@ export default defineConfig({
 	resolve: {
 		tsconfigPaths: true,
 	},
+	ssr: {
+		noExternal: ["@convex-dev/better-auth", "better-auth/plugins/oidc-provider"],
+	},
 	plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact(), nitro()],
 });
