@@ -1,21 +1,12 @@
 import { toast } from "sonner";
 import { createFileRoute } from "@tanstack/react-router";
-import { useAction, useQuery } from "convex/react";
 import { useState } from "react";
-import {
-	Dialog,
-	DialogClose,
-	DialogDescription,
-	DialogPopup,
-	DialogTitle,
-	DialogTrigger,
-	DialogX,
-} from "~dialog";
+import { Dialog, DialogClose, DialogDescription, DialogPopup, DialogTitle, DialogTrigger, DialogX } from "~dialog";
 import { StaffTable } from "~/components/staff-table";
-import { api } from "~convex/_generated/api";
 import { Field, Input, Label } from "~input";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "~primitives/button";
+import { useAddStaff, useStaff } from "~/hooks/use-staff";
 import { z } from "zod";
 
 export const addStaffSchema = z.object({
@@ -23,10 +14,7 @@ export const addStaffSchema = z.object({
 	email: z.email("Enter a valid email address").trim(),
 	phoneNumber: z
 		.string()
-		.length(
-			10,
-			"Phone number should use the Ghanaian format and have no spaces.",
-		)
+		.length(10, "Phone number should use the Ghanaian format and have no spaces.")
 		.startsWith("0", "Phone number should always start with 0"),
 	password: z.string().min(8, "Password must be at least 8 characters"),
 });
@@ -40,26 +28,21 @@ export const Route = createFileRoute("/_app/staff")({
 function RouteComponent() {
 	const [open, setOpen] = useState(false);
 
-	const staffMembers = useQuery(api.staff.listStaff);
+	const { data: staffMembers } = useStaff();
 
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="card overflow-x-scroll p-0!">
 				<div className="flex items-center justify-between px-5 py-4">
 					<div className="space-y-2">
-						<h2 className="text-lg font-medium text-emerald-900">
-							Staff Members
-						</h2>
+						<h2 className="text-lg font-medium text-emerald-900">Staff Members</h2>
 					</div>
 
 					<div>
-						<AddStaffDialog
-							isDialogOpen={open}
-							onOpenDialog={setOpen}
-						/>
+						<AddStaffDialog isDialogOpen={open} onOpenDialog={setOpen} />
 					</div>
 				</div>
-				<StaffTable data={(staffMembers as any) ?? []} />
+				<StaffTable data={staffMembers ?? []} />
 			</div>
 		</div>
 	);
@@ -70,18 +53,15 @@ type AddStaffDialogProps = {
 	onOpenDialog: (isOpen: boolean) => void;
 };
 
-const addStaffDefaultValues: typeof api.staff.addStaff._args = {
+const addStaffDefaultValues: AddStaffValues = {
 	email: "",
 	fullName: "",
 	password: "",
 	phoneNumber: "",
 };
 
-const AddStaffDialog = ({
-	isDialogOpen,
-	onOpenDialog,
-}: AddStaffDialogProps) => {
-	const addStaff = useAction(api.staff.addStaff);
+const AddStaffDialog = ({ isDialogOpen, onOpenDialog }: AddStaffDialogProps) => {
+	const addStaffMutation = useAddStaff();
 
 	const form = useForm({
 		defaultValues: addStaffDefaultValues,
@@ -90,51 +70,31 @@ const AddStaffDialog = ({
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				console.log(
-					"adding staff member from client",
-					"value: ",
-					value,
-				);
-				console.log("before use action");
-				const staff = await addStaff({ ...value });
+				const staff = await addStaffMutation.mutateAsync({ ...value });
 
-				console.log("after use action");
 				onOpenDialog(false);
 				toast.success(`${staff.name} added successfully`);
 			} catch (error) {
-				console.error("add staff use action failed: ", error);
-				toast.error(
-					error instanceof Error ? error.name : "Failed to add staff",
-					{ description: String(error) },
-				);
+				console.error("add staff failed: ", error);
+				toast.error(error instanceof Error ? error.name : "Failed to add staff", { description: String(error) });
 			}
 		},
 	});
 
 	return (
 		<Dialog open={isDialogOpen} onOpenChange={onOpenDialog}>
-			<DialogTrigger className="btn btn-secondary cursor-pointer gap-2 bg-emerald-100!">
-				Add member
-			</DialogTrigger>
-			<DialogPopup
-				id="add-staff-dialog-popup"
-				className="flex flex-col gap-6"
-			>
+			<DialogTrigger className="btn btn-secondary cursor-pointer gap-2 bg-emerald-100!">Add member</DialogTrigger>
+			<DialogPopup id="add-staff-dialog-popup" className="flex flex-col gap-6">
 				<div className="absolute top-5 right-5">
 					<DialogX />
 				</div>
 
 				<div>
-					<DialogTitle className="mb-2">
-						Add a Staff Member
-					</DialogTitle>
+					<DialogTitle className="mb-2">Add a Staff Member</DialogTitle>
 					<DialogDescription className="max-w-xl text-gray-500!">
-						A staff member enters data such as patient name,
-						prescribed medication and cost, to maintain pharmacy
-						files, charge system, and inventory. They also assay
-						medications to determine identity, purity, and strength.
-						Instructs interns, other medical personnel and customers
-						on matters pertaining to the pharmacy.
+						A staff member enters data such as patient name, prescribed medication and cost, to maintain pharmacy files, charge system,
+						and inventory. They also assay medications to determine identity, purity, and strength. Instructs interns, other medical
+						personnel and customers on matters pertaining to the pharmacy.
 					</DialogDescription>
 
 					<form
@@ -148,9 +108,7 @@ const AddStaffDialog = ({
 						<form.Field name="fullName">
 							{(field) => (
 								<Field className="mb-4">
-									<Label htmlFor={field.name}>
-										Full Name
-									</Label>
+									<Label htmlFor={field.name}>Full Name</Label>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -166,9 +124,7 @@ const AddStaffDialog = ({
 						<form.Field name="email">
 							{(field) => (
 								<Field className="mb-4">
-									<Label htmlFor={field.name}>
-										Email Address
-									</Label>
+									<Label htmlFor={field.name}>Email Address</Label>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -186,9 +142,7 @@ const AddStaffDialog = ({
 						<form.Field name="phoneNumber">
 							{(field) => (
 								<Field className="mb-4">
-									<Label htmlFor={field.name}>
-										Phone Number
-									</Label>
+									<Label htmlFor={field.name}>Phone Number</Label>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -198,8 +152,7 @@ const AddStaffDialog = ({
 										aria-label="Phone Number"
 									/>
 									<p className="mt-1 text-xs text-emerald-500/80">
-										Phone number should use the Ghanaian
-										format and have no spaces.
+										Phone number should use the Ghanaian format and have no spaces.
 									</p>
 								</Field>
 							)}
@@ -222,10 +175,7 @@ const AddStaffDialog = ({
 						</form.Field>
 
 						<div className="flex items-center justify-end gap-2">
-							<DialogClose
-								type="button"
-								className="btn btn-secondary"
-							>
+							<DialogClose type="button" className="btn btn-secondary">
 								Cancel
 							</DialogClose>
 

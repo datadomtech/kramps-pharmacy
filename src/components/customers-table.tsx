@@ -3,9 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { createColumnHelper, tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Image } from "@unpic/react";
-import type { FunctionReturnType } from "convex/server";
-// oxlint-disable-next-line typescript/consistent-type-imports
-import { api } from "~convex/_generated/api";
+import type { Customer } from "~/lib/types";
 import { DateTooltip } from "./tooltip";
 import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
@@ -32,7 +30,7 @@ export const EmptyCustomers = ({ ...props }: EmptyCustomersProps) => (
 	</div>
 );
 
-export type Customer = FunctionReturnType<typeof api.customers.listActiveCustomers>[0];
+export type { Customer };
 
 const customersTableFeatures = tableFeatures({
 	// coreRowModel: coreRowModelsFeature,
@@ -71,7 +69,7 @@ const customerColumns = [
 		),
 	}),
 
-	cth.accessor((row) => row._creationTime, {
+	cth.accessor((row) => row.createdAt, {
 		header: "Added At",
 		cell: (info) => <DateTooltip date={new Date(info.getValue())} />,
 	}),
@@ -83,7 +81,7 @@ export const CustomersTable = ({ customers }: { customers: Array<Customer> }) =>
 		features: customersTableFeatures,
 		data: customers,
 		columns: customerColumns as Array<ColumnDef<typeof customersTableFeatures, Customer>>,
-		getRowId: (row) => row._id,
+		getRowId: (row) => row.id,
 	});
 
 	useTanStackTableDevtools(table);

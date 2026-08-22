@@ -13,9 +13,5 @@ export default defineConfig({
 		tsconfigPaths: true,
 		dedupe: ["react", "react-dom"],
 	},
-	ssr: {
-		external: ["react", "react-dom"],
-		noExternal: ["@convex-dev/better-auth", "better-auth"],
-	},
 	plugins: [tanstackStart(), tailwindcss(), devtools(), nitro({ preset: "vercel" }), viteReact()],
 });

@@ -1,20 +1,19 @@
 import { Button } from "~primitives/button";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "~convex/_generated/api";
 import { useState } from "react";
-import type { Id } from "~convex/_generated/dataModel";
 import { cn } from "~utils";
 import { toastManager as toast } from "~selia/toast.tsx";
 import { useForm } from "@tanstack/react-form";
 import { Field, Input, Label, TextArea } from "~input";
 import { format, formatDistanceToNow } from "date-fns";
-import type { FunctionArgs, FunctionReturnType } from "convex/server";
+import type { DosageForm } from "~/lib/types";
+import { useAddDosageForm, useDeleteDosageForm, useDosageForms, useUpdateDosageForm } from "~/hooks/use-dosage-forms";
+import type { DosageFormInput, UpdateDosageFormInput } from "~/hooks/use-dosage-forms";
 import { EditIcon, PlusSquareIcon, TrashIcon } from "icons";
 import { Image } from "@unpic/react";
 import { useLocation } from "@tanstack/react-router";
 
 export const DosageForms = () => {
-	const dosageForms = useQuery(api.dosageForms.listDosageForms);
+	const { data: dosageForms } = useDosageForms();
 
 	const [showForm, setShowForm] = useState(false);
 
@@ -39,7 +38,7 @@ export const DosageForms = () => {
 					) : (
 						<ul className="space-y-2.5 py-5">
 							{dosageForms.map((df) => (
-								<DosageFormItem key={df._id} isHighlighted={hash ? hash === decodeURIComponent(df._id) : null} dosageForm={df} />
+								<DosageFormItem key={df.id} isHighlighted={hash ? hash === decodeURIComponent(df.id) : null} dosageForm={df} />
 							))}
 						</ul>
 					)}
@@ -49,20 +48,14 @@ export const DosageForms = () => {
 	);
 };
 
-const DosageFormItem = ({
-	dosageForm: df,
-	isHighlighted,
-}: {
-	isHighlighted: boolean | null;
-	dosageForm: FunctionReturnType<typeof api.dosageForms.listDosageForms>[0];
-}) => {
+const DosageFormItem = ({ dosageForm: df, isHighlighted }: { isHighlighted: boolean | null; dosageForm: DosageForm }) => {
 	const [editing, setEditing] = useState(false);
 
-	const deleteDosage = useMutation(api.dosageForms.deleteDosageForm);
+	const deleteDosage = useDeleteDosageForm();
 
 	const audit =
 		df.addedBy && df.updatedBy
-			? `Last updated ${format(new Date(df._creationTime), "PPPppp")} by ${df.updatedBy.name}`
+			? `Last updated ${format(new Date(df.createdAt), "PPPppp")} by ${df.updatedBy.name}`
 			: df.addedBy
 				? `Added by: ${df.addedBy.name}`
 				: undefined;
@@ -72,10 +65,10 @@ const DosageFormItem = ({
 			<DosageForm
 				defaultValues={{
 					description: df.description,
-					dosageFormId: df._id,
+					dosageFormId: df.id,
 					name: df.name,
 				}}
-				dosageFormId={df._id}
+				dosageFormId={df.id}
 				onCloseDosageForm={() => setEditing(false)}
 			/>
 		);
@@ -83,14 +76,14 @@ const DosageFormItem = ({
 
 	return (
 		<li
-			id={encodeURIComponent(df._id)}
+			id={encodeURIComponent(df.id)}
 			className={cn("group flex flex-col overflow-hidden px-5", isHighlighted && "border-y-2 border-solid" + " border-emerald-400")}
 		>
 			<div className="flex items-center justify-between">
 				<h5 className="cursor-default text-btn font-[325] text-gray-900 capitalize">
 					{df.name}&nbsp;
 					<span title={audit} className="text-xs font-light text-gray-500 lowercase">
-						{formatDistanceToNow(new Date(df._creationTime), {
+						{formatDistanceToNow(new Date(df.createdAt), {
 							addSuffix: true,
 							includeSeconds: true,
 						})}
@@ -100,7 +93,15 @@ const DosageFormItem = ({
 					<Button type="button" onClick={() => setEditing(true)} className="cursor-pointer">
 						<EditIcon className="size-4 fill-transparent stroke-brand stroke-2" />
 					</Button>
-					<Button type="button" onClick={async () => await deleteDosage({ id: df._id })} className="cursor-pointer">
+					<Button
+						type="button"
+						onClick={async () =>
+							await deleteDosage.mutateAsync(df.id, {
+								onSuccess: () => toast.add({ title: "Dosage form deleted successfully", type: "success" }),
+							})
+						}
+						className="cursor-pointer"
+					>
 						<TrashIcon className="size-4 fill-transparent stroke-red-500 stroke-2" />
 					</Button>
 				</div>
@@ -112,31 +113,28 @@ const DosageFormItem = ({
 	);
 };
 
-const addDosageDefaultValues: AddDosageFormValues = {
+const addDosageDefaultValues: DosageFormInput = {
 	name: "",
 	description: "",
 };
 
-type AddDosageFormValues = FunctionArgs<typeof api.dosageForms.addDosageForm>;
-type UpdateDosageFormValues = FunctionArgs<typeof api.dosageForms.updateDosageForm>;
-
 type DosageFormProps = {
 	onCloseDosageForm: VoidFunction;
-	dosageFormId: Id<"dosage_forms"> | null;
-	defaultValues: UpdateDosageFormValues | AddDosageFormValues;
+	dosageFormId: string | null;
+	defaultValues: UpdateDosageFormInput | DosageFormInput;
 };
 
 const DosageForm = ({ ...props }: DosageFormProps) => {
-	const addDosage = useMutation(api.dosageForms.addDosageForm);
-	const updateDosage = useMutation(api.dosageForms.updateDosageForm);
+	const addDosage = useAddDosageForm();
+	const updateDosage = useUpdateDosageForm();
 
 	const form = useForm({
 		defaultValues: props.defaultValues,
 		onSubmit: async ({ value }) => {
 			if (props.dosageFormId !== null) {
 				try {
-					await updateDosage({
-						...(value as UpdateDosageFormValues),
+					await updateDosage.mutateAsync({
+						...value,
 						dosageFormId: props.dosageFormId,
 					});
 					props.onCloseDosageForm();
@@ -146,10 +144,11 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 				}
 			} else {
 				try {
-					await addDosage({ ...(value as AddDosageFormValues) });
+					await addDosage.mutateAsync(value);
 					props.onCloseDosageForm();
 					toast.add({ title: "Dosage form added successfully", type: "success" });
 				} catch (err) {
+					console.error("failed to add dosage form", err)
 					toast.add({ title: "Failed to add dosage form", type: "error" });
 				}
 			}
