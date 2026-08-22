@@ -15,5 +15,5 @@ export default defineConfig({
 	ssr: {
 		noExternal: ["@convex-dev/better-auth", "better-auth", "@base-ui/react"],
 	},
-	plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact(), nitro({ preset: 'vercel'})],
+	plugins: [tanstackStart(), tailwindcss(), devtools(), nitro({ preset: "vercel" }), viteReact()],
 });
