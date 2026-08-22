@@ -11,6 +11,7 @@ export default defineConfig({
 	},
 	resolve: {
 		tsconfigPaths: true,
+		dedupe: ["react", "react-dom"],
 	},
 	ssr: {
 		external: ["react", "react-dom"],
