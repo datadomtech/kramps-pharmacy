@@ -5,12 +5,11 @@ import { RadioGroup } from "~primitives/radio-group";
 
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMutation } from "convex/react";
-import type { FunctionArgs } from "convex/server";
 import { InfoCircleIcon } from "~/components/icons";
 import { Input, Label } from "~/components/input";
-import { api } from "~convex/_generated/api";
-import type { Doc } from "~convex/_generated/dataModel";
+import { useAddCustomer } from "~/hooks/use-customers";
+import type { CustomerInput } from "~/hooks/use-customers";
+import type { CustomerType } from "~/lib/types";
 import { Field } from "~primitives/field";
 
 export const Route = createFileRoute("/_app/customers/new")({
@@ -34,8 +33,6 @@ function RouteComponent() {
 
 // export type CustomerTypeMap = Record<CustomerType, string>;
 
-type CustomerType = FunctionArgs<typeof api.customers.addCustomer>["type"];
-
 const customerTypes: Array<{ id: number; name: string; value: CustomerType }> = [
 	{ id: 1, name: "Individual", value: "individual" },
 	{ id: 2, name: "Hospital", value: "hospital" },
@@ -43,7 +40,7 @@ const customerTypes: Array<{ id: number; name: string; value: CustomerType }> = 
 ];
 
 const addCustomerDefaultValues: Pick<
-	Doc<"customers">,
+	CustomerInput,
 	"name" | "email" | "phone" | "type" | "address" | "contactEmail" | "contactName" | "contactPhone"
 > = {
 	address: "",
@@ -57,13 +54,13 @@ const addCustomerDefaultValues: Pick<
 };
 
 const AddCustomerForm = () => {
-	const addCustomer = useMutation(api.customers.addCustomer);
+	const addCustomerMutation = useAddCustomer();
 
 	const form = useForm({
 		defaultValues: addCustomerDefaultValues,
 		onSubmit: async ({ value }) => {
 			try {
-				await addCustomer({ ...value });
+				await addCustomerMutation.mutateAsync({ ...value });
 				form.reset();
 				toast.add({ title: "Customer added successfully", type: "success" });
 			} catch (err) {

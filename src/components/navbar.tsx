@@ -8,21 +8,22 @@ import { Popover } from "~primitives/popover";
 import { UserIcon, SettingsIcon, SignOutIcon } from "icons";
 import { useCurrentUser } from "~/hooks/use-current-user";
 import { MobileSidebarTrigger } from "./sidebar";
-import { authClient } from "~/auth-client.ts";
+import { createSupabaseBrowserClient } from "~/lib/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Navbar = () => {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { user } = useCurrentUser();
 
 	const handleSignOut = async () => {
-		await authClient.signOut({
-			fetchOptions: {
-				onSuccess: () => {
-					void navigate({ to: "/sign-in" });
-				},
-			},
-		});
+		const supabase = createSupabaseBrowserClient();
+		await supabase.auth.signOut();
+
+		queryClient.clear();
+
+		void navigate({ to: "/sign-in" });
 	};
 
 	return (

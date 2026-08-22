@@ -3,23 +3,18 @@ import { Input, Field, Label } from "~components/input";
 import { toast } from "sonner";
 import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router";
 import type { LinkOptions } from "@tanstack/react-router";
-import { ConvexError } from "convex/values";
 import { useState } from "react";
 import type { SubmitEvent } from "react";
 
 import { Logo } from "~/components/logo";
 import { Image } from "@unpic/react";
-import { authClient } from "~/auth-client.ts";
+import { createSupabaseBrowserClient } from "~/lib/supabase/client";
 
 export const Route = createFileRoute("/_auth/sign-in")({
 	component: RouteComponent,
 });
 
-const INVALID_PASSWORD = "INVALID_PASSWORD";
-
 function RouteComponent() {
-
-
 	const location = useLocation();
 
 	const callbackUrl = location.search as Record<"redirect", LinkOptions["to"]>;
@@ -34,8 +29,15 @@ function RouteComponent() {
 
 			const formData = new FormData(event.currentTarget);
 
-			await authClient.signIn.email({ email: formData.get("email") as string, password: formData.get("password") as string });
+			const supabase = createSupabaseBrowserClient();
+			const { error } = await supabase.auth.signInWithPassword({
+				email: formData.get("email") as string,
+				password: formData.get("password") as string,
+			});
 
+			if (error) {
+				throw error;
+			}
 
 			if (callbackUrl.redirect) {
 				await navigate({ to: callbackUrl.redirect });
@@ -45,8 +47,8 @@ function RouteComponent() {
 		} catch (err) {
 			let toastTitle;
 
-			if (err instanceof ConvexError && err.data === INVALID_PASSWORD) {
-				toastTitle = "Invalid password - check the requirements and try again.";
+			if (err instanceof Error && err.name === "AuthApiError") {
+				toastTitle = err.message;
 			} else {
 				toastTitle = "Could not sign in";
 			}

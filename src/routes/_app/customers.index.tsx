@@ -1,16 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "convex/react";
 import { CustomersTable, EmptyCustomers } from "~/components/customers-table";
-import { api } from "~convex/_generated/api";
+import { useActiveCustomers } from "~/hooks/use-customers";
 
 export const Route = createFileRoute("/_app/customers/")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const customers = useQuery(api.customers.listActiveCustomers);
+	const { data: customers, isPending } = useActiveCustomers();
 
-	if (customers === undefined) {
+	if (isPending || customers === undefined) {
 		return <div>Loading...</div>;
 	}
 
