@@ -13,7 +13,7 @@ export default defineConfig({
 		tsconfigPaths: true,
 	},
 	ssr: {
-		noExternal: ["@convex-dev/better-auth", "@convex-dev/better-auth/plugins/oidc-provider"],
+		noExternal: ["@convex-dev/better-auth", "react", "react-dom"],
 	},
 	plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact(), nitro()],
 });
