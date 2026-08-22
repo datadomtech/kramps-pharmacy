@@ -4,7 +4,7 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"dev": "convex dev --start 'vite dev --port 4000 --host pharmacy.localhost'",
+		"dev": "convex dev --start 'vite dev'",
 		"build": "vite build && tsc --noEmit",
 		"preview": "vite preview",
 		"start": "node .output/server/index.mjs",

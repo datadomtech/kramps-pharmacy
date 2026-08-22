@@ -101,7 +101,7 @@ export function SidebarContent({ className, render, ...props }: useRender.Compon
 		render,
 		props: {
 			"data-slot": "sidebar-content",
-			className: cn("flex h-full flex-col gap-2.5 overflow-y-auto dark:scheme-dark", className),
+			className: cn("flex h-full flex-col gap-2.5 overflow-y-auto", className),
 			...props,
 		},
 	});
@@ -201,7 +201,7 @@ export function SidebarItemButton({
 				"data-popup-open:bg-accent",
 				"disabled:cursor-not-allowed disabled:opacity-70",
 				expandableIndicator && [
-					"data-expandable:after:bg-chevron-down-dark data-expandable:after:ml-auto data-expandable:after:size-4 dark:data-expandable:after:bg-chevron-down",
+					"data-expandable:after:bg-chevron-down-dark data-expandable:after:ml-auto data-expandable:after:size-4",
 					"data-expandable:after:transition-transform data-expandable:after:duration-100",
 					"data-expandable:data-[panel-open]:after:rotate-180",
 				],

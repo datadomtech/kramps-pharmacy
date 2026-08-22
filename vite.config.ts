@@ -13,7 +13,7 @@ export default defineConfig({
 		tsconfigPaths: true,
 	},
 	ssr: {
-		noExternal: ["@convex-dev/better-auth", "better-auth"],
+		noExternal: ["@convex-dev/better-auth", "better-auth", "@base-ui/react"],
 	},
-	plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact(), nitro()],
+	plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact(), nitro({ preset: 'vercel'})],
 });
