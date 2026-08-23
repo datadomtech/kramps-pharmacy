@@ -3,6 +3,7 @@ export { BagIcon } from "./bag.tsx";
 export { BuildingIcon } from "./building.tsx";
 export { CartIcon } from "./cart.tsx";
 export { ChartIcon } from "./chart.tsx";
+export { CheckIcon } from "./check.tsx";
 export { ClipboardCheckIcon } from "./clipboard-check.tsx";
 export { CogIcon } from "./cog.tsx";
 export { DashboardIcon } from "./dashboard.tsx";

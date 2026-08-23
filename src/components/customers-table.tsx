@@ -16,8 +16,15 @@ type EmptyCustomersProps = {
 };
 
 export const EmptyCustomers = ({ ...props }: EmptyCustomersProps) => (
-	<div className="mx-auto w-full max-w-sm space-y-4 py-20 text-center">
-		<Image src="/assets/no-active-customers.png" alt="" className="mx-auto h-auto w-full" layout="constrained" width={192} height={192} />
+	<div className="mx-auto w-full space-y-4 py-20 text-center">
+		<Image
+			src="/assets/no-active-customers.png"
+			alt=""
+			className="mx-auto h-auto w-full max-w-sm"
+			layout="constrained"
+			width={192}
+			height={192}
+		/>
 
 		<div className="space-y-1">
 			<h2 className="text-base font-medium text-emerald-900">{props.title}</h2>

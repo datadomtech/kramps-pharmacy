@@ -59,8 +59,8 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name, onClick }: SidebarRouteP
 export const mobileSidebarHandle = Dialog.createHandle();
 
 const dailyOperationsRoutes: Array<SidebarRouteProps> = [
-	{ id: 1, name: "Sales", icon: BagIcon, href: "/" },
-	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/" },
+	{ id: 1, name: "Sales", icon: BagIcon, href: "/sales" },
+	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/prescriptions" },
 ];
 
 // oxfmt-ignore
@@ -72,18 +72,18 @@ const customerRoutes: Array<SidebarRouteProps> = [
 
 const inventoryRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Inventory", icon: DatabaseIcon, href: "/inventory" },
-	{ id: 2, name: "Expiry Tracker", icon: TimerIcon, href: "/" },
-	{ id: 3, name: "Products", icon: InboxInIcon, href: "/products" }, // TODO: Come back again to this is purchase
+	{ id: 2, name: "Expiry Tracker", icon: TimerIcon, href: "/expiry-tracker" },
+	{ id: 3, name: "Products", icon: InboxInIcon, href: "/products" },
 	// order is
 	// really important or needed in this section
-	{ id: 4, name: "Suppliers", icon: BuildingIcon, href: "/" },
-	{ id: 5, name: "Reports", icon: ChartIcon, href: "/" },
+	{ id: 4, name: "Suppliers", icon: BuildingIcon, href: "/suppliers" },
+	{ id: 5, name: "Reports", icon: ChartIcon, href: "/reports" },
 ];
 
 const adminRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Staff", icon: IdIcon, href: "/staff" },
-	{ id: 2, name: "Permissions", icon: LockIcon, href: "/" },
-	{ id: 3, name: "Settings", icon: CogIcon, href: "/" },
+	{ id: 2, name: "Permissions", icon: LockIcon, href: "/permissions" },
+	{ id: 3, name: "Settings", icon: CogIcon, href: "/settings" },
 ];
 
 export const Sidebar = () => (
@@ -102,10 +102,13 @@ export const Sidebar = () => (
 				</div>
 			</SidebarGroup>
 
-			<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none">
+			<Link
+				to="/pos"
+				className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none"
+			>
 				<CartIcon className="size-4.5 fill-brand/10 stroke-logo" />
 				Point of Sale
-			</Button>
+			</Link>
 
 			<SidebarGroup className="mt-4 font-medium backdrop-blur-md lg:bg-transparent lg:px-0 lg:text-emerald-900">
 				{dailyOperationsRoutes.map((route) => (

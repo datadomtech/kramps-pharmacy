@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_app/inventory")({
 
 function RouteComponent() {
 	return (
-		<div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+		<div className="flex w-full flex-col gap-6 lg:flex-row lg:items-start">
 			<Inventory />
 			<aside className="space-y-6 xl:w-96">
 				<DosageForms />

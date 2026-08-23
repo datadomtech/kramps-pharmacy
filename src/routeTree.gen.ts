@@ -12,15 +12,26 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppExpiryTrackerRouteImport } from './routes/_app/expiry-tracker'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
+import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
+import { Route as AppPosRouteImport } from './routes/_app/pos'
+import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
+import { Route as AppReportsRouteImport } from './routes/_app/reports'
+import { Route as AppSalesRouteImport } from './routes/_app/sales'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppStaffRouteImport } from './routes/_app/staff'
 import { Route as AuthSignInRouteImport } from './routes/_auth.sign-in'
 import { Route as AppCustomersIndexRouteImport } from './routes/_app/customers.index'
 import { Route as AppCustomersBlacklistRouteImport } from './routes/_app/customers.blacklist'
 import { Route as AppCustomersNewRouteImport } from './routes/_app/customers.new'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products.index'
-import { Route as AppProductsProductIdRouteImport } from './routes/_app/products.$productId'
 import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
+import { Route as AppSuppliersIndexRouteImport } from './routes/_app/suppliers.index'
+import { Route as AppSuppliersNewRouteImport } from './routes/_app/suppliers.new'
+import { Route as AppProductsProductIdIndexRouteImport } from './routes/_app/products.$productId.index'
+import { Route as AppProductsProductIdEditRouteImport } from './routes/_app/products.$productId.edit'
+import { Route as AppSuppliersSupplierIdEditRouteImport } from './routes/_app/suppliers.$supplierId.edit'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/_app',
@@ -35,9 +46,44 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppExpiryTrackerRoute = AppExpiryTrackerRouteImport.update({
+  id: '/expiry-tracker',
+  path: '/expiry-tracker',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppInventoryRoute = AppInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPermissionsRoute = AppPermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPosRoute = AppPosRouteImport.update({
+  id: '/pos',
+  path: '/pos',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPrescriptionsRoute = AppPrescriptionsRouteImport.update({
+  id: '/prescriptions',
+  path: '/prescriptions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSalesRoute = AppSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppStaffRoute = AppStaffRouteImport.update({
@@ -70,99 +116,188 @@ const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppProductsProductIdRoute = AppProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppProductsNewRoute = AppProductsNewRouteImport.update({
   id: '/products/new',
   path: '/products/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppSuppliersIndexRoute = AppSuppliersIndexRouteImport.update({
+  id: '/suppliers/',
+  path: '/suppliers/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSuppliersNewRoute = AppSuppliersNewRouteImport.update({
+  id: '/suppliers/new',
+  path: '/suppliers/new',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppProductsProductIdIndexRoute =
+  AppProductsProductIdIndexRouteImport.update({
+    id: '/products/$productId/',
+    path: '/products/$productId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppProductsProductIdEditRoute =
+  AppProductsProductIdEditRouteImport.update({
+    id: '/products/$productId/edit',
+    path: '/products/$productId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppSuppliersSupplierIdEditRoute =
+  AppSuppliersSupplierIdEditRouteImport.update({
+    id: '/suppliers/$supplierId/edit',
+    path: '/suppliers/$supplierId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
+  '/permissions': typeof AppPermissionsRoute
+  '/pos': typeof AppPosRoute
+  '/prescriptions': typeof AppPrescriptionsRoute
+  '/reports': typeof AppReportsRoute
+  '/sales': typeof AppSalesRoute
+  '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
-  '/products/$productId': typeof AppProductsProductIdRoute
   '/products/new': typeof AppProductsNewRoute
+  '/suppliers/new': typeof AppSuppliersNewRoute
   '/customers/': typeof AppCustomersIndexRoute
   '/products/': typeof AppProductsIndexRoute
+  '/suppliers/': typeof AppSuppliersIndexRoute
+  '/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/products/$productId/': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
+  '/permissions': typeof AppPermissionsRoute
+  '/pos': typeof AppPosRoute
+  '/prescriptions': typeof AppPrescriptionsRoute
+  '/reports': typeof AppReportsRoute
+  '/sales': typeof AppSalesRoute
+  '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
-  '/products/$productId': typeof AppProductsProductIdRoute
   '/products/new': typeof AppProductsNewRoute
+  '/suppliers/new': typeof AppSuppliersNewRoute
   '/customers': typeof AppCustomersIndexRoute
   '/products': typeof AppProductsIndexRoute
+  '/suppliers': typeof AppSuppliersIndexRoute
+  '/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/products/$productId': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/expiry-tracker': typeof AppExpiryTrackerRoute
   '/_app/inventory': typeof AppInventoryRoute
+  '/_app/permissions': typeof AppPermissionsRoute
+  '/_app/pos': typeof AppPosRoute
+  '/_app/prescriptions': typeof AppPrescriptionsRoute
+  '/_app/reports': typeof AppReportsRoute
+  '/_app/sales': typeof AppSalesRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/staff': typeof AppStaffRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
-  '/_app/products/$productId': typeof AppProductsProductIdRoute
   '/_app/products/new': typeof AppProductsNewRoute
+  '/_app/suppliers/new': typeof AppSuppliersNewRoute
   '/_app/customers/': typeof AppCustomersIndexRoute
   '/_app/products/': typeof AppProductsIndexRoute
+  '/_app/suppliers/': typeof AppSuppliersIndexRoute
+  '/_app/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/_app/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/_app/products/$productId/': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/expiry-tracker'
     | '/inventory'
+    | '/permissions'
+    | '/pos'
+    | '/prescriptions'
+    | '/reports'
+    | '/sales'
+    | '/settings'
     | '/staff'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
-    | '/products/$productId'
     | '/products/new'
+    | '/suppliers/new'
     | '/customers/'
     | '/products/'
+    | '/suppliers/'
+    | '/products/$productId/edit'
+    | '/suppliers/$supplierId/edit'
+    | '/products/$productId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
+    | '/expiry-tracker'
     | '/inventory'
+    | '/permissions'
+    | '/pos'
+    | '/prescriptions'
+    | '/reports'
+    | '/sales'
+    | '/settings'
     | '/staff'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
-    | '/products/$productId'
     | '/products/new'
+    | '/suppliers/new'
     | '/customers'
     | '/products'
+    | '/suppliers'
+    | '/products/$productId/edit'
+    | '/suppliers/$supplierId/edit'
+    | '/products/$productId'
   id:
     | '__root__'
     | '/_app'
     | '/_auth'
     | '/_app/dashboard'
+    | '/_app/expiry-tracker'
     | '/_app/inventory'
+    | '/_app/permissions'
+    | '/_app/pos'
+    | '/_app/prescriptions'
+    | '/_app/reports'
+    | '/_app/sales'
+    | '/_app/settings'
     | '/_app/staff'
     | '/_auth/sign-in'
     | '/_app/customers/blacklist'
     | '/_app/customers/new'
-    | '/_app/products/$productId'
     | '/_app/products/new'
+    | '/_app/suppliers/new'
     | '/_app/customers/'
     | '/_app/products/'
+    | '/_app/suppliers/'
+    | '/_app/products/$productId/edit'
+    | '/_app/suppliers/$supplierId/edit'
+    | '/_app/products/$productId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -193,11 +328,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/expiry-tracker': {
+      id: '/_app/expiry-tracker'
+      path: '/expiry-tracker'
+      fullPath: '/expiry-tracker'
+      preLoaderRoute: typeof AppExpiryTrackerRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/inventory': {
       id: '/_app/inventory'
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof AppInventoryRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/permissions': {
+      id: '/_app/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof AppPermissionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/pos': {
+      id: '/_app/pos'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof AppPosRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/prescriptions': {
+      id: '/_app/prescriptions'
+      path: '/prescriptions'
+      fullPath: '/prescriptions'
+      preLoaderRoute: typeof AppPrescriptionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/reports': {
+      id: '/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/sales': {
+      id: '/_app/sales'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof AppSalesRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/staff': {
@@ -242,13 +426,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/products/$productId': {
-      id: '/_app/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof AppProductsProductIdRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/_app/products/new': {
       id: '/_app/products/new'
       path: '/products/new'
@@ -256,31 +433,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsNewRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/suppliers/': {
+      id: '/_app/suppliers/'
+      path: '/suppliers'
+      fullPath: '/suppliers/'
+      preLoaderRoute: typeof AppSuppliersIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers/new': {
+      id: '/_app/suppliers/new'
+      path: '/suppliers/new'
+      fullPath: '/suppliers/new'
+      preLoaderRoute: typeof AppSuppliersNewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/products/$productId/': {
+      id: '/_app/products/$productId/'
+      path: '/products/$productId'
+      fullPath: '/products/$productId/'
+      preLoaderRoute: typeof AppProductsProductIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/products/$productId/edit': {
+      id: '/_app/products/$productId/edit'
+      path: '/products/$productId/edit'
+      fullPath: '/products/$productId/edit'
+      preLoaderRoute: typeof AppProductsProductIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers/$supplierId/edit': {
+      id: '/_app/suppliers/$supplierId/edit'
+      path: '/suppliers/$supplierId/edit'
+      fullPath: '/suppliers/$supplierId/edit'
+      preLoaderRoute: typeof AppSuppliersSupplierIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppExpiryTrackerRoute: typeof AppExpiryTrackerRoute
   AppInventoryRoute: typeof AppInventoryRoute
+  AppPermissionsRoute: typeof AppPermissionsRoute
+  AppPosRoute: typeof AppPosRoute
+  AppPrescriptionsRoute: typeof AppPrescriptionsRoute
+  AppReportsRoute: typeof AppReportsRoute
+  AppSalesRoute: typeof AppSalesRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppStaffRoute: typeof AppStaffRoute
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
-  AppProductsProductIdRoute: typeof AppProductsProductIdRoute
   AppProductsNewRoute: typeof AppProductsNewRoute
+  AppSuppliersNewRoute: typeof AppSuppliersNewRoute
   AppCustomersIndexRoute: typeof AppCustomersIndexRoute
   AppProductsIndexRoute: typeof AppProductsIndexRoute
+  AppSuppliersIndexRoute: typeof AppSuppliersIndexRoute
+  AppProductsProductIdEditRoute: typeof AppProductsProductIdEditRoute
+  AppSuppliersSupplierIdEditRoute: typeof AppSuppliersSupplierIdEditRoute
+  AppProductsProductIdIndexRoute: typeof AppProductsProductIdIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppExpiryTrackerRoute: AppExpiryTrackerRoute,
   AppInventoryRoute: AppInventoryRoute,
+  AppPermissionsRoute: AppPermissionsRoute,
+  AppPosRoute: AppPosRoute,
+  AppPrescriptionsRoute: AppPrescriptionsRoute,
+  AppReportsRoute: AppReportsRoute,
+  AppSalesRoute: AppSalesRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppStaffRoute: AppStaffRoute,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
-  AppProductsProductIdRoute: AppProductsProductIdRoute,
   AppProductsNewRoute: AppProductsNewRoute,
+  AppSuppliersNewRoute: AppSuppliersNewRoute,
   AppCustomersIndexRoute: AppCustomersIndexRoute,
   AppProductsIndexRoute: AppProductsIndexRoute,
+  AppSuppliersIndexRoute: AppSuppliersIndexRoute,
+  AppProductsProductIdEditRoute: AppProductsProductIdEditRoute,
+  AppSuppliersSupplierIdEditRoute: AppSuppliersSupplierIdEditRoute,
+  AppProductsProductIdIndexRoute: AppProductsProductIdIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
