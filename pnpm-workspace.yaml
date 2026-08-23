@@ -1,11 +1,11 @@
 onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - esbuild
-  - unrs-resolver
+    - "@tailwindcss/oxide"
+    - esbuild
+    - unrs-resolver
 
 overrides:
-  vite: 8.1.5
+    vite: 8.1.5
 
 peerDependencyRules:
-  allowedVersions:
-    tsconfck: 6.0.3
+    allowedVersions:
+        tsconfck: 6.0.3

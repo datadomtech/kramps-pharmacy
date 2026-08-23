@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && tsc --noEmit",
-		"preview": "vite preview",
+		"preview": "vite build && vite preview",
 		"start": "node .output/server/index.mjs",
 		"format": "oxfmt",
 		"format:check": "oxfmt --check",

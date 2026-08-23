@@ -11,7 +11,7 @@ export const buttonVariants = cva(
 		"after:absolute after:inset-0 after:bg-white/15 after:opacity-0 hover:not-[[data-disabled]]:after:opacity-100",
 		"after:transition-opacity active:not-[[data-disabled]]:after:opacity-100 data-popup-open:after:opacity-100",
 		"focus:outline-0 focus-visible:outline-2 focus-visible:outline-offset-2",
-		"before:bg-spinner before:-mr-7 before:size-4.5 before:scale-20 before:opacity-0 before:transition-[opacity,scale,margin-right]",
+		"before:-mr-7 before:size-4.5 before:scale-20 before:bg-spinner before:opacity-0 before:transition-[opacity,scale,margin-right]",
 		"[&>svg]:opacity-100 [&>svg]:transition-[opacity,scale,margin-right] [&>svg:not([class*=text-])]:text-current",
 		"data-disabled:cursor-not-allowed data-disabled:opacity-70",
 	],
@@ -20,35 +20,35 @@ export const buttonVariants = cva(
 			variant: {
 				primary: [
 					"bg-primary text-primary-foreground",
-					"ring-primary-border ring",
+					"ring ring-primary-border",
 					"shadow inset-shadow-2xs inset-shadow-white/15",
 					"outline-primary after:rounded",
 				],
 				secondary: [
 					"bg-secondary text-secondary-foreground",
-					"ring-secondary-border ring",
+					"ring ring-secondary-border",
 					"shadow inset-shadow-2xs inset-shadow-white/15",
 					"outline-secondary after:rounded",
 				],
 				tertiary: [
 					"bg-tertiary text-tertiary-foreground",
-					"ring-tertiary-border ring",
-					"inset-shadow-background/15 shadow inset-shadow-2xs",
-					"after:bg-background/10 focus-visible:outline-tertiary after:rounded",
+					"ring ring-tertiary-border",
+					"shadow inset-shadow-2xs inset-shadow-background/15",
+					"after:rounded after:bg-background/10 focus-visible:outline-tertiary",
 				],
 				danger: [
 					"bg-danger text-danger-foreground",
-					"ring-danger-border ring",
+					"ring ring-danger-border",
 					"shadow inset-shadow-2xs inset-shadow-white/15",
 					"outline-danger after:rounded",
 				],
 				outline: [
 					"text-foreground shadow",
-					"ring-border hover:not-[[data-disabled]]:bg-accent data-popup-open:bg-accent active:not-[[data-disabled]]:bg-accent ring",
+					"ring ring-border hover:not-[[data-disabled]]:bg-accent active:not-[[data-disabled]]:bg-accent data-popup-open:bg-accent",
 					"outline-primary after:content-none",
 				],
 				plain: [
-					"text-foreground hover:not-[[data-disabled]]:bg-accent data-popup-open:bg-accent active:not-[[data-disabled]]:bg-accent",
+					"text-foreground hover:not-[[data-disabled]]:bg-accent active:not-[[data-disabled]]:bg-accent data-popup-open:bg-accent",
 					"outline-primary after:content-none",
 				],
 			},
@@ -71,7 +71,7 @@ export const buttonVariants = cva(
 			progress: {
 				true: [
 					"pointer-events-none cursor-progress opacity-70 [&>svg]:-mr-7 [&>svg]:scale-0 [&>svg]:opacity-0",
-					"before:bg-spinner before:mr-0 before:size-4.5 before:scale-100 before:animate-spin before:opacity-100",
+					"before:mr-0 before:size-4.5 before:scale-100 before:animate-spin before:bg-spinner before:opacity-100",
 				],
 			},
 		},

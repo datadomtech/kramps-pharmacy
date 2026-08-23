@@ -148,7 +148,7 @@ const DosageForm = ({ ...props }: DosageFormProps) => {
 					props.onCloseDosageForm();
 					toast.add({ title: "Dosage form added successfully", type: "success" });
 				} catch (err) {
-					console.error("failed to add dosage form", err)
+					console.error("failed to add dosage form", err);
 					toast.add({ title: "Failed to add dosage form", type: "error" });
 				}
 			}
