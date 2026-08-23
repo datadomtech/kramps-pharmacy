@@ -64,6 +64,7 @@ const AddCustomerForm = () => {
 				form.reset();
 				toast.add({ title: "Customer added successfully", type: "success" });
 			} catch (err) {
+				console.error("failed to add customer", err);
 				toast.add({ title: err instanceof Error ? err.name : "Something went wrong", type: "error" });
 			}
 		},
@@ -144,8 +145,9 @@ const AddCustomerForm = () => {
 							Email Address
 						</Label>
 						<Input
-							type="text"
+							type="email"
 							autoComplete="work email"
+							inputMode="email"
 							id={field.name}
 							name={field.name}
 							placeholder="Something meaningful for you to recognize"
