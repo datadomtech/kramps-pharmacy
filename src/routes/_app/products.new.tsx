@@ -1,13 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { api } from "~convex/_generated/api";
 import { toastManager as toast } from "~selia/toast";
 import { useForm } from "@tanstack/react-form";
 import { Field, Fieldset, Input, Label, Legend, Radio, RadioGroup, RadioIndicator, TextArea } from "~input";
 import { Button } from "~primitives/button";
 
-import type { Doc, Id } from "~convex/_generated/dataModel";
-import type { WithoutSystemFields } from "convex/server";
-import { useMutation, useQuery } from "convex/react";
+import type { Product } from "~/lib/types";
+import { useAddProduct } from "~/hooks/use-products";
+import { useDosageForms } from "~/hooks/use-dosage-forms";
 import { OpenLinkIcon } from "~icons/open-link.tsx";
 
 export const Route = createFileRoute("/_app/products/new")({
@@ -24,7 +23,7 @@ function RouteComponent() {
 }
 
 type ProductFormSchema = Pick<
-	WithoutSystemFields<Doc<"products">>,
+	Product,
 	"name" | "dosageFormId" | "brandName" | "genericName" | "barCodeNumber" | "description" | "manufacturer" | "imageUrl"
 >;
 
@@ -34,13 +33,14 @@ const addProductDefaultValues: ProductFormSchema = {
 	barCodeNumber: "",
 	description: "",
 	genericName: "",
-	dosageFormId: "" as Id<"dosage_forms">,
+	dosageFormId: "",
 	imageUrl: "",
 	manufacturer: "",
 };
 
 const NewProductForm = () => {
-	const addProduct = useMutation(api.products.addProduct);
+	const { data: dosageForms } = useDosageForms();
+	const addProductMutation = useAddProduct();
 
 	const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const NewProductForm = () => {
 		defaultValues: addProductDefaultValues,
 		onSubmit: async ({ value }) => {
 			try {
-				const product = await addProduct(value);
+				const product = await addProductMutation.mutateAsync(value);
 				form.reset();
 
 				toast.add({
@@ -69,8 +69,6 @@ const NewProductForm = () => {
 			}
 		},
 	});
-
-	const dosageForms = useQuery(api.dosageForms.listDosageForms, {});
 
 	return (
 		<form
@@ -194,20 +192,16 @@ const NewProductForm = () => {
 							{dosageForms === undefined
 								? null
 								: dosageForms
-										?.sort((a, b) => (a.name > b.name ? 1 : 0))
+										.sort((a, b) => (a.name > b.name ? 1 : 0))
 										.map((df) => (
-											<Radio
-												key={df._id.toString()}
-												value={df._id as string}
-												className="card group relative z-10 flex flex-col"
-											>
+											<Radio key={df.id} value={df.id} className="card group relative z-10 flex flex-col">
 												<div className="flex items-center">
 													<Label className="mb-1 flex items-center gap-2 text-base group-hover:text-green-700 md:text-lg">
 														{df.name}
 													</Label>
 													<Link
 														to="/inventory"
-														hash={encodeURIComponent(df._id)}
+														hash={encodeURIComponent(df.id)}
 														className="-translate-x-4 opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100"
 													>
 														<OpenLinkIcon className="pointer-events-none size-4" />

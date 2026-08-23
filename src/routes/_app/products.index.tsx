@@ -2,9 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { LinkOptions } from "@tanstack/react-router";
 import { EmptyCustomers } from "~/components/customers-table.tsx";
 
-import { api } from "~convex/_generated/api";
-import { useQuery } from "convex/react";
-import type { Product } from "~/components/products-table.tsx";
+import type { Product } from "~/lib/types";
+import { useProducts } from "~/hooks/use-products";
 import { ActiveProductsTable, InactiveProductsTable } from "~/components/products-table.tsx";
 
 export const Route = createFileRoute("/_app/products/")({
@@ -25,9 +24,9 @@ const routeLinks: Array<{ id: number; name: string; link: Pick<LinkOptions, "to"
 ];
 
 function RouteComponent() {
-	const products = useQuery(api.products.listProducts);
+	const { data: products, isPending } = useProducts();
 
-	if (products === undefined) {
+	if (isPending || products === undefined) {
 		return <div>Loading...</div>;
 	}
 	return (

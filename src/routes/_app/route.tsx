@@ -1,21 +1,15 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { Navbar } from "~/components/navbar";
 import { MobileSidebar, Sidebar } from "~/components/sidebar";
-// import { convexQuery } from "@convex-dev/react-query";
-// import { api } from "~convex/_generated/api";
 
 export const Route = createFileRoute("/_app")({
-	// beforeLoad: async ({ context }) => {
-	// 	const user = await context.queryClient.ensureQueryData(convexQuery(api.auth.getCurrentUser, {}));
-	//
-	// 	console.dir({ userInApp: user });
-	//
-	// 	if (!user) {
-	// 		throw redirect({ to: "/sign-in" });
-	// 	}
-	//
-	// 	return user;
-	// },
+	beforeLoad: ({ context }) => {
+		if (!context.session) {
+			throw redirect({ to: "/sign-in" });
+		}
+
+		return { session: context.session };
+	},
 	component: RouteComponent,
 });
 

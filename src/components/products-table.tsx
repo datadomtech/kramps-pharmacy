@@ -1,8 +1,6 @@
 import { createColumnHelper, tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { FunctionReturnType } from "convex/server";
-// oxlint-disable-next-line typescript/consistent-type-imports
-import { api } from "~convex/_generated/api";
+import type { Product } from "~/lib/types";
 import { DateTooltip } from "./tooltip";
 import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
@@ -12,8 +10,6 @@ import { Image } from "@unpic/react";
 const productsTableFeatures = tableFeatures({
 	// coreRowModel: coreRowModelsFeature,
 });
-
-export type Product = FunctionReturnType<typeof api.products.listProducts>[0];
 
 const cth = createColumnHelper<typeof productsTableFeatures, Product>();
 
@@ -25,7 +21,7 @@ const productsTableColumns = [
 				<span className="size-10 overflow-hidden rounded-xl bg-emerald-200 ring-1 ring-green-300 ring-inset">
 					<Image
 						src={row.original.imageUrl ? row.original.imageUrl : "/logo.png"}
-						alt={row.original.imageUrl}
+						alt={row.original.imageUrl ?? undefined}
 						layout="fixed"
 						height={40}
 						aspectRatio={1}
@@ -61,12 +57,12 @@ const productsTableColumns = [
 				viewTransition={true}
 				className="inline-flex items-center justify-start"
 			>
-				<span className="text-sm text-btn font-btn">{info.row.original.dosageForm?.name?.toLocaleLowerCase("en-GB")}</span>
+				<span className="text-sm text-btn font-btn">{info.row.original.dosageForm?.name.toLocaleLowerCase("en-GB")}</span>
 			</Link>
 		),
 	}),
 
-	cth.accessor((row) => row._creationTime, {
+	cth.accessor((row) => row.createdAt, {
 		header: "Added At",
 		cell: (info) => <DateTooltip date={new Date(info.getValue())} />,
 	}),
@@ -78,7 +74,7 @@ export const ActiveProductsTable = ({ activeProducts }: { activeProducts: Array<
 		features: productsTableFeatures,
 		data: activeProducts,
 		columns: productsTableColumns as Array<ColumnDef<typeof productsTableFeatures, Product>>,
-		getRowId: (row) => row._id,
+		getRowId: (row) => row.id,
 	});
 
 	useTanStackTableDevtools(activeProductsTable);
@@ -118,7 +114,7 @@ export const InactiveProductsTable = ({ inActiveProducts }: { inActiveProducts: 
 		features: productsTableFeatures,
 		data: inActiveProducts,
 		columns: productsTableColumns as Array<ColumnDef<typeof productsTableFeatures, Product>>,
-		getRowId: (row) => row._id,
+		getRowId: (row) => row.id,
 	});
 
 	useTanStackTableDevtools(inActiveProductsTable);
