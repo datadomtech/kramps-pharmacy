@@ -49,22 +49,20 @@ function RouteComponent() {
 	return (
 		<div className="card h-fit! w-full p-0! md:mx-auto md:my-6 lg:mt-8 lg:mb-0">
 			<div className="flex flex-row items-center justify-between px-4 py-4 lg:px-8">
-				<h2 className="text-dialog-header font-medium text-emerald-900">
-					{product.name}
-				</h2>
+				<h2 className="text-dialog-header font-medium text-emerald-900">{product.name}</h2>
 				<div className="flex items-center gap-x-2">
 					<Link
 						to="/products/$productId/edit"
 						params={{ productId: product.id }}
-						className="btn btn-secondary inline-flex font-semibold items-center gap-1.5 text-sm"
+						className="btn btn-secondary inline-flex items-center gap-1.5 text-sm font-semibold"
 					>
-						<EditIcon className="size-4 stroke-emerald-400 fill-transparent stroke-2" />
+						<EditIcon className="size-4 fill-transparent stroke-emerald-400 stroke-2" />
 						Edit
 					</Link>
 					<Button
 						type="button"
 						onClick={handleDelete}
-						className="btn btn-danger bg-red-400 gap-2 cursor-pointer text-sm text-white font-semibold"
+						className="btn btn-danger cursor-pointer gap-2 bg-red-400 text-sm font-semibold text-white"
 					>
 						<TrashIcon className="size-4 fill-transparent stroke-red-50 stroke-2" />
 						Delete
@@ -76,11 +74,7 @@ function RouteComponent() {
 				<div className="flex items-start gap-4 sm:col-span-2">
 					<span className="size-16 shrink-0 overflow-hidden rounded-xl bg-emerald-200 ring-1 ring-green-300 ring-inset">
 						<Image
-							src={
-								product.imageUrl
-									? product.imageUrl
-									: "/logo.png"
-							}
+							src={product.imageUrl ? product.imageUrl : "/logo.png"}
 							alt={product.imageUrl ?? undefined}
 							layout="fixed"
 							height={64}
@@ -89,13 +83,8 @@ function RouteComponent() {
 						/>
 					</span>
 					<div className="min-w-0">
-						<strong className="block truncate text-lg font-medium text-emerald-700 capitalize">
-							{product.name}
-						</strong>
-						<p
-							title={product.description ?? undefined}
-							className="text-base font-normal text-gray-500"
-						>
+						<strong className="block truncate text-lg font-medium text-emerald-700 capitalize">{product.name}</strong>
+						<p title={product.description ?? undefined} className="text-base font-normal text-gray-500">
 							{product.description}
 						</p>
 					</div>
@@ -103,23 +92,11 @@ function RouteComponent() {
 
 				<DetailField label="Brand Name" value={product.brandName} />
 				<DetailField label="Generic Name" value={product.genericName} />
-				<DetailField
-					label="Dosage Form"
-					value={product.dosageForm?.name}
-				/>
-				<DetailField
-					label="Manufacturer"
-					value={product.manufacturer}
-				/>
-				<DetailField
-					label="Bar Code Number"
-					value={product.barCodeNumber}
-				/>
+				<DetailField label="Dosage Form" value={product.dosageForm?.name} />
+				<DetailField label="Manufacturer" value={product.manufacturer} />
+				<DetailField label="Bar Code Number" value={product.barCodeNumber} />
 				<DetailField label="Supplier" value={product.supplier?.name} />
-				<DetailField
-					label="Quantity"
-					value={`${product.quantity} ${product.quantity === 1 ? "unit" : "units"}`}
-				/>
+				<DetailField label="Quantity" value={`${product.quantity} ${product.quantity === 1 ? "unit" : "units"}`} />
 
 				<div className="sm:col-span-2">
 					<h3 className="text-btn font-btn text-gray-500">Added</h3>
@@ -131,14 +108,10 @@ function RouteComponent() {
 
 				{product.updatedAt && (
 					<div className="sm:col-span-2">
-						<h3 className="text-btn font-btn text-gray-500">
-							Last Updated
-						</h3>
+						<h3 className="text-btn font-btn text-gray-500">Last Updated</h3>
 						<p className="mt-1">
 							{format(new Date(product.updatedAt), "PPPppp")}
-							{product.updatedBy
-								? ` by ${product.updatedBy.name}`
-								: ""}
+							{product.updatedBy ? ` by ${product.updatedBy.name}` : ""}
 						</p>
 					</div>
 				)}
@@ -147,13 +120,7 @@ function RouteComponent() {
 	);
 }
 
-const DetailField = ({
-	label,
-	value,
-}: {
-	label: string;
-	value: string | null | undefined;
-}) => (
+const DetailField = ({ label, value }: { label: string; value: string | null | undefined }) => (
 	<div>
 		<h3 className="text-btn font-btn text-gray-500">{label}</h3>
 		<p className="mt-1 capitalize">{value ?? "—"}</p>

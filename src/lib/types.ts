@@ -53,6 +53,7 @@ export type Product = {
 	supplierId: string | null;
 	supplier: { id: string; name: string } | null;
 	quantity: number;
+	price: number | null;
 	addedAt: string;
 	addedBy: UserInfo | null;
 	deactivatedBy: UserInfo | null;
@@ -88,4 +89,60 @@ export type SessionUser = {
 	email: string | null;
 	name: string | null;
 	phone: string | null;
+};
+
+export type FulfillmentType = "pickup" | "delivery";
+
+export type SaleStatus = "pending" | "completed" | "cancelled" | "refunded";
+
+export type PaymentMethod = "cash" | "momo" | "credit";
+
+export type InventoryBatch = {
+	id: string;
+	createdAt: string;
+	productId: string;
+	batchNumber: string | null;
+	quantityOnHand: number;
+	expiryDate: string | null;
+	receivedAt: string;
+	supplierId: string | null;
+	costPrice: number | null;
+};
+
+export type Sale = {
+	id: string;
+	createdAt: string;
+	customerId: string | null;
+	staffId: string;
+	staffName?: string | null;
+	fulfillmentType: FulfillmentType;
+	courierId: string | null;
+	courierName?: string | null;
+	deliveryAddress: string | null;
+	status: SaleStatus;
+	subtotal: number;
+	discount: number;
+	total: number;
+};
+
+export type SaleItem = {
+	id: string;
+	saleId: string;
+	productId: string;
+	inventoryBatchId: string | null;
+	dosageFormId: string | null;
+	quantity: number;
+	unitPrice: number;
+	lineTotal: number;
+};
+
+export type Payment = {
+	id: string;
+	saleId: string;
+	method: PaymentMethod;
+	amountPaid: number;
+	amountDue: number;
+	receivedBy: string;
+	reference: string | null;
+	paidAt: string;
 };

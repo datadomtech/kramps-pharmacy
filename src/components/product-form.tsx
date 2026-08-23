@@ -24,6 +24,7 @@ export type ProductFormSchema = Pick<
 	| "batchNumber"
 	| "supplierId"
 	| "quantity"
+	| "price"
 >;
 
 export const productFormDefaultValues: ProductFormSchema = {
@@ -39,6 +40,7 @@ export const productFormDefaultValues: ProductFormSchema = {
 	batchNumber: "",
 	supplierId: "",
 	quantity: 0,
+	price: 0,
 };
 
 type ProductFormProps = {
@@ -170,6 +172,27 @@ export const ProductForm = ({ defaultValues, submitLabel, onSubmit, showReset = 
 									step={1}
 									className="input-text"
 									value={field.state.value}
+									onChange={(event) =>
+										field.handleChange(Number.isNaN(event.target.valueAsNumber) ? 0 : Math.max(0, event.target.valueAsNumber))
+									}
+									onBlur={field.handleBlur}
+								/>
+							</Field>
+						)}
+					</form.Field>
+
+					<form.Field name="price">
+						{(field) => (
+							<Field className="md:col-span-1">
+								<Label htmlFor={field.name}>Price (GHS)</Label>
+								<input
+									id={field.name}
+									name={field.name}
+									type="number"
+									min={0}
+									step="0.01"
+									className="input-text"
+									value={field.state.value ?? 0}
 									onChange={(event) =>
 										field.handleChange(Number.isNaN(event.target.valueAsNumber) ? 0 : Math.max(0, event.target.valueAsNumber))
 									}

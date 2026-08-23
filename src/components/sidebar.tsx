@@ -102,10 +102,13 @@ export const Sidebar = () => (
 				</div>
 			</SidebarGroup>
 
-			<Button className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none">
+			<Link
+				to="/pos"
+				className="btn btn-brand mt-4 inline-flex w-full gap-2 font-medium shadow-none hover:text-white! focus:text-white lg:shadow-none"
+			>
 				<CartIcon className="size-4.5 fill-brand/10 stroke-logo" />
 				Point of Sale
-			</Button>
+			</Link>
 
 			<SidebarGroup className="mt-4 font-medium backdrop-blur-md lg:bg-transparent lg:px-0 lg:text-emerald-900">
 				{dailyOperationsRoutes.map((route) => (

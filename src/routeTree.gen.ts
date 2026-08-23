@@ -15,6 +15,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppExpiryTrackerRouteImport } from './routes/_app/expiry-tracker'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
+import { Route as AppPosRouteImport } from './routes/_app/pos'
 import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
 import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppSalesRouteImport } from './routes/_app/sales'
@@ -58,6 +59,11 @@ const AppInventoryRoute = AppInventoryRouteImport.update({
 const AppPermissionsRoute = AppPermissionsRouteImport.update({
   id: '/permissions',
   path: '/permissions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPosRoute = AppPosRouteImport.update({
+  id: '/pos',
+  path: '/pos',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppPrescriptionsRoute = AppPrescriptionsRouteImport.update({
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
   '/permissions': typeof AppPermissionsRoute
+  '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
   '/permissions': typeof AppPermissionsRoute
+  '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
@@ -198,6 +206,7 @@ export interface FileRoutesById {
   '/_app/expiry-tracker': typeof AppExpiryTrackerRoute
   '/_app/inventory': typeof AppInventoryRoute
   '/_app/permissions': typeof AppPermissionsRoute
+  '/_app/pos': typeof AppPosRoute
   '/_app/prescriptions': typeof AppPrescriptionsRoute
   '/_app/reports': typeof AppReportsRoute
   '/_app/sales': typeof AppSalesRoute
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/expiry-tracker'
     | '/inventory'
     | '/permissions'
+    | '/pos'
     | '/prescriptions'
     | '/reports'
     | '/sales'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/expiry-tracker'
     | '/inventory'
     | '/permissions'
+    | '/pos'
     | '/prescriptions'
     | '/reports'
     | '/sales'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/_app/expiry-tracker'
     | '/_app/inventory'
     | '/_app/permissions'
+    | '/_app/pos'
     | '/_app/prescriptions'
     | '/_app/reports'
     | '/_app/sales'
@@ -335,6 +347,13 @@ declare module '@tanstack/react-router' {
       path: '/permissions'
       fullPath: '/permissions'
       preLoaderRoute: typeof AppPermissionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/pos': {
+      id: '/_app/pos'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof AppPosRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/prescriptions': {
@@ -457,6 +476,7 @@ interface AppRouteRouteChildren {
   AppExpiryTrackerRoute: typeof AppExpiryTrackerRoute
   AppInventoryRoute: typeof AppInventoryRoute
   AppPermissionsRoute: typeof AppPermissionsRoute
+  AppPosRoute: typeof AppPosRoute
   AppPrescriptionsRoute: typeof AppPrescriptionsRoute
   AppReportsRoute: typeof AppReportsRoute
   AppSalesRoute: typeof AppSalesRoute
@@ -479,6 +499,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppExpiryTrackerRoute: AppExpiryTrackerRoute,
   AppInventoryRoute: AppInventoryRoute,
   AppPermissionsRoute: AppPermissionsRoute,
+  AppPosRoute: AppPosRoute,
   AppPrescriptionsRoute: AppPrescriptionsRoute,
   AppReportsRoute: AppReportsRoute,
   AppSalesRoute: AppSalesRoute,

@@ -34,14 +34,8 @@ function RouteComponent() {
 	return (
 		<div className="card my-2 w-full p-0! md:mx-auto md:my-6 lg:my-8">
 			<div className="flex flex-row items-center justify-between px-4 py-4 lg:px-8">
-				<h2 className="text-xl text-emerald-700 md:text-2xl">
-					Edit {product.name}
-				</h2>
-				<Link
-					to="/products/$productId"
-					params={{ productId: product.id }}
-					className="text-btn hover:text-emerald-600"
-				>
+				<h2 className="text-xl text-emerald-700 md:text-2xl">Edit {product.name}</h2>
+				<Link to="/products/$productId" params={{ productId: product.id }} className="text-btn hover:text-emerald-600">
 					View details
 				</Link>
 			</div>
@@ -59,6 +53,7 @@ function RouteComponent() {
 					batchNumber: product.batchNumber ?? "",
 					supplierId: product.supplierId ?? "",
 					quantity: product.quantity,
+					price: product.price ?? 0,
 				}}
 				submitLabel="Save changes"
 				onSubmit={async (value) => {
@@ -68,7 +63,7 @@ function RouteComponent() {
 					});
 
 					toast.success(`${value.name} updated successfully`, {
-						duration: 5000
+						duration: 5000,
 					});
 
 					void navigate({

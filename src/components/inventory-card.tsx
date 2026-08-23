@@ -34,10 +34,7 @@ const filterStyles: Record<InventoryFilter, { chip: string; dot: string }> = {
 function productStatus(product: Product, today: Date): Array<InventoryFilter> {
 	const statuses: Array<InventoryFilter> = [];
 
-	if (
-		product.expiryDate &&
-		isBefore(new Date(`${product.expiryDate}T00:00:00`), today)
-	) {
+	if (product.expiryDate && isBefore(new Date(`${product.expiryDate}T00:00:00`), today)) {
 		statuses.push("expired");
 	}
 	if (product.quantity <= 0) {
@@ -60,16 +57,11 @@ const statusDotStyles: Record<string, string> = {
 export const Inventory = () => {
 	const { data: products, isPending } = useProducts();
 	const [search, setSearch] = useState("");
-	const [activeFilters, setActiveFilters] = useState<Array<InventoryFilter>>(
-		[],
-	);
+	const [activeFilters, setActiveFilters] = useState<Array<InventoryFilter>>([]);
 
 	const today = startOfDay(new Date());
 
-	const inStockProducts = useMemo(
-		() => (products ?? []).filter((product) => !product.deletedAt),
-		[products],
-	);
+	const inStockProducts = useMemo(() => (products ?? []).filter((product) => !product.deletedAt), [products]);
 
 	const counts = useMemo(() => {
 		const result: Record<InventoryFilter, number> = {
@@ -93,9 +85,7 @@ export const Inventory = () => {
 		return inStockProducts.filter((product) => {
 			if (activeFilters.length > 0) {
 				const statuses = productStatus(product, today);
-				if (
-					!statuses.some((status) => activeFilters.includes(status))
-				) {
+				if (!statuses.some((status) => activeFilters.includes(status))) {
 					return false;
 				}
 			}
@@ -113,23 +103,17 @@ export const Inventory = () => {
 	}, [inStockProducts, search, activeFilters, today]);
 
 	const toggleFilter = (filter: InventoryFilter) =>
-		setActiveFilters((current) =>
-			current.includes(filter)
-				? current.filter((f) => f !== filter)
-				: [...current, filter],
-		);
+		setActiveFilters((current) => (current.includes(filter) ? current.filter((f) => f !== filter) : [...current, filter]));
 
 	return (
-		<main className="card min-w-0! w-full! p-0! flex-1!">
+		<main className="card w-full! min-w-0! flex-1! p-0!">
 			<header className="border-b border-solid border-gray-200 px-4 py-4">
 				<div className="flex flex-wrap items-stretch justify-between gap-4">
 					<div className="flex flex-col">
-						<h1 className="text-[1.5rem] font-semibold text-emerald-900">
-							Inventory
-						</h1>
+						<h1 className="text-[1.5rem] font-semibold text-emerald-900">Inventory</h1>
 						<div className="mt-auto flex items-center gap-2">
-							<span className="text-btn text-gray-600 flex items-center gap-1.5">
-								<span className="inline-flex items-center px-2 rounded-md bg-gray-100 text-gray-800 text-sm font-medium">
+							<span className="flex items-center gap-1.5 text-btn text-gray-600">
+								<span className="inline-flex items-center rounded-md bg-gray-100 px-2 text-sm font-medium text-gray-800">
 									{visibleProducts.length}
 								</span>
 								products
@@ -139,13 +123,10 @@ export const Inventory = () => {
 
 					<div className="flex flex-col items-end gap-4">
 						<div className="relative w-full sm:w-[320px]">
-							<label
-								htmlFor="inventory-search"
-								className="sr-only"
-							>
+							<label htmlFor="inventory-search" className="sr-only">
 								Search
 							</label>
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 								<SearchIcon className="size-5 fill-transparent stroke-emerald-400" />
 							</div>
 
@@ -162,9 +143,7 @@ export const Inventory = () => {
 
 						<div className="flex flex-wrap items-center gap-2">
 							{filters.map((filter) => {
-								const isActive = activeFilters.includes(
-									filter.id,
-								);
+								const isActive = activeFilters.includes(filter.id);
 								const styles = filterStyles[filter.id];
 
 								return (
@@ -182,9 +161,7 @@ export const Inventory = () => {
 										<span className="inline-flex h-4 min-w-4.5 items-center justify-center rounded-full bg-white/60 px-1 text-[10px] font-semibold">
 											{counts[filter.id]}
 										</span>
-										{isActive && (
-											<CheckIcon className="size-3.5" />
-										)}
+										{isActive && <CheckIcon className="size-3.5" />}
 									</button>
 								);
 							})}
@@ -193,46 +170,29 @@ export const Inventory = () => {
 				</div>
 			</header>
 
-			<ul
-				role="list"
-				className="relative z-0 divide-y divide-solid divide-gray-100"
-			>
+			<ul role="list" className="relative z-0 divide-y divide-solid divide-gray-100">
 				{isPending || products === undefined ? (
-					<li className="px-4 py-6 text-sm text-gray-500">
-						Loading...
-					</li>
+					<li className="px-4 py-6 text-sm text-gray-500">Loading...</li>
 				) : visibleProducts.length === 0 ? (
 					<NoResultsInventory />
 				) : (
 					visibleProducts.map((product) => {
 						const statuses = productStatus(product, today);
-						const dotColor =
-							statuses.length > 0
-								? statusDotStyles[statuses[0]]
-								: statusDotStyles.ok;
+						const dotColor = statuses.length > 0 ? statusDotStyles[statuses[0]] : statusDotStyles.ok;
 
 						return (
-							<li
-								key={product.id}
-								className="relative py-2 pr-6 pl-4 hover:bg-gray-50 sm:pl-6 lg:pl-8"
-							>
+							<li key={product.id} className="relative py-2 pr-6 pl-4 hover:bg-gray-50 sm:pl-6 lg:pl-8">
 								<div className="flex items-center justify-between gap-6">
 									<div className="min-w-0 flex-1">
 										<div className="flex items-center gap-3">
-											<span
-												className={cn(
-													"mr-1 inline-block size-2 shrink-0 rounded-full",
-													dotColor,
-												)}
-											/>
+											<span className={cn("mr-1 inline-block size-2 shrink-0 rounded-full", dotColor)} />
 
 											<div className="flex min-h-10 flex-col justify-center gap-0.5">
 												<h2 className="flex items-center gap-2 text-btn font-medium capitalize">
 													<Link
 														to="/products/$productId"
 														params={{
-															productId:
-																product.id,
+															productId: product.id,
 														}}
 														className="text-emerald-700 hover:text-emerald-600"
 													>
@@ -240,33 +200,12 @@ export const Inventory = () => {
 													</Link>
 												</h2>
 												<div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-sm text-gray-500">
-													<span>
-														{product.dosageForm?.name.toLocaleLowerCase(
-															"en-GB",
-														)}
-													</span>
-													{product.batchNumber && (
-														<span>
-															Batch{" "}
-															{
-																product.batchNumber
-															}
-														</span>
-													)}
+													<span>{product.dosageForm?.name.toLocaleLowerCase("en-GB")}</span>
+													{product.batchNumber && <span>Batch {product.batchNumber}</span>}
 													{product.expiryDate && (
-														<span>
-															Expires{" "}
-															{format(
-																new Date(
-																	`${product.expiryDate}T00:00:00`,
-																),
-																"d MMM yyyy",
-															)}
-														</span>
+														<span>Expires {format(new Date(`${product.expiryDate}T00:00:00`), "d MMM yyyy")}</span>
 													)}
-													{!product.isActive && (
-														<span>Inactive</span>
-													)}
+													{!product.isActive && <span>Inactive</span>}
 												</div>
 											</div>
 										</div>
@@ -275,15 +214,10 @@ export const Inventory = () => {
 									<div className="hidden shrink-0 flex-col items-end justify-center sm:flex">
 										<span
 											className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-												product.quantity <= 0
-													? "bg-yellow-50 text-yellow-700"
-													: "bg-emerald-100 text-emerald-800"
+												product.quantity <= 0 ? "bg-yellow-50 text-yellow-700" : "bg-emerald-100 text-emerald-800"
 											}`}
 										>
-											{product.quantity}{" "}
-											{product.quantity === 1
-												? "unit"
-												: "units"}
+											{product.quantity} {product.quantity === 1 ? "unit" : "units"}
 										</span>
 									</div>
 								</div>
@@ -297,16 +231,12 @@ export const Inventory = () => {
 };
 
 const NoResultsInventory = () => (
-	<li className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
+	<li className="relative py-5 pr-6 pl-4 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
 		<div className="text-center">
-			<SearchIcon className="mx-auto size-12 stroke-gray-400 fill-transparent" />
+			<SearchIcon className="mx-auto size-12 fill-transparent stroke-gray-400" />
 
-			<h3 className="mt-2 text-btn font-medium text-gray-900">
-				No results for your search
-			</h3>
-			<p className="mt-1 text-sm text-gray-500">
-				Your search is yielding no results, try lessening the filters.
-			</p>
+			<h3 className="mt-2 text-btn font-medium text-gray-900">No results for your search</h3>
+			<p className="mt-1 text-sm text-gray-500">Your search is yielding no results, try lessening the filters.</p>
 		</div>
 	</li>
 );

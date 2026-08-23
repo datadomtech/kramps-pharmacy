@@ -18,6 +18,7 @@ type ProductRow = {
 	batch_number: string | null;
 	supplier_id: string | null;
 	quantity: number;
+	price: number | null;
 	added_at: string;
 	added_by: string;
 	deactivated_by: string | null;
@@ -42,12 +43,13 @@ export type ProductInput = {
 	batchNumber?: string | null;
 	supplierId?: string | null;
 	quantity?: number;
+	price?: number | null;
 };
 
 type SupplierRef = { id: string; name: string };
 
 const productSelection =
-	"id, created_at, name, brand_name, generic_name, bar_code_number, dosage_form_id, description, image_url, manufacturer, is_active, expiry_date, batch_number, supplier_id, quantity, added_at, added_by, deactivated_by, updated_by, updated_at, deleted_by, deleted_at, dosage_forms ( id, name, description ), suppliers ( id, name )";
+	"id, created_at, name, brand_name, generic_name, bar_code_number, dosage_form_id, description, image_url, manufacturer, is_active, expiry_date, batch_number, supplier_id, quantity, price, added_at, added_by, deactivated_by, updated_by, updated_at, deleted_by, deleted_at, dosage_forms ( id, name, description ), suppliers ( id, name )";
 
 function toProduct(
 	row: ProductRow & {
@@ -77,6 +79,7 @@ function toProduct(
 		supplierId: row.supplier_id,
 		supplier,
 		quantity: row.quantity,
+		price: row.price === null ? null : Number(row.price),
 		addedAt: row.added_at,
 		addedBy: users.get(row.added_by) ?? null,
 		deactivatedBy: row.deactivated_by ? (users.get(row.deactivated_by) ?? null) : null,
@@ -157,6 +160,7 @@ export const addProduct = createServerFn({ method: "POST" })
 				batch_number: data.batchNumber || null,
 				supplier_id: data.supplierId || null,
 				quantity: data.quantity ?? 0,
+				price: data.price ?? null,
 				is_active: true,
 				added_at: new Date().toISOString(),
 				added_by: user.id,
@@ -193,6 +197,7 @@ export const updateProduct = createServerFn({ method: "POST" })
 				batch_number: data.batchNumber || null,
 				supplier_id: data.supplierId || null,
 				quantity: data.quantity ?? 0,
+				price: data.price ?? null,
 				updated_at: new Date().toISOString(),
 				updated_by: user.id,
 				deleted_at: null,
@@ -201,7 +206,7 @@ export const updateProduct = createServerFn({ method: "POST" })
 			.eq("id", data.productId);
 
 		if (error) {
-			console.error("failed to update product", error)
+			console.error("failed to update product", error);
 			throw new Error(`Failed to update product: ${error.message}`);
 		}
 	});
