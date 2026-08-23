@@ -4,7 +4,7 @@ import { EmptyCustomers } from "~/components/customers-table.tsx";
 
 import type { Product } from "~/lib/types";
 import { useProducts } from "~/hooks/use-products";
-import { ActiveProductsTable, InactiveProductsTable } from "~/components/products-table.tsx";
+import { ActiveProductsTable, DeletedProductsTable, InactiveProductsTable } from "~/components/products-table.tsx";
 
 export const Route = createFileRoute("/_app/products/")({
 	component: RouteComponent,
@@ -42,10 +42,12 @@ function RouteComponent() {
 				<div className="flex flex-col gap-y-6">
 					<div className="card overflow-x-auto p-0!">
 						<ProductsPageHeader />
-						<ActiveProductsTable activeProducts={products.filter((pd) => pd.isActive)} />
+						<ActiveProductsTable activeProducts={products.filter((pd) => pd.isActive && !pd.deletedAt)} />
 					</div>
 
-					<InactiveProductsCard inActiveProducts={products.filter((pd) => !pd.isActive)} />
+					<InactiveProductsCard inActiveProducts={products.filter((pd) => !pd.isActive && !pd.deletedAt)} />
+
+					<DeletedProductsCard deletedProducts={products.filter((pd) => pd.deletedAt !== null)} />
 				</div>
 			)}
 		</div>
@@ -58,12 +60,34 @@ const InactiveProductsCard = ({ inActiveProducts }: { inActiveProducts: Array<Pr
 	}
 
 	return (
-		<div className="card p-0!">
-			<ProductsPageHeader showLinks={false} />
+		<div id="inactive-products" className="card p-0!">
+			<CardHeader title="Inactive Products" />
 			<InactiveProductsTable inActiveProducts={inActiveProducts} />
 		</div>
 	);
 };
+
+const DeletedProductsCard = ({ deletedProducts }: { deletedProducts: Array<Product> }) => {
+	if (deletedProducts.length === 0) {
+		return null;
+	}
+
+	return (
+		<div className="card p-0!">
+			<CardHeader title="Deleted Products" />
+			<p className="border-b border-solid border-gray-200 px-5 py-2 text-xs font-light text-gray-500">
+				Deleted products are kept here. Use the restore action on a row to bring a product back.
+			</p>
+			<DeletedProductsTable deletedProducts={deletedProducts} />
+		</div>
+	);
+};
+
+const CardHeader = ({ title }: { title: string }) => (
+	<div className="flex flex-row items-center justify-between px-5 py-4">
+		<h2 className="text-dialog-header font-medium text-emerald-900">{title}</h2>
+	</div>
+);
 
 const ProductsPageHeader = ({ showLinks = true }: { showLinks?: boolean }) => (
 	<div className="flex flex-row items-center justify-between px-5 py-4">

@@ -18,6 +18,23 @@ export type DosageForm = {
 	deletedAt: string | null;
 };
 
+export type Supplier = {
+	id: string;
+	createdAt: string;
+	name: string;
+	phone: string | null;
+	address: string | null;
+	email: string | null;
+	contactName: string | null;
+	contactPhone: string | null;
+	contactEmail: string | null;
+	addedBy: UserInfo | null;
+	updatedBy: UserInfo | null;
+	updatedAt: string | null;
+	deletedBy: UserInfo | null;
+	deletedAt: string | null;
+};
+
 export type Product = {
 	id: string;
 	createdAt: string;
@@ -31,12 +48,17 @@ export type Product = {
 	imageUrl: string | null;
 	manufacturer: string | null;
 	isActive: boolean;
+	expiryDate: string | null;
+	batchNumber: string | null;
+	supplierId: string | null;
+	supplier: { id: string; name: string } | null;
+	quantity: number;
 	addedAt: string;
 	addedBy: UserInfo | null;
-	deactivatedBy: string | null;
+	deactivatedBy: UserInfo | null;
 	updatedBy: UserInfo | null;
 	updatedAt: string | null;
-	deletedBy: string | null;
+	deletedBy: UserInfo | null;
 	deletedAt: string | null;
 };
 

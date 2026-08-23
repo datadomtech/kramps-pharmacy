@@ -18,15 +18,19 @@ import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
 import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
 import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppSalesRouteImport } from './routes/_app/sales'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppStaffRouteImport } from './routes/_app/staff'
-import { Route as AppSuppliersRouteImport } from './routes/_app/suppliers'
 import { Route as AuthSignInRouteImport } from './routes/_auth.sign-in'
 import { Route as AppCustomersIndexRouteImport } from './routes/_app/customers.index'
 import { Route as AppCustomersBlacklistRouteImport } from './routes/_app/customers.blacklist'
 import { Route as AppCustomersNewRouteImport } from './routes/_app/customers.new'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products.index'
-import { Route as AppProductsProductIdRouteImport } from './routes/_app/products.$productId'
 import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
+import { Route as AppSuppliersIndexRouteImport } from './routes/_app/suppliers.index'
+import { Route as AppSuppliersNewRouteImport } from './routes/_app/suppliers.new'
+import { Route as AppProductsProductIdIndexRouteImport } from './routes/_app/products.$productId.index'
+import { Route as AppProductsProductIdEditRouteImport } from './routes/_app/products.$productId.edit'
+import { Route as AppSuppliersSupplierIdEditRouteImport } from './routes/_app/suppliers.$supplierId.edit'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/_app',
@@ -71,14 +75,14 @@ const AppSalesRoute = AppSalesRouteImport.update({
   path: '/sales',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppStaffRoute = AppStaffRouteImport.update({
   id: '/staff',
   path: '/staff',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppSuppliersRoute = AppSuppliersRouteImport.update({
-  id: '/suppliers',
-  path: '/suppliers',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
@@ -106,16 +110,39 @@ const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppProductsProductIdRoute = AppProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppProductsNewRoute = AppProductsNewRouteImport.update({
   id: '/products/new',
   path: '/products/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppSuppliersIndexRoute = AppSuppliersIndexRouteImport.update({
+  id: '/suppliers/',
+  path: '/suppliers/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSuppliersNewRoute = AppSuppliersNewRouteImport.update({
+  id: '/suppliers/new',
+  path: '/suppliers/new',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppProductsProductIdIndexRoute =
+  AppProductsProductIdIndexRouteImport.update({
+    id: '/products/$productId/',
+    path: '/products/$productId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppProductsProductIdEditRoute =
+  AppProductsProductIdEditRouteImport.update({
+    id: '/products/$productId/edit',
+    path: '/products/$productId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppSuppliersSupplierIdEditRoute =
+  AppSuppliersSupplierIdEditRouteImport.update({
+    id: '/suppliers/$supplierId/edit',
+    path: '/suppliers/$supplierId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthRouteWithChildren
@@ -126,15 +153,19 @@ export interface FileRoutesByFullPath {
   '/prescriptions': typeof AppPrescriptionsRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
+  '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
-  '/suppliers': typeof AppSuppliersRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
-  '/products/$productId': typeof AppProductsProductIdRoute
   '/products/new': typeof AppProductsNewRoute
+  '/suppliers/new': typeof AppSuppliersNewRoute
   '/customers/': typeof AppCustomersIndexRoute
   '/products/': typeof AppProductsIndexRoute
+  '/suppliers/': typeof AppSuppliersIndexRoute
+  '/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/products/$productId/': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthRouteWithChildren
@@ -145,15 +176,19 @@ export interface FileRoutesByTo {
   '/prescriptions': typeof AppPrescriptionsRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
+  '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
-  '/suppliers': typeof AppSuppliersRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
-  '/products/$productId': typeof AppProductsProductIdRoute
   '/products/new': typeof AppProductsNewRoute
+  '/suppliers/new': typeof AppSuppliersNewRoute
   '/customers': typeof AppCustomersIndexRoute
   '/products': typeof AppProductsIndexRoute
+  '/suppliers': typeof AppSuppliersIndexRoute
+  '/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/products/$productId': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -166,15 +201,19 @@ export interface FileRoutesById {
   '/_app/prescriptions': typeof AppPrescriptionsRoute
   '/_app/reports': typeof AppReportsRoute
   '/_app/sales': typeof AppSalesRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/staff': typeof AppStaffRoute
-  '/_app/suppliers': typeof AppSuppliersRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
-  '/_app/products/$productId': typeof AppProductsProductIdRoute
   '/_app/products/new': typeof AppProductsNewRoute
+  '/_app/suppliers/new': typeof AppSuppliersNewRoute
   '/_app/customers/': typeof AppCustomersIndexRoute
   '/_app/products/': typeof AppProductsIndexRoute
+  '/_app/suppliers/': typeof AppSuppliersIndexRoute
+  '/_app/products/$productId/edit': typeof AppProductsProductIdEditRoute
+  '/_app/suppliers/$supplierId/edit': typeof AppSuppliersSupplierIdEditRoute
+  '/_app/products/$productId/': typeof AppProductsProductIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -187,15 +226,19 @@ export interface FileRouteTypes {
     | '/prescriptions'
     | '/reports'
     | '/sales'
+    | '/settings'
     | '/staff'
-    | '/suppliers'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
-    | '/products/$productId'
     | '/products/new'
+    | '/suppliers/new'
     | '/customers/'
     | '/products/'
+    | '/suppliers/'
+    | '/products/$productId/edit'
+    | '/suppliers/$supplierId/edit'
+    | '/products/$productId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -206,15 +249,19 @@ export interface FileRouteTypes {
     | '/prescriptions'
     | '/reports'
     | '/sales'
+    | '/settings'
     | '/staff'
-    | '/suppliers'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
-    | '/products/$productId'
     | '/products/new'
+    | '/suppliers/new'
     | '/customers'
     | '/products'
+    | '/suppliers'
+    | '/products/$productId/edit'
+    | '/suppliers/$supplierId/edit'
+    | '/products/$productId'
   id:
     | '__root__'
     | '/_app'
@@ -226,15 +273,19 @@ export interface FileRouteTypes {
     | '/_app/prescriptions'
     | '/_app/reports'
     | '/_app/sales'
+    | '/_app/settings'
     | '/_app/staff'
-    | '/_app/suppliers'
     | '/_auth/sign-in'
     | '/_app/customers/blacklist'
     | '/_app/customers/new'
-    | '/_app/products/$productId'
     | '/_app/products/new'
+    | '/_app/suppliers/new'
     | '/_app/customers/'
     | '/_app/products/'
+    | '/_app/suppliers/'
+    | '/_app/products/$productId/edit'
+    | '/_app/suppliers/$supplierId/edit'
+    | '/_app/products/$productId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -307,18 +358,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSalesRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/staff': {
       id: '/_app/staff'
       path: '/staff'
       fullPath: '/staff'
       preLoaderRoute: typeof AppStaffRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/_app/suppliers': {
-      id: '/_app/suppliers'
-      path: '/suppliers'
-      fullPath: '/suppliers'
-      preLoaderRoute: typeof AppSuppliersRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_auth/sign-in': {
@@ -356,18 +407,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/products/$productId': {
-      id: '/_app/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof AppProductsProductIdRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/_app/products/new': {
       id: '/_app/products/new'
       path: '/products/new'
       fullPath: '/products/new'
       preLoaderRoute: typeof AppProductsNewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers/': {
+      id: '/_app/suppliers/'
+      path: '/suppliers'
+      fullPath: '/suppliers/'
+      preLoaderRoute: typeof AppSuppliersIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers/new': {
+      id: '/_app/suppliers/new'
+      path: '/suppliers/new'
+      fullPath: '/suppliers/new'
+      preLoaderRoute: typeof AppSuppliersNewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/products/$productId/': {
+      id: '/_app/products/$productId/'
+      path: '/products/$productId'
+      fullPath: '/products/$productId/'
+      preLoaderRoute: typeof AppProductsProductIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/products/$productId/edit': {
+      id: '/_app/products/$productId/edit'
+      path: '/products/$productId/edit'
+      fullPath: '/products/$productId/edit'
+      preLoaderRoute: typeof AppProductsProductIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers/$supplierId/edit': {
+      id: '/_app/suppliers/$supplierId/edit'
+      path: '/suppliers/$supplierId/edit'
+      fullPath: '/suppliers/$supplierId/edit'
+      preLoaderRoute: typeof AppSuppliersSupplierIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
   }
@@ -381,14 +460,18 @@ interface AppRouteRouteChildren {
   AppPrescriptionsRoute: typeof AppPrescriptionsRoute
   AppReportsRoute: typeof AppReportsRoute
   AppSalesRoute: typeof AppSalesRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppStaffRoute: typeof AppStaffRoute
-  AppSuppliersRoute: typeof AppSuppliersRoute
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
-  AppProductsProductIdRoute: typeof AppProductsProductIdRoute
   AppProductsNewRoute: typeof AppProductsNewRoute
+  AppSuppliersNewRoute: typeof AppSuppliersNewRoute
   AppCustomersIndexRoute: typeof AppCustomersIndexRoute
   AppProductsIndexRoute: typeof AppProductsIndexRoute
+  AppSuppliersIndexRoute: typeof AppSuppliersIndexRoute
+  AppProductsProductIdEditRoute: typeof AppProductsProductIdEditRoute
+  AppSuppliersSupplierIdEditRoute: typeof AppSuppliersSupplierIdEditRoute
+  AppProductsProductIdIndexRoute: typeof AppProductsProductIdIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -399,14 +482,18 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppPrescriptionsRoute: AppPrescriptionsRoute,
   AppReportsRoute: AppReportsRoute,
   AppSalesRoute: AppSalesRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppStaffRoute: AppStaffRoute,
-  AppSuppliersRoute: AppSuppliersRoute,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
-  AppProductsProductIdRoute: AppProductsProductIdRoute,
   AppProductsNewRoute: AppProductsNewRoute,
+  AppSuppliersNewRoute: AppSuppliersNewRoute,
   AppCustomersIndexRoute: AppCustomersIndexRoute,
   AppProductsIndexRoute: AppProductsIndexRoute,
+  AppSuppliersIndexRoute: AppSuppliersIndexRoute,
+  AppProductsProductIdEditRoute: AppProductsProductIdEditRoute,
+  AppSuppliersSupplierIdEditRoute: AppSuppliersSupplierIdEditRoute,
+  AppProductsProductIdIndexRoute: AppProductsProductIdIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
