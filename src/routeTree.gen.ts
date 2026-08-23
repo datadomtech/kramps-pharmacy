@@ -12,8 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppExpiryTrackerRouteImport } from './routes/_app/expiry-tracker'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
+import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
+import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
+import { Route as AppReportsRouteImport } from './routes/_app/reports'
+import { Route as AppSalesRouteImport } from './routes/_app/sales'
 import { Route as AppStaffRouteImport } from './routes/_app/staff'
+import { Route as AppSuppliersRouteImport } from './routes/_app/suppliers'
 import { Route as AuthSignInRouteImport } from './routes/_auth.sign-in'
 import { Route as AppCustomersIndexRouteImport } from './routes/_app/customers.index'
 import { Route as AppCustomersBlacklistRouteImport } from './routes/_app/customers.blacklist'
@@ -35,14 +41,44 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppExpiryTrackerRoute = AppExpiryTrackerRouteImport.update({
+  id: '/expiry-tracker',
+  path: '/expiry-tracker',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppInventoryRoute = AppInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppPermissionsRoute = AppPermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPrescriptionsRoute = AppPrescriptionsRouteImport.update({
+  id: '/prescriptions',
+  path: '/prescriptions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSalesRoute = AppSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppStaffRoute = AppStaffRouteImport.update({
   id: '/staff',
   path: '/staff',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSuppliersRoute = AppSuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
@@ -84,8 +120,14 @@ const AppProductsNewRoute = AppProductsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AuthRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
+  '/permissions': typeof AppPermissionsRoute
+  '/prescriptions': typeof AppPrescriptionsRoute
+  '/reports': typeof AppReportsRoute
+  '/sales': typeof AppSalesRoute
   '/staff': typeof AppStaffRoute
+  '/suppliers': typeof AppSuppliersRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -97,8 +139,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof AuthRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
+  '/permissions': typeof AppPermissionsRoute
+  '/prescriptions': typeof AppPrescriptionsRoute
+  '/reports': typeof AppReportsRoute
+  '/sales': typeof AppSalesRoute
   '/staff': typeof AppStaffRoute
+  '/suppliers': typeof AppSuppliersRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -112,8 +160,14 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/expiry-tracker': typeof AppExpiryTrackerRoute
   '/_app/inventory': typeof AppInventoryRoute
+  '/_app/permissions': typeof AppPermissionsRoute
+  '/_app/prescriptions': typeof AppPrescriptionsRoute
+  '/_app/reports': typeof AppReportsRoute
+  '/_app/sales': typeof AppSalesRoute
   '/_app/staff': typeof AppStaffRoute
+  '/_app/suppliers': typeof AppSuppliersRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
@@ -127,8 +181,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/expiry-tracker'
     | '/inventory'
+    | '/permissions'
+    | '/prescriptions'
+    | '/reports'
+    | '/sales'
     | '/staff'
+    | '/suppliers'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
@@ -140,8 +200,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/expiry-tracker'
     | '/inventory'
+    | '/permissions'
+    | '/prescriptions'
+    | '/reports'
+    | '/sales'
     | '/staff'
+    | '/suppliers'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
@@ -154,8 +220,14 @@ export interface FileRouteTypes {
     | '/_app'
     | '/_auth'
     | '/_app/dashboard'
+    | '/_app/expiry-tracker'
     | '/_app/inventory'
+    | '/_app/permissions'
+    | '/_app/prescriptions'
+    | '/_app/reports'
+    | '/_app/sales'
     | '/_app/staff'
+    | '/_app/suppliers'
     | '/_auth/sign-in'
     | '/_app/customers/blacklist'
     | '/_app/customers/new'
@@ -193,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/expiry-tracker': {
+      id: '/_app/expiry-tracker'
+      path: '/expiry-tracker'
+      fullPath: '/expiry-tracker'
+      preLoaderRoute: typeof AppExpiryTrackerRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/inventory': {
       id: '/_app/inventory'
       path: '/inventory'
@@ -200,11 +279,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInventoryRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/permissions': {
+      id: '/_app/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof AppPermissionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/prescriptions': {
+      id: '/_app/prescriptions'
+      path: '/prescriptions'
+      fullPath: '/prescriptions'
+      preLoaderRoute: typeof AppPrescriptionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/reports': {
+      id: '/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/sales': {
+      id: '/_app/sales'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof AppSalesRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/staff': {
       id: '/_app/staff'
       path: '/staff'
       fullPath: '/staff'
       preLoaderRoute: typeof AppStaffRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/suppliers': {
+      id: '/_app/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof AppSuppliersRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_auth/sign-in': {
@@ -261,8 +375,14 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppExpiryTrackerRoute: typeof AppExpiryTrackerRoute
   AppInventoryRoute: typeof AppInventoryRoute
+  AppPermissionsRoute: typeof AppPermissionsRoute
+  AppPrescriptionsRoute: typeof AppPrescriptionsRoute
+  AppReportsRoute: typeof AppReportsRoute
+  AppSalesRoute: typeof AppSalesRoute
   AppStaffRoute: typeof AppStaffRoute
+  AppSuppliersRoute: typeof AppSuppliersRoute
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
@@ -273,8 +393,14 @@ interface AppRouteRouteChildren {
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppExpiryTrackerRoute: AppExpiryTrackerRoute,
   AppInventoryRoute: AppInventoryRoute,
+  AppPermissionsRoute: AppPermissionsRoute,
+  AppPrescriptionsRoute: AppPrescriptionsRoute,
+  AppReportsRoute: AppReportsRoute,
+  AppSalesRoute: AppSalesRoute,
   AppStaffRoute: AppStaffRoute,
+  AppSuppliersRoute: AppSuppliersRoute,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,

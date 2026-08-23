@@ -59,8 +59,8 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name, onClick }: SidebarRouteP
 export const mobileSidebarHandle = Dialog.createHandle();
 
 const dailyOperationsRoutes: Array<SidebarRouteProps> = [
-	{ id: 1, name: "Sales", icon: BagIcon, href: "/" },
-	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/" },
+	{ id: 1, name: "Sales", icon: BagIcon, href: "/sales" },
+	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/prescriptions" },
 ];
 
 // oxfmt-ignore
@@ -72,18 +72,18 @@ const customerRoutes: Array<SidebarRouteProps> = [
 
 const inventoryRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Inventory", icon: DatabaseIcon, href: "/inventory" },
-	{ id: 2, name: "Expiry Tracker", icon: TimerIcon, href: "/" },
-	{ id: 3, name: "Products", icon: InboxInIcon, href: "/products" }, // TODO: Come back again to this is purchase
+	{ id: 2, name: "Expiry Tracker", icon: TimerIcon, href: "/expiry-tracker" },
+	{ id: 3, name: "Products", icon: InboxInIcon, href: "/products" },
 	// order is
 	// really important or needed in this section
-	{ id: 4, name: "Suppliers", icon: BuildingIcon, href: "/" },
-	{ id: 5, name: "Reports", icon: ChartIcon, href: "/" },
+	{ id: 4, name: "Suppliers", icon: BuildingIcon, href: "/suppliers" },
+	{ id: 5, name: "Reports", icon: ChartIcon, href: "/reports" },
 ];
 
 const adminRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Staff", icon: IdIcon, href: "/staff" },
-	{ id: 2, name: "Permissions", icon: LockIcon, href: "/" },
-	{ id: 3, name: "Settings", icon: CogIcon, href: "/" },
+	{ id: 2, name: "Permissions", icon: LockIcon, href: "/permissions" },
+	{ id: 3, name: "Settings", icon: CogIcon, href: "/settings" },
 ];
 
 export const Sidebar = () => (
