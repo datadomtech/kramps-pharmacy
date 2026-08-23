@@ -12,6 +12,20 @@ export default defineConfig({
 	resolve: {
 		tsconfigPaths: true,
 		dedupe: ["react", "react-dom"],
+		alias: [
+			{
+				find: "use-sync-external-store/shim/with-selector",
+				replacement: new URL("./src/shims/use-sync-external-store/with-selector.ts", import.meta.url).pathname,
+			},
+			{
+				find: "use-sync-external-store/shim",
+				replacement: new URL("./src/shims/use-sync-external-store/shim.ts", import.meta.url).pathname,
+			},
+			{
+				find: /^use-sync-external-store$/,
+				replacement: new URL("./src/shims/use-sync-external-store/shim.ts", import.meta.url).pathname,
+			},
+		],
 	},
 	plugins: [tanstackStart(), tailwindcss(), devtools(), nitro({ preset: "vercel" }), viteReact()],
 });
