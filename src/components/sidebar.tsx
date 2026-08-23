@@ -56,12 +56,12 @@ const SidebarRouteItem = ({ href: to, icon: Icon, name, onClick }: SidebarRouteP
 	</Link>
 );
 
+export const mobileSidebarHandle = Dialog.createHandle();
+
 const dailyOperationsRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Sales", icon: BagIcon, href: "/" },
 	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/" },
 ];
-
-export const mobileSidebarHandle = Dialog.createHandle();
 
 // oxfmt-ignore
 const customerRoutes: Array<SidebarRouteProps> = [

@@ -49,7 +49,7 @@ const productsTableColumns = [
 	}),
 
 	cth.accessor((row) => row.dosageFormId, {
-		header: "Dosage Form",
+		header: "Product Category",
 		cell: (info) => (
 			<Link
 				to="/inventory"
