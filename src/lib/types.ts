@@ -90,6 +90,35 @@ export type SessionUser = {
 	phone: string | null;
 };
 
+export type Location = {
+	id: string;
+	createdAt: string;
+	name: string;
+	description: string | null;
+	addedBy: UserInfo | null;
+	deletedAt: string | null;
+};
+
+export type WarehouseMovementType = "in" | "out" | "move";
+
+export type WarehouseMovement = {
+	id: string;
+	type: WarehouseMovementType;
+	productId: string;
+	productName: string;
+	quantity: number;
+	occurredAt: string;
+	staffName: string | null;
+	batchNumber: string | null;
+	expiryDate: string | null;
+	supplierName: string | null;
+	saleStatus: SaleStatus | null;
+	fromLocationName: string | null;
+	toLocationName: string | null;
+	note: string | null;
+	batchId: string | null;
+};
+
 export type FulfillmentType = "pickup" | "delivery";
 
 export type SaleStatus = "pending" | "completed" | "cancelled" | "refunded";

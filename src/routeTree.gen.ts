@@ -30,6 +30,7 @@ import { Route as AppProductsIndexRouteImport } from './routes/_app/products.ind
 import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
 import { Route as AppSuppliersIndexRouteImport } from './routes/_app/suppliers.index'
 import { Route as AppSuppliersNewRouteImport } from './routes/_app/suppliers.new'
+import { Route as AppWarehouseMoveRouteImport } from './routes/_app/warehouse.move'
 import { Route as AppProductsProductIdIndexRouteImport } from './routes/_app/products.$productId.index'
 import { Route as AppProductsProductIdEditRouteImport } from './routes/_app/products.$productId.edit'
 import { Route as AppSuppliersSupplierIdEditRouteImport } from './routes/_app/suppliers.$supplierId.edit'
@@ -137,6 +138,11 @@ const AppSuppliersNewRoute = AppSuppliersNewRouteImport.update({
   path: '/suppliers/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppWarehouseMoveRoute = AppWarehouseMoveRouteImport.update({
+  id: '/move',
+  path: '/move',
+  getParentRoute: () => AppWarehouseRoute,
+} as any)
 const AppProductsProductIdIndexRoute =
   AppProductsProductIdIndexRouteImport.update({
     id: '/products/$productId/',
@@ -168,12 +174,13 @@ export interface FileRoutesByFullPath {
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
-  '/warehouse': typeof AppWarehouseRoute
+  '/warehouse': typeof AppWarehouseRouteWithChildren
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
   '/products/new': typeof AppProductsNewRoute
   '/suppliers/new': typeof AppSuppliersNewRoute
+  '/warehouse/move': typeof AppWarehouseMoveRoute
   '/customers/': typeof AppCustomersIndexRoute
   '/products/': typeof AppProductsIndexRoute
   '/suppliers/': typeof AppSuppliersIndexRoute
@@ -193,12 +200,13 @@ export interface FileRoutesByTo {
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
-  '/warehouse': typeof AppWarehouseRoute
+  '/warehouse': typeof AppWarehouseRouteWithChildren
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
   '/products/new': typeof AppProductsNewRoute
   '/suppliers/new': typeof AppSuppliersNewRoute
+  '/warehouse/move': typeof AppWarehouseMoveRoute
   '/customers': typeof AppCustomersIndexRoute
   '/products': typeof AppProductsIndexRoute
   '/suppliers': typeof AppSuppliersIndexRoute
@@ -220,12 +228,13 @@ export interface FileRoutesById {
   '/_app/sales': typeof AppSalesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/staff': typeof AppStaffRoute
-  '/_app/warehouse': typeof AppWarehouseRoute
+  '/_app/warehouse': typeof AppWarehouseRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
   '/_app/products/new': typeof AppProductsNewRoute
   '/_app/suppliers/new': typeof AppSuppliersNewRoute
+  '/_app/warehouse/move': typeof AppWarehouseMoveRoute
   '/_app/customers/': typeof AppCustomersIndexRoute
   '/_app/products/': typeof AppProductsIndexRoute
   '/_app/suppliers/': typeof AppSuppliersIndexRoute
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/customers/new'
     | '/products/new'
     | '/suppliers/new'
+    | '/warehouse/move'
     | '/customers/'
     | '/products/'
     | '/suppliers/'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/customers/new'
     | '/products/new'
     | '/suppliers/new'
+    | '/warehouse/move'
     | '/customers'
     | '/products'
     | '/suppliers'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/_app/customers/new'
     | '/_app/products/new'
     | '/_app/suppliers/new'
+    | '/_app/warehouse/move'
     | '/_app/customers/'
     | '/_app/products/'
     | '/_app/suppliers/'
@@ -466,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSuppliersNewRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/warehouse/move': {
+      id: '/_app/warehouse/move'
+      path: '/move'
+      fullPath: '/warehouse/move'
+      preLoaderRoute: typeof AppWarehouseMoveRouteImport
+      parentRoute: typeof AppWarehouseRoute
+    }
     '/_app/products/$productId/': {
       id: '/_app/products/$productId/'
       path: '/products/$productId'
@@ -490,6 +509,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppWarehouseRouteChildren {
+  AppWarehouseMoveRoute: typeof AppWarehouseMoveRoute
+}
+
+const AppWarehouseRouteChildren: AppWarehouseRouteChildren = {
+  AppWarehouseMoveRoute: AppWarehouseMoveRoute,
+}
+
+const AppWarehouseRouteWithChildren = AppWarehouseRoute._addFileChildren(
+  AppWarehouseRouteChildren,
+)
+
 interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppExpiryTrackerRoute: typeof AppExpiryTrackerRoute
@@ -501,7 +532,7 @@ interface AppRouteRouteChildren {
   AppSalesRoute: typeof AppSalesRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppStaffRoute: typeof AppStaffRoute
-  AppWarehouseRoute: typeof AppWarehouseRoute
+  AppWarehouseRoute: typeof AppWarehouseRouteWithChildren
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
   AppProductsNewRoute: typeof AppProductsNewRoute
@@ -525,7 +556,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSalesRoute: AppSalesRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppStaffRoute: AppStaffRoute,
-  AppWarehouseRoute: AppWarehouseRoute,
+  AppWarehouseRoute: AppWarehouseRouteWithChildren,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
   AppProductsNewRoute: AppProductsNewRoute,

@@ -9,14 +9,13 @@ import {
 	ChartIcon,
 	BagIcon,
 	CartIcon,
-	StoreIcon,
 	TimerIcon,
 	UserAddIcon,
 	UserSquareIcon,
 	UserXIcon,
 	XIcon,
 	PlusSquareIcon,
-    GarageIcon,
+	GarageIcon,
 } from "icons";
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
@@ -24,6 +23,7 @@ import type { FC, SVGProps } from "react";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 import { Dialog } from "~primitives/dialog";
 import { Logo } from "./logo";
+import { BranchSelector } from "./branch-selector";
 
 type IconType = FC<SVGProps<SVGSVGElement>>;
 
@@ -91,15 +91,7 @@ export const Sidebar = () => (
 		<SidebarContent className="py-0!">
 			<SidebarGroup className="px-0 py-0!">
 				<label className="m-0! mb-1! border-none text-btn font-btn text-gray-700 [&_div]:pl-0!">Branch</label>
-				<div className="inline-flex w-full cursor-pointer items-center justify-between rounded-btn border border-solid border-btn-border bg-white bg-clip-padding px-3 py-2 font-btn whitespace-nowrap inset-shadow-btn-border transition-all duration-200 hover:border-btn-active hover:bg-emerald-50 hover:text-btn-text hover:inset-shadow-btn-active">
-					<div className="inline-flex flex-1 items-center justify-normal gap-2 font-medium">
-						<StoreIcon className="size-4.5 fill-logo stroke-brand stroke-[1.5]" />
-						<span>Head Office</span>
-					</div>
-					<kbd className="inline-flex w-fit items-center rounded-sm bg-emerald-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-emerald-400">
-						⌘K
-					</kbd>
-				</div>
+				<BranchSelector />
 			</SidebarGroup>
 
 			<Link
@@ -154,12 +146,7 @@ export const MobileSidebar = () => (
 
 			<div className="p-4">
 				<label className="m-0! mb-1! border-none text-btn font-btn text-gray-100 [&_div]:pl-0!">Branch</label>
-				<div className="inline-flex w-full cursor-pointer items-center justify-between rounded-btn border border-solid border-btn-border bg-white bg-clip-padding px-3 py-2 font-btn whitespace-nowrap inset-shadow-btn-border transition-all duration-200 hover:border-btn-active hover:bg-emerald-50 hover:text-btn-text hover:inset-shadow-btn-active">
-					<div className="inline-flex flex-1 items-center justify-normal gap-2 font-medium">
-						<StoreIcon className="size-4.5 fill-logo stroke-brand stroke-[1.5]" />
-						<span>Head Office</span>
-					</div>
-				</div>
+				<BranchSelector compact />
 			</div>
 
 			<div className="p-4">
