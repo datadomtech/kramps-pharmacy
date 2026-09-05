@@ -6,7 +6,6 @@ import {
 	DatabaseIcon,
 	IdIcon,
 	InboxInIcon,
-	LockIcon,
 	ChartIcon,
 	BagIcon,
 	CartIcon,
@@ -17,6 +16,7 @@ import {
 	UserXIcon,
 	XIcon,
 	PlusSquareIcon,
+    GarageIcon,
 } from "icons";
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
@@ -82,7 +82,7 @@ const inventoryRoutes: Array<SidebarRouteProps> = [
 
 const adminRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Staff", icon: IdIcon, href: "/staff" },
-	{ id: 2, name: "Permissions", icon: LockIcon, href: "/permissions" },
+	{ id: 2, name: "Warehouse", icon: GarageIcon, href: "/warehouse" },
 	{ id: 3, name: "Settings", icon: CogIcon, href: "/settings" },
 ];
 

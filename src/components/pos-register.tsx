@@ -614,7 +614,7 @@ export const PosRegister = () => {
 					)}
 				</div>
 
-				<div className="flex w-full flex-col gap-4 lg:w-[420px] lg:shrink-0">
+				<div className="flex w-full flex-col gap-4 lg:w-105 lg:shrink-0">
 					{receipt === null ? (
 						<>
 							<section className="card p-0!">

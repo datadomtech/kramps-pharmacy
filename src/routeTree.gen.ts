@@ -14,7 +14,6 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppExpiryTrackerRouteImport } from './routes/_app/expiry-tracker'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
-import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
 import { Route as AppPosRouteImport } from './routes/_app/pos'
 import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
 import { Route as AppReceiveStockRouteImport } from './routes/_app/receive-stock'
@@ -22,6 +21,7 @@ import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppSalesRouteImport } from './routes/_app/sales'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppStaffRouteImport } from './routes/_app/staff'
+import { Route as AppWarehouseRouteImport } from './routes/_app/warehouse'
 import { Route as AuthSignInRouteImport } from './routes/_auth.sign-in'
 import { Route as AppCustomersIndexRouteImport } from './routes/_app/customers.index'
 import { Route as AppCustomersBlacklistRouteImport } from './routes/_app/customers.blacklist'
@@ -57,11 +57,6 @@ const AppInventoryRoute = AppInventoryRouteImport.update({
   path: '/inventory',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppPermissionsRoute = AppPermissionsRouteImport.update({
-  id: '/permissions',
-  path: '/permissions',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppPosRoute = AppPosRouteImport.update({
   id: '/pos',
   path: '/pos',
@@ -95,6 +90,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 const AppStaffRoute = AppStaffRouteImport.update({
   id: '/staff',
   path: '/staff',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppWarehouseRoute = AppWarehouseRouteImport.update({
+  id: '/warehouse',
+  path: '/warehouse',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
@@ -161,7 +161,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
-  '/permissions': typeof AppPermissionsRoute
   '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
   '/receive-stock': typeof AppReceiveStockRoute
@@ -169,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
+  '/warehouse': typeof AppWarehouseRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -186,7 +186,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/expiry-tracker': typeof AppExpiryTrackerRoute
   '/inventory': typeof AppInventoryRoute
-  '/permissions': typeof AppPermissionsRoute
   '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
   '/receive-stock': typeof AppReceiveStockRoute
@@ -194,6 +193,7 @@ export interface FileRoutesByTo {
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
   '/staff': typeof AppStaffRoute
+  '/warehouse': typeof AppWarehouseRoute
   '/sign-in': typeof AuthSignInRoute
   '/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -213,7 +213,6 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/expiry-tracker': typeof AppExpiryTrackerRoute
   '/_app/inventory': typeof AppInventoryRoute
-  '/_app/permissions': typeof AppPermissionsRoute
   '/_app/pos': typeof AppPosRoute
   '/_app/prescriptions': typeof AppPrescriptionsRoute
   '/_app/receive-stock': typeof AppReceiveStockRoute
@@ -221,6 +220,7 @@ export interface FileRoutesById {
   '/_app/sales': typeof AppSalesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/staff': typeof AppStaffRoute
+  '/_app/warehouse': typeof AppWarehouseRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/customers/blacklist': typeof AppCustomersBlacklistRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
@@ -240,7 +240,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/expiry-tracker'
     | '/inventory'
-    | '/permissions'
     | '/pos'
     | '/prescriptions'
     | '/receive-stock'
@@ -248,6 +247,7 @@ export interface FileRouteTypes {
     | '/sales'
     | '/settings'
     | '/staff'
+    | '/warehouse'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
@@ -265,7 +265,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/expiry-tracker'
     | '/inventory'
-    | '/permissions'
     | '/pos'
     | '/prescriptions'
     | '/receive-stock'
@@ -273,6 +272,7 @@ export interface FileRouteTypes {
     | '/sales'
     | '/settings'
     | '/staff'
+    | '/warehouse'
     | '/sign-in'
     | '/customers/blacklist'
     | '/customers/new'
@@ -291,7 +291,6 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/expiry-tracker'
     | '/_app/inventory'
-    | '/_app/permissions'
     | '/_app/pos'
     | '/_app/prescriptions'
     | '/_app/receive-stock'
@@ -299,6 +298,7 @@ export interface FileRouteTypes {
     | '/_app/sales'
     | '/_app/settings'
     | '/_app/staff'
+    | '/_app/warehouse'
     | '/_auth/sign-in'
     | '/_app/customers/blacklist'
     | '/_app/customers/new'
@@ -354,13 +354,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInventoryRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/permissions': {
-      id: '/_app/permissions'
-      path: '/permissions'
-      fullPath: '/permissions'
-      preLoaderRoute: typeof AppPermissionsRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/_app/pos': {
       id: '/_app/pos'
       path: '/pos'
@@ -408,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/staff'
       fullPath: '/staff'
       preLoaderRoute: typeof AppStaffRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/warehouse': {
+      id: '/_app/warehouse'
+      path: '/warehouse'
+      fullPath: '/warehouse'
+      preLoaderRoute: typeof AppWarehouseRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_auth/sign-in': {
@@ -494,7 +494,6 @@ interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppExpiryTrackerRoute: typeof AppExpiryTrackerRoute
   AppInventoryRoute: typeof AppInventoryRoute
-  AppPermissionsRoute: typeof AppPermissionsRoute
   AppPosRoute: typeof AppPosRoute
   AppPrescriptionsRoute: typeof AppPrescriptionsRoute
   AppReceiveStockRoute: typeof AppReceiveStockRoute
@@ -502,6 +501,7 @@ interface AppRouteRouteChildren {
   AppSalesRoute: typeof AppSalesRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppStaffRoute: typeof AppStaffRoute
+  AppWarehouseRoute: typeof AppWarehouseRoute
   AppCustomersBlacklistRoute: typeof AppCustomersBlacklistRoute
   AppCustomersNewRoute: typeof AppCustomersNewRoute
   AppProductsNewRoute: typeof AppProductsNewRoute
@@ -518,7 +518,6 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppExpiryTrackerRoute: AppExpiryTrackerRoute,
   AppInventoryRoute: AppInventoryRoute,
-  AppPermissionsRoute: AppPermissionsRoute,
   AppPosRoute: AppPosRoute,
   AppPrescriptionsRoute: AppPrescriptionsRoute,
   AppReceiveStockRoute: AppReceiveStockRoute,
@@ -526,6 +525,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSalesRoute: AppSalesRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppStaffRoute: AppStaffRoute,
+  AppWarehouseRoute: AppWarehouseRoute,
   AppCustomersBlacklistRoute: AppCustomersBlacklistRoute,
   AppCustomersNewRoute: AppCustomersNewRoute,
   AppProductsNewRoute: AppProductsNewRoute,
