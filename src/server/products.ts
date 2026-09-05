@@ -14,10 +14,8 @@ type ProductRow = {
 	image_url: string | null;
 	manufacturer: string | null;
 	is_active: boolean;
-	expiry_date: string | null;
-	batch_number: string | null;
-	supplier_id: string | null;
-	quantity: number;
+	strength: string | null;
+	strength_unit: string | null;
 	price: number | null;
 	added_at: string;
 	added_by: string;
@@ -29,6 +27,7 @@ type ProductRow = {
 };
 
 type DosageFormRef = { id: string; name: string; description: string | null };
+type BatchRef = { quantity_on_hand: number; expiry_date: string | null };
 
 export type ProductInput = {
 	name: string;
@@ -39,27 +38,25 @@ export type ProductInput = {
 	description: string | null;
 	imageUrl: string | null;
 	manufacturer: string | null;
-	expiryDate?: string | null;
-	batchNumber?: string | null;
-	supplierId?: string | null;
-	quantity?: number;
+	strength?: string | null;
+	strengthUnit?: string | null;
 	price?: number | null;
 };
 
-type SupplierRef = { id: string; name: string };
-
 const productSelection =
-	"id, created_at, name, brand_name, generic_name, bar_code_number, dosage_form_id, description, image_url, manufacturer, is_active, expiry_date, batch_number, supplier_id, quantity, price, added_at, added_by, deactivated_by, updated_by, updated_at, deleted_by, deleted_at, dosage_forms ( id, name, description ), suppliers ( id, name )";
+	"id, created_at, name, brand_name, generic_name, bar_code_number, dosage_form_id, description, image_url, manufacturer, strength, strength_unit, is_active, price, added_at, added_by, deactivated_by, updated_by, updated_at, deleted_by, deleted_at, dosage_forms ( id, name, description ), inventory_batches ( quantity_on_hand, expiry_date )";
 
 function toProduct(
 	row: ProductRow & {
 		dosage_forms: DosageFormRef | Array<DosageFormRef> | null;
-		suppliers: SupplierRef | Array<SupplierRef> | null;
+		inventory_batches: BatchRef | Array<BatchRef> | null;
 	},
 	users: Map<string, UserInfo>,
 ): Product {
 	const dosageForm = Array.isArray(row.dosage_forms) ? row.dosage_forms[0] : row.dosage_forms;
-	const supplier = Array.isArray(row.suppliers) ? row.suppliers[0] : row.suppliers;
+	const batches = Array.isArray(row.inventory_batches) ? row.inventory_batches : row.inventory_batches ? [row.inventory_batches] : [];
+	const openBatches = batches.filter((batch) => batch.quantity_on_hand > 0);
+	const expiries = openBatches.map((batch) => batch.expiry_date).filter((expiry): expiry is string => expiry !== null);
 
 	return {
 		id: row.id,
@@ -73,13 +70,12 @@ function toProduct(
 		description: row.description,
 		imageUrl: row.image_url,
 		manufacturer: row.manufacturer,
+		strength: row.strength,
+		strengthUnit: row.strength_unit,
 		isActive: row.is_active,
-		expiryDate: row.expiry_date,
-		batchNumber: row.batch_number,
-		supplierId: row.supplier_id,
-		supplier,
-		quantity: row.quantity,
 		price: row.price === null ? null : Number(row.price),
+		stockAvailable: openBatches.reduce((sum, batch) => sum + batch.quantity_on_hand, 0),
+		soonestExpiryDate: expiries.length > 0 ? expiries.sort()[0] : null,
 		addedAt: row.added_at,
 		addedBy: users.get(row.added_by) ?? null,
 		deactivatedBy: row.deactivated_by ? (users.get(row.deactivated_by) ?? null) : null,
@@ -101,7 +97,7 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async (): 
 	}
 
 	const rows = data as Array<
-		ProductRow & { dosage_forms: DosageFormRef | Array<DosageFormRef> | null; suppliers: SupplierRef | Array<SupplierRef> | null }
+		ProductRow & { dosage_forms: DosageFormRef | Array<DosageFormRef> | null; inventory_batches: BatchRef | Array<BatchRef> | null }
 	>;
 
 	const users = await fetchUserInfoLookup(
@@ -129,7 +125,7 @@ export const getProduct = createServerFn({ method: "GET" })
 
 		const typedRow = row as ProductRow & {
 			dosage_forms: DosageFormRef | Array<DosageFormRef> | null;
-			suppliers: SupplierRef | Array<SupplierRef> | null;
+			inventory_batches: BatchRef | Array<BatchRef> | null;
 		};
 		const users = await fetchUserInfoLookup(
 			[typedRow.added_by, typedRow.updated_by, typedRow.deactivated_by, typedRow.deleted_by].filter((id): id is string => Boolean(id)),
@@ -156,10 +152,8 @@ export const addProduct = createServerFn({ method: "POST" })
 				description: data.description,
 				image_url: data.imageUrl || null,
 				manufacturer: data.manufacturer,
-				expiry_date: data.expiryDate || null,
-				batch_number: data.batchNumber || null,
-				supplier_id: data.supplierId || null,
-				quantity: data.quantity ?? 0,
+				strength: data.strength || null,
+				strength_unit: data.strengthUnit || null,
 				price: data.price ?? null,
 				is_active: true,
 				added_at: new Date().toISOString(),
@@ -193,10 +187,8 @@ export const updateProduct = createServerFn({ method: "POST" })
 				description: data.description,
 				image_url: data.imageUrl,
 				manufacturer: data.manufacturer,
-				expiry_date: data.expiryDate || null,
-				batch_number: data.batchNumber || null,
-				supplier_id: data.supplierId || null,
-				quantity: data.quantity ?? 0,
+				strength: data.strength || null,
+				strength_unit: data.strengthUnit || null,
 				price: data.price ?? null,
 				updated_at: new Date().toISOString(),
 				updated_by: user.id,

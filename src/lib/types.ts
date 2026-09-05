@@ -47,13 +47,12 @@ export type Product = {
 	description: string | null;
 	imageUrl: string | null;
 	manufacturer: string | null;
+	strength: string | null;
+	strengthUnit: string | null;
 	isActive: boolean;
-	expiryDate: string | null;
-	batchNumber: string | null;
-	supplierId: string | null;
-	supplier: { id: string; name: string } | null;
-	quantity: number;
 	price: number | null;
+	stockAvailable: number;
+	soonestExpiryDate: string | null;
 	addedAt: string;
 	addedBy: UserInfo | null;
 	deactivatedBy: UserInfo | null;

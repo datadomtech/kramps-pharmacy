@@ -34,10 +34,10 @@ const filterStyles: Record<InventoryFilter, { chip: string; dot: string }> = {
 function productStatus(product: Product, today: Date): Array<InventoryFilter> {
 	const statuses: Array<InventoryFilter> = [];
 
-	if (product.expiryDate && isBefore(new Date(`${product.expiryDate}T00:00:00`), today)) {
+	if (product.soonestExpiryDate && isBefore(new Date(`${product.soonestExpiryDate}T00:00:00`), today)) {
 		statuses.push("expired");
 	}
-	if (product.quantity <= 0) {
+	if (product.stockAvailable <= 0) {
 		statuses.push("out-of-stock");
 	}
 	if (!product.isActive) {
@@ -201,9 +201,8 @@ export const Inventory = () => {
 												</h2>
 												<div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-sm text-gray-500">
 													<span>{product.dosageForm?.name.toLocaleLowerCase("en-GB")}</span>
-													{product.batchNumber && <span>Batch {product.batchNumber}</span>}
-													{product.expiryDate && (
-														<span>Expires {format(new Date(`${product.expiryDate}T00:00:00`), "d MMM yyyy")}</span>
+													{product.soonestExpiryDate && (
+														<span>Expires {format(new Date(`${product.soonestExpiryDate}T00:00:00`), "d MMM yyyy")}</span>
 													)}
 													{!product.isActive && <span>Inactive</span>}
 												</div>
@@ -214,10 +213,10 @@ export const Inventory = () => {
 									<div className="hidden shrink-0 flex-col items-end justify-center sm:flex">
 										<span
 											className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-												product.quantity <= 0 ? "bg-yellow-50 text-yellow-700" : "bg-emerald-100 text-emerald-800"
+												product.stockAvailable <= 0 ? "bg-yellow-50 text-yellow-700" : "bg-emerald-100 text-emerald-800"
 											}`}
 										>
-											{product.quantity} {product.quantity === 1 ? "unit" : "units"}
+											{product.stockAvailable} {product.stockAvailable === 1 ? "unit" : "units"}
 										</span>
 									</div>
 								</div>

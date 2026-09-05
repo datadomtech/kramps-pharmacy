@@ -30,7 +30,11 @@ const ProductRowActions = ({ product }: { product: Product }) => {
 				title="Restore product"
 				onClick={async () =>
 					await restoreProduct.mutateAsync(product.id, {
-						onSuccess: () => toast.add({ title: `${product.name} restored successfully`, type: "success" }),
+						onSuccess: () =>
+							toast.add({
+								title: `${product.name} restored successfully`,
+								type: "success",
+							}),
 					})
 				}
 				className="cursor-pointer"
@@ -46,7 +50,12 @@ const ProductRowActions = ({ product }: { product: Product }) => {
 				type="button"
 				aria-label={`Edit ${product.name}`}
 				title="Edit product"
-				onClick={() => void navigate({ to: "/products/$productId/edit", params: { productId: product.id } })}
+				onClick={() =>
+					void navigate({
+						to: "/products/$productId/edit",
+						params: { productId: product.id },
+					})
+				}
 				className="cursor-pointer"
 			>
 				<EditIcon className="size-4 fill-transparent stroke-brand stroke-2" />
@@ -57,7 +66,11 @@ const ProductRowActions = ({ product }: { product: Product }) => {
 				title="Delete product"
 				onClick={async () =>
 					await deleteProduct.mutateAsync(product.id, {
-						onSuccess: () => toast.add({ title: `${product.name} deleted successfully`, type: "success" }),
+						onSuccess: () =>
+							toast.add({
+								title: `${product.name} deleted successfully`,
+								type: "success",
+							}),
 					})
 				}
 				className="cursor-pointer"

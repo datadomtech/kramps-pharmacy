@@ -2,12 +2,10 @@ import { SidebarGroup, SidebarContent } from "~selia/sidebar";
 import { Button } from "~primitives/button";
 import {
 	BuildingIcon,
-	ClipboardCheckIcon,
 	CogIcon,
 	DatabaseIcon,
 	IdIcon,
 	InboxInIcon,
-	LockIcon,
 	ChartIcon,
 	BagIcon,
 	CartIcon,
@@ -17,6 +15,8 @@ import {
 	UserSquareIcon,
 	UserXIcon,
 	XIcon,
+	PlusSquareIcon,
+    GarageIcon,
 } from "icons";
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
@@ -60,7 +60,7 @@ export const mobileSidebarHandle = Dialog.createHandle();
 
 const dailyOperationsRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Sales", icon: BagIcon, href: "/sales" },
-	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/prescriptions" },
+	{ id: 2, name: "Receive Stock", icon: PlusSquareIcon, href: "/receive-stock" },
 ];
 
 // oxfmt-ignore
@@ -82,7 +82,7 @@ const inventoryRoutes: Array<SidebarRouteProps> = [
 
 const adminRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Staff", icon: IdIcon, href: "/staff" },
-	{ id: 2, name: "Permissions", icon: LockIcon, href: "/permissions" },
+	{ id: 2, name: "Warehouse", icon: GarageIcon, href: "/warehouse" },
 	{ id: 3, name: "Settings", icon: CogIcon, href: "/settings" },
 ];
 

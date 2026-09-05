@@ -1,31 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyCustomers } from "~/components/customers-table";
-import { ExpiryGroupCard, groupProductsByExpiry } from "~/components/expiry-groups";
-import { useProducts } from "~/hooks/use-products";
+import { ExpiryGroupCard, groupBatchesByExpiry } from "~/components/expiry-groups";
+import { useInventoryBatches } from "~/hooks/use-stock-in";
 
 export const Route = createFileRoute("/_app/expiry-tracker")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { data: products, isPending } = useProducts();
+	const { data: batches, isPending } = useInventoryBatches();
 
-	if (isPending || products === undefined) {
+	if (isPending || batches === undefined) {
 		return <div>Loading...</div>;
 	}
 
-	const tracked = products.filter((product) => product.deletedAt === null && product.expiryDate !== null);
-	const groups = groupProductsByExpiry(tracked);
+	const tracked = batches.filter((batch) => batch.expiryDate !== null);
+	const groups = groupBatchesByExpiry(tracked);
 
 	return (
 		<div className="p-0!">
 			{tracked.length === 0 ? (
 				<div className="card p-0!">
 					<EmptyCustomers
-						description="No products are being tracked for expiry. Add an expiry date to a product to start tracking it"
+						description="No batches are being tracked for expiry. Add an expiry date when receiving stock to start tracking it"
 						title="Nothing To Track Yet"
-						linkText="Add new product"
-						to="/products/new"
+						linkText="Receive stock"
+						to="/receive-stock"
 					/>
 				</div>
 			) : (
@@ -34,9 +34,9 @@ function RouteComponent() {
 						<ExpiryGroupCard key={group.id} group={group} />
 					))}
 					<p className="text-center text-sm font-light text-gray-500">
-						Tracking {tracked.length} product{tracked.length === 1 ? "" : "s"} — manage expiry dates from the{" "}
-						<Link to="/products" className="text-btn hover:text-emerald-600">
-							products page
+						Tracking {tracked.length} batch{tracked.length === 1 ? "" : "es"} — record expiry dates when{" "}
+						<Link to="/receive-stock" className="text-btn hover:text-emerald-600">
+							receiving stock
 						</Link>
 						.
 					</p>

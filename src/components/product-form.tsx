@@ -7,7 +7,6 @@ import { Button } from "~primitives/button";
 import type { Product } from "~/lib/types";
 import { useAddProduct } from "~/hooks/use-products";
 import { useDosageForms } from "~/hooks/use-dosage-forms";
-import { useSuppliers } from "~/hooks/use-suppliers";
 import { OpenLinkIcon } from "~icons/open-link.tsx";
 
 export type ProductFormSchema = Pick<
@@ -20,10 +19,8 @@ export type ProductFormSchema = Pick<
 	| "description"
 	| "manufacturer"
 	| "imageUrl"
-	| "expiryDate"
-	| "batchNumber"
-	| "supplierId"
-	| "quantity"
+	| "strength"
+	| "strengthUnit"
 	| "price"
 >;
 
@@ -36,10 +33,8 @@ export const productFormDefaultValues: ProductFormSchema = {
 	dosageFormId: "",
 	imageUrl: "",
 	manufacturer: "",
-	expiryDate: "",
-	batchNumber: "",
-	supplierId: "",
-	quantity: 0,
+	strength: "",
+	strengthUnit: "",
 	price: 0,
 };
 
@@ -52,7 +47,6 @@ type ProductFormProps = {
 
 export const ProductForm = ({ defaultValues, submitLabel, onSubmit, showReset = true }: ProductFormProps) => {
 	const { data: dosageForms } = useDosageForms();
-	const { data: suppliers } = useSuppliers();
 
 	const form = useForm({
 		defaultValues,
@@ -129,28 +123,14 @@ export const ProductForm = ({ defaultValues, submitLabel, onSubmit, showReset = 
 						)}
 					</form.Field>
 
-					<form.Field name="expiryDate">
+					<form.Field name="strength">
 						{(field) => (
 							<Field className="md:col-span-1">
-								<Label>Expiry Date</Label>
+								<Label htmlFor={field.name}>Strength</Label>
 								<Input
-									type="date"
-									className="input-text"
-									value={field.state.value ?? ""}
-									onValueChange={field.handleChange}
-									onBlur={field.handleBlur}
-									name={field.name}
-								/>
-							</Field>
-						)}
-					</form.Field>
-
-					<form.Field name="batchNumber">
-						{(field) => (
-							<Field className="md:col-span-1">
-								<Label>Batch Number</Label>
-								<Input
+									id={field.name}
 									type="text"
+									placeholder="e.g. 500"
 									value={field.state.value ?? ""}
 									onValueChange={field.handleChange}
 									onBlur={field.handleBlur}
@@ -160,23 +140,25 @@ export const ProductForm = ({ defaultValues, submitLabel, onSubmit, showReset = 
 						)}
 					</form.Field>
 
-					<form.Field name="quantity">
+					<form.Field name="strengthUnit">
 						{(field) => (
 							<Field className="md:col-span-1">
-								<Label htmlFor={field.name}>Quantity</Label>
-								<input
+								<Label htmlFor={field.name}>Strength Unit</Label>
+								<select
 									id={field.name}
 									name={field.name}
-									type="number"
-									min={0}
-									step={1}
-									className="input-text"
-									value={field.state.value}
-									onChange={(event) =>
-										field.handleChange(Number.isNaN(event.target.valueAsNumber) ? 0 : Math.max(0, event.target.valueAsNumber))
-									}
+									className="input-select w-full rounded-lg"
+									value={field.state.value ?? ""}
+									onChange={(event) => field.handleChange(event.target.value)}
 									onBlur={field.handleBlur}
-								/>
+								>
+									<option value="">No unit</option>
+									{["mg", "mcg", "g", "kg", "ml", "l", "%", "IU", "mEq", "drops", "units"].map((unit) => (
+										<option key={unit} value={unit}>
+											{unit}
+										</option>
+									))}
+								</select>
 							</Field>
 						)}
 					</form.Field>
@@ -198,31 +180,6 @@ export const ProductForm = ({ defaultValues, submitLabel, onSubmit, showReset = 
 									}
 									onBlur={field.handleBlur}
 								/>
-							</Field>
-						)}
-					</form.Field>
-
-					<form.Field name="supplierId">
-						{(field) => (
-							<Field className="md:col-span-1">
-								<Label htmlFor={field.name}>Supplier</Label>
-								<select
-									id={field.name}
-									name={field.name}
-									className="input-select w-full rounded-lg"
-									value={field.state.value ?? ""}
-									onChange={(event) => field.handleChange(event.target.value)}
-									onBlur={field.handleBlur}
-								>
-									<option value="">No supplier</option>
-									{(suppliers ?? [])
-										.filter((supplier) => !supplier.deletedAt)
-										.map((supplier) => (
-											<option key={supplier.id} value={supplier.id}>
-												{supplier.name}
-											</option>
-										))}
-								</select>
 							</Field>
 						)}
 					</form.Field>

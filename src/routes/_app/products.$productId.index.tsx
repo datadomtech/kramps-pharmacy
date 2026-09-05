@@ -4,7 +4,7 @@ import { Button } from "~primitives/button";
 import { EmptyCustomers } from "~/components/customers-table";
 import { Image } from "@unpic/react";
 import { format } from "date-fns";
-import { EditIcon, TrashIcon } from "icons";
+import { EditIcon, PlusSquareIcon, TrashIcon } from "icons";
 import { useDeleteProduct, useProduct } from "~/hooks/use-products";
 
 export const Route = createFileRoute("/_app/products/$productId/")({
@@ -46,11 +46,20 @@ function RouteComponent() {
 		});
 	};
 
+	const strength = [product.strength, product.strengthUnit].filter(Boolean).join(" ");
+
 	return (
 		<div className="card h-fit! w-full p-0! md:mx-auto md:my-6 lg:mt-8 lg:mb-0">
 			<div className="flex flex-row items-center justify-between px-4 py-4 lg:px-8">
 				<h2 className="text-dialog-header font-medium text-emerald-900">{product.name}</h2>
 				<div className="flex items-center gap-x-2">
+					<Link
+						to="/receive-stock"
+						className="btn btn-secondary inline-flex items-center gap-1.5 text-sm font-semibold"
+					>
+						<PlusSquareIcon className="size-4 fill-transparent stroke-emerald-400 stroke-2" />
+						Receive stock
+					</Link>
 					<Link
 						to="/products/$productId/edit"
 						params={{ productId: product.id }}
@@ -93,10 +102,14 @@ function RouteComponent() {
 				<DetailField label="Brand Name" value={product.brandName} />
 				<DetailField label="Generic Name" value={product.genericName} />
 				<DetailField label="Dosage Form" value={product.dosageForm?.name} />
+				<DetailField label="Strength" value={strength || null} />
 				<DetailField label="Manufacturer" value={product.manufacturer} />
 				<DetailField label="Bar Code Number" value={product.barCodeNumber} />
-				<DetailField label="Supplier" value={product.supplier?.name} />
-				<DetailField label="Quantity" value={`${product.quantity} ${product.quantity === 1 ? "unit" : "units"}`} />
+				<DetailField label="Sell Price" value={product.price === null ? null : `GHS ${product.price.toFixed(2)}`} />
+				<DetailField label="In Stock" value={`${product.stockAvailable} ${product.stockAvailable === 1 ? "unit" : "units"}`} />
+				{product.soonestExpiryDate && (
+					<DetailField label="Soonest Expiry" value={format(new Date(`${product.soonestExpiryDate}T00:00:00`), "d MMM yyyy")} />
+				)}
 
 				<div className="sm:col-span-2">
 					<h3 className="text-btn font-btn text-gray-500">Added</h3>

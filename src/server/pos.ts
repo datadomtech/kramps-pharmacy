@@ -9,6 +9,8 @@ export type ProductSearchResult = {
 	genericName: string | null;
 	barCodeNumber: string | null;
 	price: number | null;
+	strength: string | null;
+	strengthUnit: string | null;
 	dosageFormName: string | null;
 	stockAvailable: number;
 	soonestExpiryDate: string | null;
@@ -56,7 +58,7 @@ export const searchProducts = createServerFn({ method: "GET" })
 		const { data: rows, error } = await supabase
 			.from("products")
 			.select(
-				"id, name, brand_name, generic_name, bar_code_number, price, dosage_forms ( name ), inventory_batches ( quantity_on_hand, expiry_date )",
+				"id, name, brand_name, generic_name, bar_code_number, strength, strength_unit, price, dosage_forms ( name ), inventory_batches ( quantity_on_hand, expiry_date )",
 			)
 			.eq("is_active", true)
 			.filter("deleted_at", "is", null)
@@ -79,6 +81,8 @@ export const searchProducts = createServerFn({ method: "GET" })
 				genericName: (row.generic_name as string | null) ?? null,
 				barCodeNumber: (row.bar_code_number as string | null) ?? null,
 				price: row.price === null || row.price === undefined ? null : Number(row.price),
+				strength: (row.strength as string | null) ?? null,
+				strengthUnit: (row.strength_unit as string | null) ?? null,
 				dosageFormName: Array.isArray(row.dosage_forms) ? (row.dosage_forms[0]?.name ?? null) : (row.dosage_forms?.name ?? null),
 				stockAvailable: openBatches.reduce((sum, batch) => sum + batch.quantity_on_hand, 0),
 				soonestExpiryDate: expiries.length > 0 ? expiries.sort()[0] : null,

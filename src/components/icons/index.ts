@@ -9,6 +9,7 @@ export { CogIcon } from "./cog.tsx";
 export { DashboardIcon } from "./dashboard.tsx";
 export { DatabaseIcon } from "./database.tsx";
 export { EditIcon } from "./edit.tsx";
+export { GarageIcon } from "./garage.tsx";
 export { IdIcon } from "./id.tsx";
 export { InboxInIcon } from "./inbox-in.tsx";
 export { InfoCircleIcon } from "./info-circle.tsx";
