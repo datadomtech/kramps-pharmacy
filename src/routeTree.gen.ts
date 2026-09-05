@@ -17,6 +17,7 @@ import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppPermissionsRouteImport } from './routes/_app/permissions'
 import { Route as AppPosRouteImport } from './routes/_app/pos'
 import { Route as AppPrescriptionsRouteImport } from './routes/_app/prescriptions'
+import { Route as AppReceiveStockRouteImport } from './routes/_app/receive-stock'
 import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppSalesRouteImport } from './routes/_app/sales'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
@@ -69,6 +70,11 @@ const AppPosRoute = AppPosRouteImport.update({
 const AppPrescriptionsRoute = AppPrescriptionsRouteImport.update({
   id: '/prescriptions',
   path: '/prescriptions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppReceiveStockRoute = AppReceiveStockRouteImport.update({
+  id: '/receive-stock',
+  path: '/receive-stock',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppReportsRoute = AppReportsRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/permissions': typeof AppPermissionsRoute
   '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
+  '/receive-stock': typeof AppReceiveStockRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/permissions': typeof AppPermissionsRoute
   '/pos': typeof AppPosRoute
   '/prescriptions': typeof AppPrescriptionsRoute
+  '/receive-stock': typeof AppReceiveStockRoute
   '/reports': typeof AppReportsRoute
   '/sales': typeof AppSalesRoute
   '/settings': typeof AppSettingsRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/_app/permissions': typeof AppPermissionsRoute
   '/_app/pos': typeof AppPosRoute
   '/_app/prescriptions': typeof AppPrescriptionsRoute
+  '/_app/receive-stock': typeof AppReceiveStockRoute
   '/_app/reports': typeof AppReportsRoute
   '/_app/sales': typeof AppSalesRoute
   '/_app/settings': typeof AppSettingsRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/permissions'
     | '/pos'
     | '/prescriptions'
+    | '/receive-stock'
     | '/reports'
     | '/sales'
     | '/settings'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/permissions'
     | '/pos'
     | '/prescriptions'
+    | '/receive-stock'
     | '/reports'
     | '/sales'
     | '/settings'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/_app/permissions'
     | '/_app/pos'
     | '/_app/prescriptions'
+    | '/_app/receive-stock'
     | '/_app/reports'
     | '/_app/sales'
     | '/_app/settings'
@@ -361,6 +373,13 @@ declare module '@tanstack/react-router' {
       path: '/prescriptions'
       fullPath: '/prescriptions'
       preLoaderRoute: typeof AppPrescriptionsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/receive-stock': {
+      id: '/_app/receive-stock'
+      path: '/receive-stock'
+      fullPath: '/receive-stock'
+      preLoaderRoute: typeof AppReceiveStockRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/reports': {
@@ -478,6 +497,7 @@ interface AppRouteRouteChildren {
   AppPermissionsRoute: typeof AppPermissionsRoute
   AppPosRoute: typeof AppPosRoute
   AppPrescriptionsRoute: typeof AppPrescriptionsRoute
+  AppReceiveStockRoute: typeof AppReceiveStockRoute
   AppReportsRoute: typeof AppReportsRoute
   AppSalesRoute: typeof AppSalesRoute
   AppSettingsRoute: typeof AppSettingsRoute
@@ -501,6 +521,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppPermissionsRoute: AppPermissionsRoute,
   AppPosRoute: AppPosRoute,
   AppPrescriptionsRoute: AppPrescriptionsRoute,
+  AppReceiveStockRoute: AppReceiveStockRoute,
   AppReportsRoute: AppReportsRoute,
   AppSalesRoute: AppSalesRoute,
   AppSettingsRoute: AppSettingsRoute,

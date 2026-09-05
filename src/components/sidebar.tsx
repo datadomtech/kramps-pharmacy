@@ -2,7 +2,6 @@ import { SidebarGroup, SidebarContent } from "~selia/sidebar";
 import { Button } from "~primitives/button";
 import {
 	BuildingIcon,
-	ClipboardCheckIcon,
 	CogIcon,
 	DatabaseIcon,
 	IdIcon,
@@ -17,6 +16,7 @@ import {
 	UserSquareIcon,
 	UserXIcon,
 	XIcon,
+	PlusSquareIcon,
 } from "icons";
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
@@ -60,7 +60,7 @@ export const mobileSidebarHandle = Dialog.createHandle();
 
 const dailyOperationsRoutes: Array<SidebarRouteProps> = [
 	{ id: 1, name: "Sales", icon: BagIcon, href: "/sales" },
-	{ id: 2, name: "Prescriptions", icon: ClipboardCheckIcon, href: "/prescriptions" },
+	{ id: 2, name: "Receive Stock", icon: PlusSquareIcon, href: "/receive-stock" },
 ];
 
 // oxfmt-ignore

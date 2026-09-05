@@ -639,16 +639,16 @@ html {
 }
 
 @theme {
-	--color-canvas: light-dark(oklch(0.8279 0.1517 175), oklch(0.8279 0.1517 175)); /** #21e6c1 */
+	--color-canvas: oklch(0.8279 0.1517 175); /** #21e6c1 */
 
-	--color-logo: light-dark(oklch(0.8279 0.1517 175), oklch(0.8279 0.1517 175));
+	--color-logo: oklch(0.8279 0.1517 175);
 
-	--color-kumo-canvas: light-dark(oklch(0.982 0.018 155.826), oklch(0.905 0.093 164.15));
+	--color-kumo-canvas: oklch(0.982 0.018 155.826);
 
-	--color-brand: light-dark(oklch(0.696 0.17 162.48), oklch(0.8156 0.1517 175));
+	--color-brand: oklch(0.696 0.17 162.48);
 
-	--color-brand-hover: light-dark(oklch(0.6744 0.1018 175), oklch(0.8696 0.1517 175));
-	--color-label: light-dark(oklch(0.8067 0.0959 151.41 / 75%), oklch(0.6667 0.0959 145.06 / 75%));
+	--color-brand-hover: oklch(0.6744 0.1018 175);
+	--color-label: oklch(0.8067 0.0959 151.41 / 75%);
 
 	--color-btn-active: oklch(0.919 0.0072 132.91 / 94.18%);
 

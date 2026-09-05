@@ -49,10 +49,8 @@ function RouteComponent() {
 					dosageFormId: product.dosageFormId,
 					imageUrl: product.imageUrl ?? "",
 					manufacturer: product.manufacturer ?? "",
-					expiryDate: product.expiryDate ?? "",
-					batchNumber: product.batchNumber ?? "",
-					supplierId: product.supplierId ?? "",
-					quantity: product.quantity,
+					strength: product.strength ?? "",
+					strengthUnit: product.strengthUnit ?? "",
 					price: product.price ?? 0,
 				}}
 				submitLabel="Save changes"

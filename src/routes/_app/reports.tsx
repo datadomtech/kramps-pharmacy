@@ -70,8 +70,9 @@ function RouteComponent() {
 			).length,
 			totalProducts: liveProducts.length,
 			activeProducts: liveProducts.filter((product) => product.isActive).length,
-			expired: liveProducts.filter((product) => product.expiryDate && isBefore(new Date(`${product.expiryDate}T00:00:00`), today)).length,
-			outOfStock: liveProducts.filter((product) => product.quantity <= 0).length,
+			expired: liveProducts.filter((product) => product.soonestExpiryDate && isBefore(new Date(`${product.soonestExpiryDate}T00:00:00`), today))
+				.length,
+			outOfStock: liveProducts.filter((product) => product.stockAvailable <= 0).length,
 			totalSuppliers: liveSuppliers.length,
 		};
 	}, [range, products, suppliers]);
@@ -107,8 +108,8 @@ function RouteComponent() {
 				<StatCard label={`Suppliers added — ${stats.label}`} value={stats.suppliersAdded} />
 
 				<StatCard label="Total products" value={stats.totalProducts} hint={`${stats.activeProducts} active`} />
-				<StatCard label="Expired products" value={stats.expired} hint="expiry date in the past" />
-				<StatCard label="Out of stock" value={stats.outOfStock} hint="quantity is zero" />
+				<StatCard label="Expired products" value={stats.expired} hint="soonest open batch is past expiry" />
+				<StatCard label="Out of stock" value={stats.outOfStock} hint="no stock on hand" />
 				<StatCard label="Total suppliers" value={stats.totalSuppliers} />
 			</div>
 
