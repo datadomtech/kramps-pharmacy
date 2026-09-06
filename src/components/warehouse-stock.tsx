@@ -6,7 +6,6 @@ import { useTanStackTableDevtools } from "@tanstack/react-table-devtools";
 
 import type { WarehouseStockItem } from "~/server/warehouse";
 import { useWarehouseStock } from "~/hooks/use-warehouse";
-import { SearchIcon } from "icons";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { DateTooltip } from "./tooltip";
 import { ExpiryBadge } from "./expiry-badge";
@@ -14,6 +13,7 @@ import { ExpiryBadge } from "./expiry-badge";
 const stockTableFeatures = tableFeatures({});
 
 const cth = createColumnHelper<typeof stockTableFeatures, WarehouseStockItem>();
+import { SearchIcon } from "icons";
 
 const strengthLabel = (strength: string | null, strengthUnit: string | null): string => {
 	if (!strength && !strengthUnit) return "";
@@ -101,15 +101,15 @@ export const WarehouseStock = () => {
 		<div className="card overflow-x-auto p-0!">
 			<div className="flex flex-row items-center justify-between gap-4 px-5 py-4">
 				<h2 className="text-dialog-header font-medium text-emerald-900">Inventory</h2>
-				<div className="relative w-full sm:max-w-52">
-					<SearchIcon className="pointer-events-none absolute top-1/2 left-1/2 size-5 -translate-x-[calc(100%+7px)] -translate-y-1/2 fill-white stroke-gray-400 stroke-[1.5px]" />
+				<div className="relative w-full sm:max-w-52 grid grid-cols-1">
 					<input
 						type="search"
 						placeholder="Search products…"
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
-						className="input-text pl-10!"
+						className="input-text pl-10! col-start-1 row-start-1"
 					/>
+					<SearchIcon className="pointer-events-none self-center col-start-1 row-start-1 size-5 fill-white  stroke-gray-400 ml-3" />
 				</div>
 			</div>
 
